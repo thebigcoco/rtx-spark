@@ -1,0 +1,55 @@
+/* 全站簡報閱讀規格：預設即為大字體，投影模式再放大一級。 */
+body{font-size:18px;line-height:1.6}
+button,a,select,input{font-size:15px}
+
+/* 公司內部作業系統 */
+.nav-item,.demo-kit-link{font-size:16px;min-height:48px}.brand strong{font-size:19px}.brand small,.operator small,.agent-card small{font-size:13px}.operator strong,.agent-card p{font-size:15px}.topbar .eyebrow{font-size:14px}.topbar h1{font-size:36px}.branch-picker span{font-size:13px}.branch-picker select,.projection-toggle,.icon-btn{font-size:15px}.hero-card h2{font-size:46px}.hero-card p,.page-intro>div>p:last-child,.kitchen-top>div>p:last-child{font-size:18px;line-height:1.7}.primary-btn,.ghost-btn,.secondary-btn,.text-btn{font-size:16px}.live-pill,.section-kicker{font-size:13px}.kpi-card p{font-size:16px}.kpi-card h3{font-size:36px}.kpi-card small{font-size:14px}.panel-head h3,.store-strip h3,.rec-head h3,.step-head h3{font-size:25px}.task strong,.store-stat strong,.drink-card h4{font-size:17px}.task small,.store-stat small,.confidence{font-size:14px}.task b,.store-stat b{font-size:14px}.page-intro h2,.kitchen-top h2{font-size:42px}.evidence-badge,.season-alert-count,.approval-pill,.status-pill{font-size:14px}.branch-profile-card strong,.season-action strong{font-size:16px}.branch-profile-card small,.season-action small{font-size:14px}.branch-profile-card>b,.season-action b{font-size:13px}.insight-main p,.product-test-panel>p,.price-advice-panel>p,.season-main-card>p{font-size:16px}.bar-list b,.bar-list em,.test-plan strong,.price-guardrails strong,.season-signal-row strong{font-size:15px}.test-plan small,.price-guardrails span,.season-signal-row small{font-size:13px}.order-signal-grid strong{font-size:16px}.order-signal-grid small,.order-signal-grid p{font-size:14px}.price-row,.price-table-panel select{font-size:14px}.inventory-summary small,.inventory-summary em{font-size:14px}.inventory-summary strong{font-size:23px}table{font-size:15px}th,td{font-size:15px}.recipe-ticket{font-size:16px}.ticket-head strong,.recipe-title strong,.recipe-step strong,.step-list span{font-size:16px}.ticket-head small,.recipe-title small,.recipe-step small,.completed-ticket small,.auto-stock-card small{font-size:13px}.queue-heading strong,.completed-ticket strong,.auto-stock-card strong{font-size:16px}.start-btn,.recipe-info-btn,#focusMode{font-size:15px}.season-scenario-tabs strong{font-size:16px}.season-scenario-tabs small{font-size:13px}.season-card-top h3{font-size:32px}.reminder-timeline strong,.reminder-rule strong{font-size:15px}.reminder-timeline small,.reminder-rule small{font-size:13px}.roadmap-grid h3,.guardrails h3{font-size:24px}.roadmap-grid li,.guardrails small{font-size:15px}
+
+/* 業務 Demo Kit */
+.demo-header nav a,.header-actions button,.header-actions a{font-size:14px}.pitch-copy .lead{font-size:21px}.trust-row{font-size:15px}.preview-audience-label,.consumer-menu-mini span,.consumer-menu-mini small,.consumer-options-mini span,.privacy-mini{font-size:13px!important}.preview-top{font-size:14px}.consumer-menu-mini strong{font-size:25px}.consumer-menu-mini>b{font-size:22px}.customer-queue-mini strong{font-size:14px}.customer-queue-mini small{font-size:13px}.customer-queue-mini>b{font-size:17px}.section-title>p{font-size:13px}.section-title>span{font-size:18px}.pain-card p{font-size:17px}.pain-card b{font-size:15px}.discovery-bar strong,.discovery-bar button{font-size:14px}.discovery-bar p{font-size:20px}.audience-card-head span{font-size:15px}.audience-card-head b{font-size:13px}.audience-card>p,.visible-list span,.hidden-list span{font-size:16px}.visible-list strong,.hidden-list strong{font-size:14px}.audience-actions a{font-size:15px}.data-bridge b{font-size:14px}.data-bridge span{font-size:19px}.flow-lane>header b{font-size:13px}.flow-lane p{font-size:15px}.flow-lane a{font-size:14px}.lane-bridge span{font-size:12px}.demo-script>div span,.demo-script li{font-size:14px}.calculator label>span{font-size:17px}.roi-results>p,.roi-results small{font-size:14px}.roi-results em{font-size:12px}.pilot-grid article>span{font-size:13px}.pilot-grid li{font-size:15px}.success-metrics small{font-size:12px}.success-metrics strong,.success-metrics b{font-size:15px}.objections summary{font-size:17px}.objections p{font-size:15px}.cta-section>p{font-size:13px}.cta-section>span{font-size:17px}.cta-section>small{font-size:12px}
+
+/* 消費者點單 */
+.customer-header b,.customer-header select{font-size:15px}.customer-hero p{font-size:15px}.customer-hero>div>span{font-size:18px}.wait-pill small{font-size:14px}.filter-row button{font-size:16px}.drink-card .tag{font-size:13px}.drink-card h3{font-size:23px}.drink-card p{font-size:16px}.drink-card footer button{font-size:15px}.cart-title small{font-size:13px}.cart-title>b,.cart-empty,.cart-item,.custom-block>strong,.choice{font-size:15px}.customer-privacy{font-size:13px!important}.confirmation-card>p,.confirmation-card small,.confirmation-card a{font-size:15px}
+
+/* AI 營運中心與 Demo Kit：投影環境最低字級 */
+
+.compute-scope{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:-4px 0 22px;padding:16px 18px;border:1px solid #d9e0ef;border-radius:18px;background:#f6f8fc}.compute-scope strong{color:#253b70;margin-right:5px}.compute-scope span{padding:7px 10px;border-radius:999px;background:#e5ebf8;color:#2e477e;font-size:15px;font-weight:800}.compute-scope small{width:100%;color:#687187;font-size:14px}
+.rtx-advice-badge{display:inline-flex!important;align-items:center;max-width:max-content;margin-bottom:8px;padding:7px 12px!important;border:2px solid #ffc86b;border-radius:999px!important;background:linear-gradient(135deg,#7b3f00,#c66a00)!important;color:#fff!important;box-shadow:0 4px 12px #a6530030;font-size:14px!important;font-weight:900!important;letter-spacing:.01em;line-height:1.2;white-space:nowrap}.answer-state+.rtx-advice-badge{margin-top:0}.incident-copy>.rtx-advice-badge{display:flex!important}.report-body aside>.rtx-advice-badge{margin-bottom:12px}
+.poc-architecture p,.prompt-preview p,.poc-agent p,.report-body li,.report-body aside p{font-size:16px}.poster-flow small,.poc-note{font-size:14px}.poc-demo-architecture small,.poc-deliverables b{font-size:15px}.poc-deliverables p{font-size:16px}.poc-boundary span{font-size:14px}
+
+/* 點單通路差異 */
+.tablet-mode .channel-options.tablet-only{display:block}.tablet-mode .confirmation{position:fixed;inset:30px;border-radius:24px}.channel-options label>span,.pay-method>span{font-size:15px}.option-heading strong{font-size:17px}.option-heading small,.notify-option small,.session-note{font-size:14px}.tablet-label{font-size:14px}
+
+/* 市場洞察投影閱讀規格：資訊文字最低 16px。 */
+#survey .section-kicker,#survey .evidence-badge,#survey p,#survey small,#survey button,#survey select,#survey .branch-profile-card strong,#survey .branch-profile-card>b,#survey .bar-list b,#survey .bar-list em,#survey .test-plan strong,#survey .order-signal-grid strong,#survey .price-row,#survey .price-row strong,#survey .trend,#survey .price-tag,#survey .approval-pill,#survey .price-decision strong,#survey .price-guardrails strong,#survey .pricing-disclaimer{font-size:16px}
+#survey .market-monitor-head h3{font-size:28px}
+#survey .market-monitor-section{padding:28px}
+#survey .branch-profile-card,#survey .order-signal-grid article{padding:16px}
+#survey .test-product-visual i{font-size:15px}
+#survey .insight-note{padding:16px}
+#survey .insight-note strong{font-size:17px}
+#survey .price-row{line-height:1.45;padding:14px 5px}
+#survey .price-table-panel,#survey .price-advice-panel{padding:23px}
+#survey .rtx-advice-badge{font-size:16px!important}
+#survey .status-pill,#survey .market-monitor-head>div>span,#survey .market-sync strong,#survey .market-sync small,#survey .price-guardrails span{font-size:16px}
+#survey .test-product-visual i,#survey .order-signal-grid article>span{font-size:16px}
+
+/* 庫存管理投影閱讀規格：摘要、表格與操作文字最低 16px。 */
+#inventory .section-kicker,#inventory p,#inventory small,#inventory em,#inventory button,#inventory select,#inventory th,#inventory td,#inventory td strong,#inventory td small,#inventory .row-status,#inventory .row-action,#inventory .filter-tabs button{font-size:16px}
+#inventory .rtx-advice-badge{font-size:16px!important}
+#inventory .inventory-summary small,#inventory .inventory-summary em{font-size:16px}
+#inventory .inventory-summary strong{font-size:26px}
+#inventory table{min-width:1100px}
+#inventory th,#inventory td{padding:15px 16px;line-height:1.45}
+#inventory .row-status,#inventory .row-action{white-space:nowrap}
+#inventory .inventory-summary{grid-template-columns:repeat(4,minmax(0,1fr))}
+#inventory .inventory-summary article,#inventory .inventory-table-panel{min-width:0}
+#inventory .table-wrap{max-width:100%}
+#actionDialog p,#actionDialog button,#actionDialog .transfer-list div{font-size:16px}
+.main{min-width:0}
+
+/* 五店版面：在投影寬度保留完整店名與狀態，窄螢幕自動換行。 */
+@media(min-width:1101px){.store-strip{grid-template-columns:repeat(5,minmax(0,1fr))}.store-strip>div:first-child{grid-column:1/-1}.branch-profile-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.branch-profile-card{grid-template-columns:39px minmax(0,1fr)}.branch-profile-card>b{grid-column:2;justify-self:start}}
+.store-agent-tabs{flex-wrap:wrap}
+
+@media(max-width:760px){body{font-size:17px}.topbar h1{font-size:29px}.hero-card h2{font-size:36px}.page-intro h2,.kitchen-top h2{font-size:34px}.pitch-copy .lead{font-size:18px}.section-title>span{font-size:16px}.customer-hero>div>span{font-size:16px}}

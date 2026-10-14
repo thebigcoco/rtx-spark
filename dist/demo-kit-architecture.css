@@ -1,0 +1,73 @@
+/* 五店完整系統架構 */
+.architecture-overview-section{background:#eef2f5}
+.architecture-overview-section .section-heading>p{font-size:16px}
+.architecture-overview{margin:0 0 28px;padding:26px;border-radius:24px;background:#fff;border:1px solid #d7dfe0;box-shadow:0 12px 30px #173b3010}
+.architecture-overview figcaption{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.architecture-overview figcaption span{padding:8px 12px;border-radius:999px;background:#b85a08;color:#fff;font-size:16px;font-weight:900;white-space:nowrap}
+.architecture-overview figcaption strong{font-size:24px;color:#173b30}
+.overview-map{display:grid;grid-template-columns:1.05fr .34fr 1.45fr .34fr 1fr;gap:12px;align-items:stretch}
+.overview-node{padding:22px;border-radius:20px;border:1px solid #d7e1dc;background:#edf3ef}
+.overview-node small{display:block;color:#66736f;font-size:16px;font-weight:850}
+.overview-node h3{margin:4px 0 15px;font-size:25px;color:#173b30}
+.overview-node p{margin:14px 0 0;color:#596a64;font-size:16px;line-height:1.55}
+.store-chips{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.store-chips span,.result-list span{display:block;padding:8px 10px;border-radius:10px;background:#fff;border:1px solid #dce5e0;color:#244a3d;font-size:16px;font-weight:850;text-align:center}
+.store-chips span:last-child{grid-column:1/-1}
+.overview-connector{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#173b30}
+.overview-connector b{font-size:17px}
+.overview-connector span{margin-top:5px;color:#65746f;font-size:16px;line-height:1.4}
+.overview-connector i{margin-top:10px;color:#b85a08;font-size:34px;font-style:normal;font-weight:900}
+.overview-hq{background:#142345;border-color:#142345}
+.overview-hq small{color:#bfcbe0}
+.overview-hq h3{color:#fff}
+.hq-split{display:grid;gap:9px}
+.hq-split>div{padding:12px 14px;border-radius:13px;background:#ffffff10;border:1px solid #ffffff1a}
+.hq-split b,.hq-split span{display:block}
+.hq-split b{color:#fff;font-size:18px}
+.hq-split span{margin-top:4px;color:#d9e2ee;font-size:16px;line-height:1.4}
+.hq-split .overview-ai{background:#28725a;border:2px solid #69ad93}
+.hq-split .overview-ai b{color:#ffe1a6}
+.overview-results{background:#fff8ea;border-color:#e6d4b3}
+.result-list{display:grid;gap:7px}
+.result-list span{border-color:#e7dcc8;color:#7b5118}
+.overview-rule{margin:18px 0 0;padding:14px 18px;border-radius:14px;background:#f3f0e8;color:#4d5d57;font-size:17px;text-align:center}
+.overview-rule b{color:#173b30}
+.architecture-flow{display:grid;gap:20px}
+.architecture-band{padding:28px;border:1px solid #d7dfe0;border-radius:24px;background:#fff;box-shadow:0 12px 30px #173b3010}
+.architecture-band>header{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+.architecture-band>header>span{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:#173b30;color:#fff;font-size:18px;font-weight:900}
+.architecture-band>header small{display:block;color:#6e7b77;font-size:16px;font-weight:850}
+.architecture-band>header h3{margin:2px 0 0;font-size:29px}
+.architecture-items{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.architecture-items>div{padding:18px;border-radius:16px;background:#edf3ef;border:1px solid #dae4de}
+.architecture-items b,.architecture-items p{display:block}
+.architecture-items b{font-size:19px}
+.architecture-items p{margin:5px 0 0;color:#62716b;font-size:16px}
+.architecture-items .optional{background:#f6efe6;border-style:dashed;border-color:#d5af7e}
+.secure-link{text-align:center;padding:18px 24px;border-radius:18px;background:#173b30;color:#fff}
+.secure-link span{display:inline-block;margin-right:10px;padding:5px 9px;border-radius:999px;background:#ffffff18;color:#ffd185;font-size:16px;font-weight:900}
+.secure-link strong{font-size:22px}
+.secure-link p{margin:5px 0 0;color:#cedbd6;font-size:16px}
+.hub-band{background:#142345;color:#fff;border-color:#142345}
+.hub-band>header>span{background:#b85a08}
+.hub-band>header small{color:#bfcbe0}
+.hub-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px}
+.hub-grid>section{padding:22px;border:1px solid #ffffff1b;border-radius:18px;background:#ffffff0b}
+.hub-grid .local-ai-core{background:linear-gradient(145deg,#1e604a,#2f7b5f);border:2px solid #69ad93}
+.architecture-label{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:16px;font-weight:900}
+.architecture-label.system{background:#e5eee8;color:#184c3a}
+.architecture-label.ai{background:#ffe1a6;color:#744000}
+.architecture-label.governance{background:#e8ebf4;color:#283f74}
+.hub-grid h4{margin:14px 0 8px;font-size:22px}
+.hub-grid ul{margin:0;padding-left:21px}
+.hub-grid li{margin:7px 0;color:#d9e2ee;font-size:16px}
+.flow-down{text-align:center;color:#b85a08;font-size:34px;font-weight:900}
+.output-band{background:#fffaf0;border-color:#e5d4b7}
+.output-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.output-grid span{padding:13px 15px;border-radius:13px;background:#fff;border:1px solid #e6dac6;color:#795018;font-size:16px;font-weight:850;text-align:center}
+.architecture-phases{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.architecture-phases article{padding:20px 22px;border-radius:18px;background:#fff;border:1px solid #d8e0e0}
+.architecture-phases b{font-size:20px}
+.architecture-phases p{margin:5px 0 0;color:#62716c;font-size:16px}
+@media(max-width:1120px){.overview-map{grid-template-columns:1fr}.overview-connector{padding:3px}.overview-connector i{margin:0;transform:rotate(90deg)}.overview-connector.output i{transform:rotate(90deg)}.architecture-items,.hub-grid{grid-template-columns:1fr 1fr}.hub-grid .local-ai-core{grid-column:1/-1}.output-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.architecture-overview{padding:20px}.architecture-overview figcaption{align-items:flex-start;flex-direction:column}.architecture-overview figcaption strong{font-size:21px}.architecture-items,.hub-grid,.output-grid,.architecture-phases{grid-template-columns:1fr}.hub-grid .local-ai-core{grid-column:auto}.architecture-band{padding:20px}.secure-link span,.secure-link strong{display:block;margin:0 auto 6px}}
