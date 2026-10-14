@@ -1,6 +1,6 @@
 # DrinkFlow AI｜RTX Spark Local AI POC
 
-適用於五家分店地區型手搖飲店的展示系統，包含顧客點單、飲料製作、庫存、市場洞察、AI 營運中心與 Local LLM POC。
+適用於十家分店地區型手搖飲店的展示系統，包含顧客點單、飲料製作、庫存與到期警示、市場洞察、AI 營運中心與 Local LLM POC。
 
 ## 線上展示
 

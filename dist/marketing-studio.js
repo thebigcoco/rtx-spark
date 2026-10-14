@@ -1,6 +1,6 @@
 const posterCopies=[
   {badge:'秋日限定',title:'桂香入秋，<br>暖一杯剛好。',subtitle:'桂花清香 × 烏龍回甘',price:'新品上市・NT$ 65'},
-  {badge:'本週主打',title:'一口桂香，<br>剛好的秋天。',subtitle:'冷熱皆宜・五店限定',price:'會員嚐鮮・NT$ 60'},
+  {badge:'本週主打',title:'一口桂香，<br>剛好的秋天。',subtitle:'冷熱皆宜・十店限定',price:'會員嚐鮮・NT$ 60'},
   {badge:'季節新品',title:'午後轉涼，<br>讓茶香暖場。',subtitle:'真茶萃取・清爽不膩',price:'桂花烏龍・NT$ 65'}
 ];
 let posterCopyIndex=0;

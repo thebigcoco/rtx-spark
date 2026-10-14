@@ -19,9 +19,9 @@
   <main id="top">
     <section class="hero section-shell solution-hero">
       <div class="hero-copy">
-        <p class="version-label">正式版・五店整體營運方案</p>
-        <h1>客人好點、店員好做，<br><em>五家店也更好管。</em></h1>
-        <p class="hero-lead">從顧客點單、飲料製作、庫存同步到營運決策，以同一套資料流程串起五家分店；只有需要理解、推理或生成內容的工作，才交給本地 AI。</p>
+        <p class="version-label">正式版・十店整體營運方案</p>
+        <h1>客人好點、店員好做，<br><em>十家店也更好管。</em></h1>
+        <p class="hero-lead">從顧客點單、飲料製作、庫存同步到營運決策，以同一套資料流程串起十家分店；只有需要理解、推理或生成內容的工作，才交給本地 AI。</p>
         <div class="hero-actions"><a href="#benefits">先看店家優勢</a><a class="ghost" href="internal-system.html?view=dashboard">開啟內部系統</a></div>
         <div class="hero-proof"><span>顧客與內部畫面分開</span><span>資料留在店內</span><span>高風險操作人工核准</span></div>
       </div>
@@ -41,7 +41,7 @@
       <div class="benefit-grid">
         <article><span>01</span><h3>顧客等待更透明</h3><p>網路與現場平板皆可下單，完成後立即收到待製作杯數與預估等待時間。</p><b>降低重複詢問與取餐不確定感</b></article>
         <article><span>02</span><h3>製作交接更標準</h3><p>飲料製作儀表板依序顯示容量、配方、甜度冰量與操作步驟。</p><b>新人也能依標準流程製作</b></article>
-        <article><span>03</span><h3>庫存與五店協作更即時</h3><p>完成出杯後自動扣除理論用量，提早看到缺料與跨店調撥需求。</p><b>減少臨時缺料與重複盤點</b></article>
+        <article><span>03</span><h3>庫存與十店協作更即時</h3><p>完成出杯後自動扣除理論用量，提早看到缺料、即將到期批次與跨店調撥需求。</p><b>減少臨時缺料與原料過期耗損</b></article>
         <article><span>04</span><h3>新品與價格更有依據</h3><p>從實際點單建立分店偏好，再結合季節、活動與競品價格規劃小量測試。</p><b>先驗證，再決定是否全面調整</b></article>
         <article><span>05</span><h3>管理工作更快完成</h3><p>將 SOP 查詢、異常整理、週報與活動素材整合到同一個內部工作流程。</p><b>店長把時間留給核准與現場管理</b></article>
       </div>
@@ -59,15 +59,15 @@
     </section>
 
     <section class="section-shell architecture-overview-section" id="architecture">
-      <div class="section-heading"><p>03 / 五店總體架構</p><h2>五家店的資料，要怎麼集中起來一起用？</h2><span>這張圖先看資料從哪裡來、送到哪裡，再看各系統怎麼分工。</span></div>
+      <div class="section-heading"><p>03 / 十店總體架構</p><h2>十家店的資料，要怎麼集中起來一起用？</h2><span>這張圖先看資料從哪裡來、送到哪裡，再看各系統怎麼分工。</span></div>
 
       <figure class="architecture-overview" aria-labelledby="architecture-overview-title">
-        <figcaption id="architecture-overview-title"><span>總架構示意圖</span><strong>五店共用一套營運資料，由總公司系統與本地 AI 分工處理</strong></figcaption>
+        <figcaption id="architecture-overview-title"><span>總架構示意圖</span><strong>十店共用一套營運資料，由總公司系統與本地 AI 分工處理</strong></figcaption>
         <div class="overview-map">
           <section class="overview-node overview-stores">
             <small>資料來源與執行端</small>
-            <h3>五家分店</h3>
-            <div class="store-chips"><span>站前店</span><span>市場店</span><span>學府店</span><span>商辦店</span><span>社區店</span></div>
+            <h3>十家分店</h3>
+            <div class="store-chips"><span>站前店</span><span>市場店</span><span>學府店</span><span>商辦店</span><span>社區店</span><span>夜市店</span><span>百貨店</span><span>醫院店</span><span>科技園區店</span><span>河岸店</span></div>
             <p>網路／平板點單・製作儀表板・POS・庫存盤點</p>
           </section>
           <div class="overview-connector"><b>雙向同步</b><span>加密傳輸<br>私有 VPN</span><i>⇄</i></div>
@@ -75,7 +75,7 @@
             <small>總公司 Local AI 中樞</small>
             <h3>營運平台＋RTX Spark</h3>
             <div class="hq-split">
-              <div><b>一般營運系統</b><span>訂單・配方・庫存・等待時間・五店資料庫</span></div>
+              <div><b>一般營運系統</b><span>訂單・配方・庫存・等待時間・十店資料庫</span></div>
               <div class="overview-ai"><b>RTX Spark＋LLM</b><span>知識庫 RAG・三個 Agent・報表・行銷海報</span></div>
               <div><b>治理與安全</b><span>權限・來源・稽核・人工核准</span></div>
             </div>
@@ -84,7 +84,7 @@
           <section class="overview-node overview-results">
             <small>店長與總公司</small>
             <h3>管理成果</h3>
-            <div class="result-list"><span>即時異常提醒</span><span>五店營運儀表板</span><span>庫存調撥建議</span><span>新品／價格測試</span><span>報表與行銷素材</span></div>
+            <div class="result-list"><span>即時異常提醒</span><span>十店營運儀表板</span><span>庫存調撥與到期警示</span><span>新品／價格測試</span><span>報表與行銷素材</span></div>
           </section>
         </div>
         <p class="overview-rule"><b>分工原則：</b>交易與固定規則由一般系統處理；需要理解、推理或生成的工作，才使用 RTX Spark＋LLM。</p>
@@ -92,7 +92,7 @@
 
       <div class="architecture-flow">
         <article class="architecture-band store-band">
-          <header><span>01</span><div><small>五家分店</small><h3>顧客與門市端</h3></div></header>
+          <header><span>01</span><div><small>十家分店</small><h3>顧客與門市端</h3></div></header>
           <div class="architecture-items">
             <div><b>顧客點單</b><p>網路點單、現場平板與麥克風</p></div>
             <div><b>製作區</b><p>飲料製作儀表板與配方</p></div>
@@ -109,7 +109,7 @@
             <section>
               <div class="architecture-label system">一般營運系統</div>
               <h4>固定規則與交易資料</h4>
-              <ul><li>訂單、付款與製作狀態</li><li>配方、庫存與五店資料庫</li><li>排隊杯數與等待時間</li><li>報表資料與操作紀錄</li></ul>
+              <ul><li>訂單、付款與製作狀態</li><li>配方、庫存與十店資料庫</li><li>排隊杯數與等待時間</li><li>批次效期、報表與操作紀錄</li></ul>
             </section>
             <section class="local-ai-core">
               <div class="architecture-label ai">RTX Spark＋LLM</div>
@@ -128,7 +128,7 @@
 
         <article class="architecture-band output-band">
           <header><span>03</span><div><small>管理與執行成果</small><h3>回到店長與各門市使用</h3></div></header>
-          <div class="output-grid"><span>即時異常提醒</span><span>五店營運儀表板</span><span>庫存調撥建議</span><span>每日／每週報表</span><span>新品與價格測試</span><span>核准後行銷素材</span></div>
+          <div class="output-grid"><span>即時異常提醒</span><span>十店營運儀表板</span><span>庫存調撥與到期警示</span><span>每日／每週報表</span><span>新品與價格測試</span><span>核准後行銷素材</span></div>
         </article>
       </div>
 
@@ -144,7 +144,7 @@
       <div class="ai-work-grid">
         <article><span>門市</span><h3>門市異常判讀</h3><p>規則先偵測超時、缺料或斷線；需要判讀原因與整理建議時，再呼叫本地模型。</p><b>避免 LLM 持續空轉</b></article>
         <article><span>Q&A</span><h3>內部知識問答</h3><p>檢索配方與 SOP，回答必須附來源；找不到資料就明確說明不足。</p><b>資料與文件不必上雲</b></article>
-        <article><span>分析</span><h3>多店營運分析</h3><p>理解五店銷售、庫存、等待與客群差異，找出需要管理者注意的異常。</p><b>把數據轉成可讀判斷</b></article>
+        <article><span>分析</span><h3>多店營運分析</h3><p>理解十店銷售、庫存、等待與客群差異，找出需要管理者注意的異常。</p><b>把數據轉成可讀判斷</b></article>
         <article><span>報表</span><h3>報表與內容草稿</h3><p>整理週報、決策清單、活動文案及影像生成提示詞。</p><b>先產生草稿，再人工核准</b></article>
         <article><span>GPU</span><h3>本地海報生成</h3><p>活動主視覺在店內設備生成；核准後才輸出發布版本。</p><b>敏感素材不必送往雲端</b></article>
       </div>
@@ -157,7 +157,7 @@
           <article><time>下單後</time><span>系統</span><div><strong>訂單進入飲料製作儀表板</strong><p>同步配方、排隊杯數與顧客預估等待時間。</p></div></article>
           <article><time>14:07</time><span>門市監控</span><div><strong>規則發現黑糖薑奶超時</strong><p>本地 AI 綜合熱飲佇列與吧台負載，整理處理建議。</p></div></article>
           <article><time>14:08</time><span>系統</span><div><strong>更新顧客等待時間並通知吧台</strong><p>依核准的低風險規則執行，不需持續使用 LLM。</p></div></article>
-          <article><time>收店後</time><span>營運分析</span><div><strong>比較五店的等待與備料差異</strong><p>找出學府店熱飲尖峰與燕麥奶缺料的關聯。</p></div></article>
+          <article><time>收店後</time><span>營運分析</span><div><strong>比較十店的等待、備料與到期批次</strong><p>找出學府店熱飲尖峰、燕麥奶缺料與各店即期原料的關聯。</p></div></article>
           <article><time>隔日上午</time><span>報表內容</span><div><strong>產生週報與改善草稿</strong><p>店長核准調撥、熱飲測試及行銷素材後才執行。</p></div></article>
         </div>
         <aside class="decision-panel">

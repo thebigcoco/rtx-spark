@@ -48,7 +48,7 @@ button,a,select,input{font-size:15px}
 #actionDialog p,#actionDialog button,#actionDialog .transfer-list div{font-size:16px}
 .main{min-width:0}
 
-/* 五店版面：在投影寬度保留完整店名與狀態，窄螢幕自動換行。 */
+/* 十店版面：在投影寬度保留完整店名與狀態，窄螢幕自動換行。 */
 @media(min-width:1101px){.store-strip{grid-template-columns:repeat(5,minmax(0,1fr))}.store-strip>div:first-child{grid-column:1/-1}.branch-profile-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.branch-profile-card{grid-template-columns:39px minmax(0,1fr)}.branch-profile-card>b{grid-column:2;justify-self:start}}
 .store-agent-tabs{flex-wrap:wrap}
 
