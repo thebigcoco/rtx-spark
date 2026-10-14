@@ -1,0 +1,34 @@
+.combo-insights-panel{margin-bottom:18px;padding:0;overflow:hidden}
+.combo-insights-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:22px 24px;border-bottom:1px solid var(--line)}
+.combo-insights-head h3{margin:2px 0 6px;font:500 25px Georgia,"Noto Serif TC",serif}
+.combo-insights-head>div>span{color:var(--muted);font-size:17px}
+.combo-month-badge{flex:0 0 auto;padding:9px 12px;border-radius:999px;background:#e6efe9;color:var(--green);font-size:16px;font-weight:850}
+.combo-overview{display:grid;grid-template-columns:1.55fr .75fr;gap:14px;padding:20px 22px}
+.combo-winner{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#173b30,#285d4c);color:#fff}
+.combo-winner>span{align-self:start;padding:7px 9px;border-radius:9px;background:#f2c879;color:#173b30;font-size:16px;font-weight:950}
+.combo-winner small{color:#bdd0c8;font-size:16px}
+.combo-winner h4{margin:3px 0 6px;font:600 27px Georgia,"Noto Serif TC",serif}
+.combo-winner>div>p{margin:0;color:#d1ddd8;font-size:16px}
+.combo-winner-metrics{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.combo-winner-metrics p{margin:0;padding:12px;border-radius:12px;background:#ffffff12;border:1px solid #ffffff18}
+.combo-winner-metrics small,.combo-winner-metrics strong{display:block}
+.combo-winner-metrics strong{margin-top:3px;font-size:19px}
+.topping-ranking{padding:18px;border-radius:18px;background:#f4f2ea}
+.topping-ranking>div{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topping-ranking>div small{color:var(--muted);font-size:16px}
+.topping-ranking>div strong{color:#9b5c2d;font-size:17px}
+.topping-ranking ol{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px;counter-reset:topping}
+.topping-ranking li{counter-increment:topping;display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #deddd5;font-size:17px}
+.topping-ranking li:before{content:counter(topping);display:grid;place-items:center;width:25px;height:25px;border-radius:8px;background:#fff;color:var(--green);font-weight:900}
+.topping-ranking li:last-child{border-bottom:0}
+.topping-ranking li b{color:var(--green)}
+.combo-table-wrap{overflow-x:auto;border-top:1px solid var(--line)}
+.combo-table{min-width:900px}
+.combo-table th,.combo-table td{padding:13px 18px;font-size:17px}
+.combo-table td:first-child{font-weight:900;color:#9a5f2f}
+.combo-table td:nth-child(2),.combo-table td:nth-child(3){font-weight:800}
+.combo-trend.up{color:#2e8766;font-weight:850}
+.combo-trend.down{color:#bb5b4e;font-weight:850}
+.combo-note{margin:0;padding:14px 22px;background:#faf9f4;color:var(--muted);font-size:16px}
+@media(max-width:900px){.combo-overview{grid-template-columns:1fr}.combo-insights-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){.combo-overview{padding:14px}.combo-winner-metrics{grid-template-columns:1fr}.combo-insights-head{padding:18px}.combo-winner h4{font-size:23px}}

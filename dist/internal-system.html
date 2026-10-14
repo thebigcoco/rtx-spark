@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="projector.css">
   <link rel="stylesheet" href="presentation-fonts.css">
   <link rel="stylesheet" href="ten-store-expiry.css">
+  <link rel="stylesheet" href="topping-insights.css">
   <style>.topbar h1{white-space:nowrap}</style>
 </head>
 <body>
@@ -174,21 +175,30 @@
       </section>
 
       <section class="view" id="survey">
-        <div class="page-intro"><div><p class="section-kicker">ORDER-BASED INSIGHTS</p><h2>不問顧客，從實際點單看懂在地口味。</h2><p>依分店分析品類、甜度、時段、價格帶與回購，不以問卷回答當作偏好證據。</p></div><span class="evidence-badge" id="monthlyEvidenceBadge">2026 年 10 月・7,526 杯</span></div>
+        <div class="page-intro"><div><p class="section-kicker">ORDER-BASED INSIGHTS</p><h2>不問顧客，從實際點單看懂在地口味。</h2><p>依分店分析品類、甜度、加料組合、時段、價格帶與回購，不以問卷回答當作偏好證據。</p></div><span class="evidence-badge" id="monthlyEvidenceBadge">2026 年 10 月・14,565 杯</span></div>
         <section class="monthly-sales-panel panel" aria-labelledby="monthlySalesTitle">
           <div class="monthly-sales-head">
             <div><p class="section-kicker">MONTHLY SALES REPORT</p><h3 id="monthlySalesTitle">單月完整銷售報表</h3><span>資料來源：POS、網路訂單與現場平板；退款與折扣分開列出。</span></div>
             <div class="monthly-sales-controls"><label>報表月份<select id="salesMonth"><option value="2026-10">2026 年 10 月</option><option value="2026-09">2026 年 9 月</option><option value="2026-08">2026 年 8 月</option></select></label><button id="exportMonthlySales">匯出單月完整銷售 CSV</button></div>
           </div>
           <div class="monthly-sales-summary">
-            <article><small>完成訂單</small><strong id="monthOrders">6,184</strong><span>筆</span></article>
-            <article><small>售出杯數</small><strong id="monthCups">7,526</strong><span>杯</span></article>
-            <article><small>折扣與退款</small><strong id="monthAdjustments">$12,550</strong><span>已扣除</span></article>
-            <article><small>實收營業額</small><strong id="monthNetSales">$472,680</strong><span id="monthGrowth">較上月 +6.5%</span></article>
+            <article><small>完成訂單</small><strong id="monthOrders">11,994</strong><span>筆</span></article>
+            <article><small>售出杯數</small><strong id="monthCups">14,565</strong><span>杯</span></article>
+            <article><small>折扣與退款</small><strong id="monthAdjustments">$24,830</strong><span>已扣除</span></article>
+            <article><small>實收營業額</small><strong id="monthNetSales">$936,210</strong><span id="monthGrowth">較上月 +6.4%</span></article>
           </div>
           <div class="monthly-sales-table-wrap">
             <table class="monthly-sales-table"><thead><tr><th>分店</th><th>訂單</th><th>杯數</th><th>實收營業額</th><th>平均每單</th><th>當月熱銷</th></tr></thead><tbody id="monthlySalesRows"></tbody><tfoot><tr><th>十店合計</th><th id="monthTableOrders">11,994</th><th id="monthTableCups">14,565</th><th id="monthTableNet">$936,210</th><th id="monthTableAverage">$78</th><th>完整明細可匯出</th></tr></tfoot></table>
           </div>
+        </section>
+        <section class="combo-insights-panel panel" aria-labelledby="comboInsightsTitle">
+          <div class="combo-insights-head"><div><p class="section-kicker">TEA＋TOPPING COMBINATION</p><h3 id="comboInsightsTitle">茶底＋加料組合分析</h3><span>依實際訂單統計每杯茶底與加料，找出最受歡迎組合；未加料訂單不列入組合排行。</span></div><span class="combo-month-badge" id="comboMonthBadge">2026 年 10 月</span></div>
+          <div class="combo-overview">
+            <article class="combo-winner"><span>TOP 1</span><div><small>本月最受歡迎</small><h4 id="topComboName">四季春青茶＋珍珠</h4><p id="topComboReason">科技園區店與站前店最常見，下午快取時段表現最好。</p></div><div class="combo-winner-metrics"><p><small>售出</small><strong id="topComboCups">1,284 杯</strong></p><p><small>占全月杯數</small><strong id="topComboShare">8.8%</strong></p><p><small>最強分店</small><strong id="topComboBranch">科技園區店</strong></p></div></article>
+            <aside class="topping-ranking"><div><small>加料人氣排行</small><strong id="toppingOrderRate">加料率 29.8%</strong></div><ol id="toppingRanking"></ol></aside>
+          </div>
+          <div class="combo-table-wrap"><table class="combo-table"><thead><tr><th>排名</th><th>茶底／飲品</th><th>加料</th><th>售出杯數</th><th>占全月杯數</th><th>最強分店</th><th>月增減</th></tr></thead><tbody id="comboRows"></tbody></table></div>
+          <p class="combo-note">組合排行可用於備料、菜單快捷鍵與新品測試；系統不會只因人氣高就自動增加採購量。</p>
         </section>
         <div class="branch-profile-grid" id="insightBranchTabs">
           <button class="branch-profile-card active" data-insight-branch="station"><span>站</span><div><strong>站前店</strong><small>通勤客・早晨尖峰</small></div><b>無糖茶感 42%</b></button>

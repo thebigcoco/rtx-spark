@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="customer-order.css">
   <link rel="stylesheet" href="order-channels.css">
   <link rel="stylesheet" href="presentation-fonts.css">
+  <link rel="stylesheet" href="order-toppings.css">
 </head>
 <body>
   <div class="device-stage">
@@ -28,8 +29,7 @@
               <div class="cart-title"><div><small>您的訂單</small><h2>購物車</h2></div><b id="cartCount">0 杯</b></div>
               <div id="cartEmpty" class="cart-empty">請從左側選擇飲料</div>
               <div id="cartItems" class="cart-items"></div>
-              <div class="custom-block"><strong>甜度</strong><div><button class="choice active">微糖</button><button class="choice">半糖</button><button class="choice">無糖</button></div></div>
-              <div class="custom-block"><strong>溫度</strong><div><button class="choice active">正常冰</button><button class="choice">少冰</button><button class="choice">溫</button></div></div>
+              <div class="customization-hint"><span>＋</span><p><strong>每杯都可自行加料</strong><small>選擇飲料後，可加珍珠、椰果、蘆薈、布丁或寒天晶球。</small></p></div>
 
               <section class="channel-options online-only">
                 <div class="option-heading"><span>◎</span><div><strong>網路預點設定</strong><small>選擇取餐時間與線上付款方式</small></div></div>
@@ -55,6 +55,18 @@
       <div class="tablet-home" aria-hidden="true"></div>
     </div>
   </div>
+  <dialog class="customize-dialog" id="customizeDialog">
+    <form method="dialog">
+      <button class="customize-close" value="cancel" aria-label="關閉">×</button>
+      <p class="customize-kicker">客製這一杯</p>
+      <h2 id="customizeDrinkName">桂花烏龍</h2>
+      <div class="customize-group" data-custom-group="sweet"><strong>甜度</strong><div><button type="button" class="custom-choice active">微糖</button><button type="button" class="custom-choice">半糖</button><button type="button" class="custom-choice">無糖</button></div></div>
+      <div class="customize-group" data-custom-group="temperature"><strong>溫度</strong><div><button type="button" class="custom-choice active">正常冰</button><button type="button" class="custom-choice">少冰</button><button type="button" class="custom-choice">溫</button></div></div>
+      <div class="topping-group"><strong>加料 <small>可複選</small></strong><div id="toppingChoices"></div></div>
+      <div class="customize-total"><span>本杯金額</span><strong id="customizeTotal">NT$ 65</strong></div>
+      <button class="confirm-customize" type="button" id="confirmCustomize">加入購物車</button>
+    </form>
+  </dialog>
   <script src="customer-order.js"></script>
 </body>
 </html>

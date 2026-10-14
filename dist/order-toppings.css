@@ -1,0 +1,30 @@
+.customization-hint{display:flex;align-items:flex-start;gap:11px;margin:15px 0;padding:14px;border-radius:14px;background:#eef4ef;border:1px solid #d8e5dc}
+.customization-hint>span{display:grid;place-items:center;flex:0 0 34px;height:34px;border-radius:10px;background:var(--green);color:#fff;font-size:20px;font-weight:900}
+.customization-hint p{margin:0}
+.customization-hint strong,.customization-hint small{display:block}
+.customization-hint strong{font-size:16px}
+.customization-hint small{margin-top:4px;color:var(--muted);font-size:14px;line-height:1.5}
+.cart-item{align-items:flex-start}
+.cart-item>div{min-width:0}
+.cart-item strong,.cart-item small{display:block}
+.cart-item small{margin-top:4px;color:var(--muted);font-size:14px;line-height:1.45}
+.cart-item>button{flex:0 0 auto;border:0;background:transparent;color:#b45d54;font-size:22px;line-height:1}
+.customize-dialog{width:min(620px,calc(100vw - 28px));max-height:90vh;border:0;border-radius:26px;padding:0;color:var(--ink);box-shadow:0 28px 80px rgba(20,45,35,.24)}
+.customize-dialog::backdrop{background:rgba(18,38,31,.48);backdrop-filter:blur(4px)}
+.customize-dialog form{position:relative;padding:30px}
+.customize-close{position:absolute;right:18px;top:18px;width:38px;height:38px;border:0;border-radius:50%;background:#eef1ec;color:var(--ink);font-size:24px}
+.customize-kicker{margin:0;color:#a66636;font-size:16px;font-weight:900;letter-spacing:.1em}
+.customize-dialog h2{margin:4px 0 24px;font:600 34px Georgia,"Noto Serif TC",serif}
+.customize-group,.topping-group{margin-top:18px}
+.customize-group>strong,.topping-group>strong{display:block;margin-bottom:9px;font-size:18px}
+.topping-group>strong small{color:var(--muted);font-size:15px}
+.customize-group>div,.topping-group>div{display:flex;gap:9px;flex-wrap:wrap}
+.custom-choice,.topping-choice{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 14px;color:var(--muted);font-size:17px;font-weight:750}
+.custom-choice.active,.topping-choice.active{border-color:var(--green);background:#e5efe9;color:var(--green)}
+.topping-choice{display:flex;align-items:center;gap:7px}
+.topping-choice b{font-size:15px;color:#9b6336}
+.customize-total{display:flex;align-items:center;justify-content:space-between;margin-top:24px;padding:16px 0;border-top:1px solid var(--line)}
+.customize-total span{color:var(--muted);font-size:17px}
+.customize-total strong{font:600 27px Georgia,serif}
+.confirm-customize{width:100%;border:0;border-radius:12px;background:var(--ink);color:#fff;padding:14px;font-size:17px;font-weight:850}
+@media(max-width:600px){.customize-dialog form{padding:24px 18px}.customize-dialog h2{font-size:28px}.custom-choice,.topping-choice{font-size:14px;padding:9px 11px}}
