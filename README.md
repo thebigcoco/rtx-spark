@@ -4,8 +4,8 @@
 
 ## 線上展示
 
-- [內部營運系統](https://thebigcoco.github.io/rtx-spark/)
-- [Demo Kit](https://thebigcoco.github.io/rtx-spark/demo-kit.html)
+- [Demo Kit（預設首頁）](https://thebigcoco.github.io/rtx-spark/)
+- [內部營運系統](https://thebigcoco.github.io/rtx-spark/internal-system.html)
 - [網路點單](https://thebigcoco.github.io/rtx-spark/customer-order.html?channel=online)
 - [現場平板點單](https://thebigcoco.github.io/rtx-spark/customer-order.html?channel=tablet)
 

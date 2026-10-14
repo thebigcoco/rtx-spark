@@ -2,7 +2,8 @@
 
 ## Demo Kit 正式版本
 
-- `demo-kit.html`：先呈現店家優勢與五店整體系統規劃，再說明適合交給 RTX Spark+LLM 的工作。
+- `index.html`：預設開啟 Demo Kit，先呈現店家優勢與五店整體系統規劃，再說明適合交給 RTX Spark+LLM 的工作。
+- `internal-system.html`：開啟五店內部營運系統。
 
 ## 建議攜帶
 
