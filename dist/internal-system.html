@@ -200,21 +200,15 @@
           <div class="combo-table-wrap"><table class="combo-table"><thead><tr><th>排名</th><th>茶底／飲品</th><th>加料</th><th>售出杯數</th><th>占全月杯數</th><th>最強分店</th><th>月增減</th></tr></thead><tbody id="comboRows"></tbody></table></div>
           <p class="combo-note">組合排行可用於備料、菜單快捷鍵與新品測試；系統不會只因人氣高就自動增加採購量。</p>
         </section>
-        <div class="branch-profile-grid" id="insightBranchTabs">
-          <button class="branch-profile-card active" data-insight-branch="station"><span>站</span><div><strong>站前店</strong><small>通勤客・早晨尖峰</small></div><b>無糖茶感 42%</b></button>
-          <button class="branch-profile-card" data-insight-branch="market"><span>市</span><div><strong>市場店</strong><small>家庭客・午後購買</small></div><b>果茶系列 35%</b></button>
-          <button class="branch-profile-card" data-insight-branch="campus"><span>學</span><div><strong>學府店</strong><small>學生客・放學尖峰</small></div><b>奶香特調 41%</b></button>
-          <button class="branch-profile-card" data-insight-branch="office"><span>辦</span><div><strong>商辦店</strong><small>上班族・午餐尖峰</small></div><b>低糖咖茶 38%</b></button>
-          <button class="branch-profile-card" data-insight-branch="community"><span>社</span><div><strong>社區店</strong><small>家庭客・晚間外帶</small></div><b>經典飲品 36%</b></button>
-          <button class="branch-profile-card" data-insight-branch="night"><span>夜</span><div><strong>夜市店</strong><small>觀光客・晚間尖峰</small></div><b>果香氣泡 39%</b></button>
-          <button class="branch-profile-card" data-insight-branch="mall"><span>百</span><div><strong>百貨店</strong><small>逛街客・午後消費</small></div><b>季節特調 37%</b></button>
-          <button class="branch-profile-card" data-insight-branch="hospital"><span>醫</span><div><strong>醫院店</strong><small>陪病客・全天分散</small></div><b>低咖啡因 40%</b></button>
-          <button class="branch-profile-card" data-insight-branch="tech"><span>科</span><div><strong>科技園區店</strong><small>工程師・團體快取</small></div><b>大杯低糖 43%</b></button>
-          <button class="branch-profile-card" data-insight-branch="riverside"><span>河</span><div><strong>河岸店</strong><small>休閒客・週末午後</small></div><b>清爽果茶 38%</b></button>
-        </div>
         <div class="insight-grid">
           <article class="panel insight-main">
-            <div class="panel-head"><div><p class="section-kicker" id="insightOrderCount">近 30 天・1,682 杯</p><h3 id="insightBranchName">站前店點單偏好</h3></div><select aria-label="選擇分析期間"><option>近 30 天</option><option>近 7 天</option></select></div>
+            <div class="panel-head insight-preference-head">
+              <div><p class="section-kicker" id="insightOrderCount">近 30 天・1,682 杯</p><h3 id="insightBranchName">站前店點單偏好</h3></div>
+              <div class="insight-filter-controls">
+                <label><span>篩選分店</span><select id="insightBranchFilter" aria-label="篩選點單偏好分店"><option value="station">站前店</option><option value="market">市場店</option><option value="campus">學府店</option><option value="office">商辦店</option><option value="community">社區店</option><option value="night">夜市店</option><option value="mall">百貨店</option><option value="hospital">醫院店</option><option value="tech">科技園區店</option><option value="riverside">河岸店</option></select></label>
+                <label><span>分析期間</span><select aria-label="選擇分析期間"><option>近 30 天</option><option>近 7 天</option></select></label>
+              </div>
+            </div>
             <div class="preference-chart">
               <div class="donut" id="orderDonut" aria-label="主要偏好 42%"><span><strong id="primaryPreference">42%</strong><small id="primaryLabel">無糖茶感</small></span></div>
               <div class="bar-list" id="orderPreferenceBars"></div>
