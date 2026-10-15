@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="projector.css">
   <link rel="stylesheet" href="presentation-fonts.css">
   <link rel="stylesheet" href="ten-store-expiry.css">
-  <link rel="stylesheet" href="receiving.css?v=20261015-2">
+  <link rel="stylesheet" href="receiving.css?v=20261015-3">
   <link rel="stylesheet" href="topping-insights.css?v=20261015-1">
   <style>.topbar h1{white-space:nowrap}</style>
 </head>
@@ -251,7 +251,7 @@
 
       <section class="view" id="inventory">
         <div class="page-intro"><div><p class="section-kicker">INVENTORY &amp; RECEIVING</p><h2>從收貨開始，把每批原料管清楚。</h2><p>管理待收貨、實收清點、批號、有效期限、品質與差異核准，再接到庫存及到期警示。</p></div><button class="primary-btn" id="openTransfer">建立跨店調撥 <span>⇄</span></button></div>
-        <div class="inventory-mode-tabs" role="tablist" aria-label="庫存管理功能"><button class="active" data-inventory-mode="stock" role="tab">目前庫存</button><button data-inventory-mode="pending" role="tab">待收貨 <b id="receiptPendingCount">4</b></button><button data-inventory-mode="check" role="tab">入庫清點</button><button data-inventory-mode="records" role="tab">入庫紀錄</button></div>
+        <div class="inventory-mode-tabs" role="tablist" aria-label="庫存管理功能"><button class="active" data-inventory-mode="stock" role="tab">目前庫存</button><button data-inventory-mode="pending" role="tab">待收貨 <b id="receiptPendingCount">4</b></button><button data-inventory-mode="check" role="tab">入庫清點</button><button data-inventory-mode="records" role="tab">入庫紀錄</button><button data-inventory-mode="analysis" role="tab">到貨分析</button></div>
 
         <div class="inventory-mode active" data-inventory-pane="stock">
           <div class="inventory-summary">
@@ -282,6 +282,47 @@
 
         <div class="inventory-mode" data-inventory-pane="records">
           <section class="panel receiving-record-panel"><div class="receiving-section-head"><div><p class="section-kicker">RECEIVING HISTORY</p><h3>入庫紀錄</h3><span>保留到貨單、供應商、批號、差異、核准狀態及收貨人，方便追溯。</span></div><button class="secondary-btn" id="exportReceivingRecords">匯出入庫紀錄</button></div><div class="table-wrap"><table class="receiving-record-table"><thead><tr><th>入庫單</th><th>日期／分店</th><th>供應商</th><th>品項</th><th>差異結果</th><th>核准狀態</th><th>收貨人</th></tr></thead><tbody id="receivingRecordRows"></tbody></table></div></section>
+        </div>
+
+        <div class="inventory-mode" data-inventory-pane="analysis">
+          <section class="arrival-analysis-head">
+            <div><p class="section-kicker">ARRIVAL ANALYSIS</p><h3>十店到貨分析</h3><span>比較各店到貨差異，找出經常短缺、效期不足或品質異常的供應商。</span></div>
+            <div class="arrival-analysis-filters">
+              <label><span>月份</span><select id="arrivalMonth"><option value="2026-10">2026 年 10 月</option><option value="2026-09">2026 年 9 月</option><option value="2026-08">2026 年 8 月</option></select></label>
+              <label><span>分店</span><select id="arrivalBranch"><option value="all">全部十店</option></select></label>
+              <label><span>供應商</span><select id="arrivalSupplier"><option value="all">全部供應商</option></select></label>
+              <button class="secondary-btn" id="exportArrivalAnalysis">匯出分析 CSV</button>
+            </div>
+          </section>
+
+          <div class="arrival-kpis">
+            <article><small>到貨批次</small><strong id="arrivalDeliveries">0</strong><span id="arrivalDeliveryScope">十店合計</span></article>
+            <article><small>異常批次</small><strong id="arrivalExceptions">0</strong><span id="arrivalExceptionRate">異常率 0%</span></article>
+            <article><small>短缺數量</small><strong id="arrivalShortageUnits">0</strong><span id="arrivalShortageBatches">0 批發生短缺</span></article>
+            <article><small>效期過短</small><strong id="arrivalExpiryBatches">0 批</strong><span id="arrivalExpiryRate">占到貨 0%</span></article>
+          </div>
+
+          <div class="arrival-analysis-grid">
+            <section class="panel arrival-panel">
+              <div class="arrival-panel-head"><div><p class="section-kicker">BRANCH COMPARISON</p><h3>十店到貨差異</h3><span>異常率越高，越需要檢查供應商或門市驗收流程。</span></div><b id="arrivalBranchPeriod">2026 年 10 月</b></div>
+              <div class="table-wrap"><table class="arrival-branch-table"><thead><tr><th>分店</th><th>到貨批次</th><th>異常批次</th><th>短缺</th><th>效期過短</th><th>品質異常</th><th>異常率</th></tr></thead><tbody id="arrivalBranchRows"></tbody></table></div>
+            </section>
+
+            <section class="panel arrival-panel supplier-risk-panel">
+              <div class="arrival-panel-head"><div><p class="section-kicker">SUPPLIER RISK</p><h3>供應商異常排行</h3><span>點選供應商，可查看相關異常入庫單。</span></div><b>近三個月可切換</b></div>
+              <div class="supplier-risk-list" id="supplierRiskList"></div>
+            </section>
+          </div>
+
+          <section class="panel arrival-ai-summary">
+            <div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3 id="arrivalAiTitle">先追蹤短缺與效期異常</h3><p id="arrivalAiSummary">系統將依目前篩選條件整理異常來源與改善方向。</p></div>
+            <ul id="arrivalAiActions"></ul>
+          </section>
+
+          <section class="panel arrival-detail-panel">
+            <div class="arrival-panel-head"><div><p class="section-kicker">EXCEPTION RECORDS</p><h3>異常入庫單</h3><span id="arrivalDetailScope">顯示全部供應商與十家分店</span></div><button class="secondary-btn" id="clearArrivalSupplier">清除供應商篩選</button></div>
+            <div class="table-wrap"><table class="arrival-detail-table"><thead><tr><th>日期／入庫單</th><th>分店</th><th>供應商</th><th>品項</th><th>異常類型</th><th>差異內容</th><th>處理結果</th></tr></thead><tbody id="arrivalDetailRows"></tbody></table></div>
+          </section>
         </div>
       </section>
 
@@ -439,7 +480,7 @@
   </dialog>
   <div class="toast" id="toast"><span>✓</span><p id="toastText">已完成</p></div>
   <script src="app.js"></script>
-  <script src="receiving.js?v=20261015-2"></script>
+  <script src="receiving.js?v=20261015-3"></script>
   <script src="sales-report.js?v=20261015-1"></script>
   <script src="local-ai.js"></script>
   <script src="store-agent.js"></script>

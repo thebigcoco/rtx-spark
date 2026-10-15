@@ -12,6 +12,37 @@ const receivingRecords=[
   {id:'RC-1020',date:'10/13 09:35',branch:'站前店',supplier:'圓山茶行',items:'四季春茶葉 10 公斤',result:'效期不足',approval:'退貨完成',receiver:'陳怡君'}
 ];
 
+const arrivalBranches=['站前店','市場店','學府店','商辦店','社區店','夜市店','百貨店','醫院店','科技園區店','河岸店'];
+const arrivalSuppliers=[
+  {name:'圓山茶行',item:'茶葉',unit:'公斤',shortPattern:7,expiryPattern:4,qualityPattern:13},
+  {name:'東港農產',item:'水果原汁',unit:'瓶',shortPattern:4,expiryPattern:3,qualityPattern:7},
+  {name:'牧場直送',item:'鮮奶／燕麥奶',unit:'瓶',shortPattern:3,expiryPattern:2,qualityPattern:9},
+  {name:'Q 彈配料',item:'珍珠／椰果',unit:'包',shortPattern:2,expiryPattern:6,qualityPattern:8},
+  {name:'島嶼糖業',item:'糖漿',unit:'包',shortPattern:8,expiryPattern:9,qualityPattern:14}
+];
+const arrivalMonths=['2026-10','2026-09','2026-08'];
+
+function buildArrivalData(){
+  const aggregate=[],details=[];
+  arrivalMonths.forEach((month,monthIndex)=>arrivalBranches.forEach((branch,branchIndex)=>arrivalSuppliers.forEach((supplier,supplierIndex)=>{
+    const seed=(branchIndex+1)*7+(supplierIndex+2)*5+monthIndex*3;
+    const deliveries=8+(seed%7)+(branchIndex%3);
+    const shortBatches=(seed%supplier.shortPattern===0?2:0)+((seed+branchIndex)%supplier.shortPattern===1?1:0);
+    const expiryBatches=((seed+monthIndex)%supplier.expiryPattern===0?1:0)+(supplier.name==='牧場直送'&&(branchIndex+monthIndex)%5===0?1:0);
+    const qualityBatches=(seed%supplier.qualityPattern===2?1:0);
+    const shortageUnits=shortBatches*(2+(seed%4));
+    aggregate.push({month,branch,supplier:supplier.name,deliveries,shortBatches,expiryBatches,qualityBatches,shortageUnits});
+    const monthNumber=Number(month.slice(5)),maxDay=month==='2026-10'?14:26,typeCodes={'短缺':'S','效期過短':'E','品質異常':'Q'};
+    const addDetail=(type,index,detail,result)=>details.push({month,date:`${monthNumber}/${String(2+((seed+index*5)%maxDay)).padStart(2,'0')}`,id:`AR-${month.replace('-','').slice(2)}-${String(branchIndex+1).padStart(2,'0')}${supplierIndex+1}${typeCodes[type]}${index+1}`,branch,supplier:supplier.name,item:supplier.item,type,detail,result});
+    for(let index=0;index<shortBatches;index+=1)addDetail('短缺',index,`短少 ${2+((seed+index)%4)} ${supplier.unit}`,'補送／折讓確認');
+    for(let index=0;index<expiryBatches;index+=1)addDetail('效期過短',index,`剩 ${2+((seed+index)%3)} 天，未達驗收標準`,'退貨或優先調撥');
+    for(let index=0;index<qualityBatches;index+=1)addDetail('品質異常',index,'包裝或驗溫異常','退貨完成');
+  })));
+  return{aggregate,details};
+}
+
+const arrivalData=buildArrivalData();
+
 let activeReceivingId='RC-1024';
 const receivingBaseDate=new Date('2026-10-15T00:00:00');
 
@@ -69,6 +100,61 @@ function renderReceivingRecords(){
   tbody.innerHTML=receivingRecords.map(record=>`<tr><td><strong>${record.id}</strong></td><td>${record.date}<br><small>${record.branch}</small></td><td>${record.supplier}</td><td>${record.items}</td><td><span class="record-result ${record.result==='無差異'?'':'warn'}">${record.result}</span></td><td><span class="record-status ${record.approval.includes('待')?'pending':''}">${record.approval}</span></td><td>${record.receiver}</td></tr>`).join('');
 }
 
+function sumArrival(rows,key){return rows.reduce((total,row)=>total+row[key],0)}
+
+function getArrivalFilters(){
+  return{month:document.querySelector('#arrivalMonth')?.value||'2026-10',branch:document.querySelector('#arrivalBranch')?.value||'all',supplier:document.querySelector('#arrivalSupplier')?.value||'all'};
+}
+
+function filteredArrivalAggregate(){
+  const filters=getArrivalFilters();
+  return arrivalData.aggregate.filter(row=>row.month===filters.month&&(filters.branch==='all'||row.branch===filters.branch)&&(filters.supplier==='all'||row.supplier===filters.supplier));
+}
+
+function arrivalRate(row){
+  const issues=row.shortBatches+row.expiryBatches+row.qualityBatches;
+  return row.deliveries?issues/row.deliveries*100:0;
+}
+
+function renderArrivalAnalysis(){
+  const filters=getArrivalFilters(),rows=filteredArrivalAggregate();
+  const deliveries=sumArrival(rows,'deliveries'),shortBatches=sumArrival(rows,'shortBatches'),expiryBatches=sumArrival(rows,'expiryBatches'),qualityBatches=sumArrival(rows,'qualityBatches'),exceptions=shortBatches+expiryBatches+qualityBatches,shortageUnits=sumArrival(rows,'shortageUnits'),exceptionRate=deliveries?exceptions/deliveries*100:0;
+  document.querySelector('#arrivalDeliveries').textContent=deliveries.toLocaleString('zh-TW');
+  document.querySelector('#arrivalExceptions').textContent=exceptions.toLocaleString('zh-TW');
+  document.querySelector('#arrivalExceptionRate').textContent=`異常率 ${exceptionRate.toFixed(1)}%`;
+  document.querySelector('#arrivalShortageUnits').textContent=shortageUnits.toLocaleString('zh-TW');
+  document.querySelector('#arrivalShortageBatches').textContent=`${shortBatches} 批發生短缺`;
+  document.querySelector('#arrivalExpiryBatches').textContent=`${expiryBatches} 批`;
+  document.querySelector('#arrivalExpiryRate').textContent=`占到貨 ${deliveries?(expiryBatches/deliveries*100).toFixed(1):'0.0'}%`;
+  document.querySelector('#arrivalDeliveryScope').textContent=filters.branch==='all'?'十店合計':filters.branch;
+  document.querySelector('#arrivalBranchPeriod').textContent=document.querySelector('#arrivalMonth').selectedOptions[0].textContent;
+
+  const branchRows=arrivalBranches.map(branch=>{
+    const subset=rows.filter(row=>row.branch===branch);if(!subset.length)return null;
+    const branchDeliveries=sumArrival(subset,'deliveries'),branchShort=sumArrival(subset,'shortBatches'),branchExpiry=sumArrival(subset,'expiryBatches'),branchQuality=sumArrival(subset,'qualityBatches'),branchExceptions=branchShort+branchExpiry+branchQuality;
+    return{branch,deliveries:branchDeliveries,short:branchShort,expiry:branchExpiry,quality:branchQuality,exceptions:branchExceptions,rate:branchDeliveries?branchExceptions/branchDeliveries*100:0};
+  }).filter(Boolean).sort((a,b)=>b.rate-a.rate);
+  document.querySelector('#arrivalBranchRows').innerHTML=branchRows.map((row,index)=>`<tr><td><strong>${row.branch}</strong>${filters.branch==='all'&&index===0?'<small class="arrival-rank-warn">本月最高</small>':''}</td><td>${row.deliveries}</td><td>${row.exceptions}</td><td>${row.short}</td><td>${row.expiry}</td><td>${row.quality}</td><td><span class="arrival-rate ${row.rate>=10?'high':row.rate>=6?'medium':''}">${row.rate.toFixed(1)}%</span></td></tr>`).join('')||'<tr><td colspan="7">目前沒有符合條件的資料</td></tr>';
+
+  const supplierRows=arrivalSuppliers.map(supplier=>{
+    const subset=rows.filter(row=>row.supplier===supplier.name);if(!subset.length)return null;
+    const supplierDeliveries=sumArrival(subset,'deliveries'),short=sumArrival(subset,'shortBatches'),expiry=sumArrival(subset,'expiryBatches'),quality=sumArrival(subset,'qualityBatches'),issues=short+expiry+quality;
+    return{name:supplier.name,deliveries:supplierDeliveries,short,expiry,quality,issues,rate:supplierDeliveries?issues/supplierDeliveries*100:0};
+  }).filter(Boolean).sort((a,b)=>b.rate-a.rate);
+  const maxRate=Math.max(...supplierRows.map(row=>row.rate),1);
+  document.querySelector('#supplierRiskList').innerHTML=supplierRows.map((row,index)=>`<button data-arrival-supplier="${row.name}" class="supplier-risk-row ${filters.supplier===row.name?'selected':''}"><span class="supplier-rank">${index+1}</span><span class="supplier-risk-main"><strong>${row.name}</strong><small>短缺 ${row.short}・效期過短 ${row.expiry}・品質 ${row.quality}</small><i><em style="width:${Math.max(8,row.rate/maxRate*100)}%"></em></i></span><span class="supplier-risk-rate"><strong>${row.rate.toFixed(1)}%</strong><small>${row.rate>=10?'高風險':row.rate>=6?'需注意':'穩定'}</small></span></button>`).join('')||'<div class="empty-state">目前沒有符合條件的供應商資料</div>';
+
+  const details=arrivalData.details.filter(row=>row.month===filters.month&&(filters.branch==='all'||row.branch===filters.branch)&&(filters.supplier==='all'||row.supplier===filters.supplier)).sort((a,b)=>b.date.localeCompare(a.date,'zh-TW'));
+  document.querySelector('#arrivalDetailRows').innerHTML=details.map(row=>`<tr><td><strong>${row.date}</strong><small>${row.id}</small></td><td>${row.branch}</td><td>${row.supplier}</td><td>${row.item}</td><td><span class="arrival-issue ${row.type==='短缺'?'short':row.type==='效期過短'?'expiry':'quality'}">${row.type}</span></td><td>${row.detail}</td><td>${row.result}</td></tr>`).join('')||'<tr><td colspan="7">目前沒有符合條件的異常入庫單</td></tr>';
+  document.querySelector('#arrivalDetailScope').textContent=`顯示 ${filters.supplier==='all'?'全部供應商':filters.supplier}・${filters.branch==='all'?'十家分店':filters.branch}・共 ${details.length} 筆異常`;
+  document.querySelector('#clearArrivalSupplier').disabled=filters.supplier==='all';
+
+  const topSupplier=supplierRows[0],topBranch=branchRows[0];
+  document.querySelector('#arrivalAiTitle').textContent=topSupplier?`${topSupplier.name}需要優先追蹤`:'目前沒有明顯異常';
+  document.querySelector('#arrivalAiSummary').textContent=topSupplier?`${topSupplier.name}異常率 ${topSupplier.rate.toFixed(1)}%，共 ${topSupplier.issues} 批；其中短缺 ${topSupplier.short} 批、效期過短 ${topSupplier.expiry} 批。`:'所選條件沒有異常紀錄。';
+  document.querySelector('#arrivalAiActions').innerHTML=topSupplier?`<li>與 ${topSupplier.name} 核對未足量與效期驗收標準。</li><li>${topBranch?`${topBranch.branch}異常率 ${topBranch.rate.toFixed(1)}%，抽查收貨紀錄與現場驗收流程。`:'持續觀察門市驗收紀錄。'}</li><li>先保留人工核准，不自動停用供應商或取消訂單。</li>`:'<li>維持目前驗收規則，持續累積資料。</li>';
+}
+
 document.querySelectorAll('[data-inventory-mode]').forEach(button=>button.addEventListener('click',()=>switchInventoryMode(button.dataset.inventoryMode)));
 document.querySelector('#receivingQueue')?.addEventListener('click',event=>{const button=event.target.closest('[data-start-receiving]');if(!button)return;activeReceivingId=button.dataset.startReceiving;renderReceivingForm();switchInventoryMode('check')});
 document.querySelector('#receivingItemRows')?.addEventListener('input',event=>{const field=event.target.dataset.receivingField;if(!field)return;const order=receivingOrders.find(item=>item.id===activeReceivingId),row=event.target.closest('[data-receiving-item]'),item=order.items[Number(row.dataset.receivingItem)];item[field]=field==='received'?Number(event.target.value):event.target.value;const difference=Number(item.received)-Number(item.ordered),diff=row.querySelector('[data-receiving-diff]');diff.textContent=difference===0?'相符':`${difference>0?'+':''}${difference} ${item.unit}`;diff.classList.toggle('warn',difference!==0);const expiry=receiptExpiryState(item);row.querySelector('[data-expiry-note]').textContent=expiry.issue?expiry.label:'';updateReceivingApproval()});
@@ -77,4 +163,13 @@ document.querySelector('#backToPending')?.addEventListener('click',()=>switchInv
 document.querySelector('#confirmReceiving')?.addEventListener('click',()=>{const order=receivingOrders.find(item=>item.id===activeReceivingId);if(!order)return;const issues=receiptIssues(order),reason=document.querySelector('#receivingReason').value.trim();if(order.items.some(item=>!item.batch.trim()||!item.expiry))return typeof toast==='function'&&toast('請完成每個品項的批號與有效期限');if(issues.length&&!reason)return typeof toast==='function'&&toast('有差異或效期問題，請先填寫說明');receivingRecords.unshift({id:order.id,date:'10/15 剛剛',branch:order.branch,supplier:order.supplier,items:order.items.map(item=>`${item.name} ${item.received} ${item.unit}`).join('、'),result:issues.length?issues.join('；'):'無差異',approval:issues.length?'待店長核准':'已完成入庫',receiver:'林雅婷'});receivingOrders.splice(receivingOrders.indexOf(order),1);document.querySelector('#receivingReason').value='';renderReceivingQueue();renderReceivingRecords();renderReceivingForm();switchInventoryMode('records');if(typeof toast==='function')toast(issues.length?'清點完成，已送店長核准':'入庫完成，批次與效期警示已建立')});
 document.querySelector('#exportReceivingRecords')?.addEventListener('click',()=>{const rows=[['入庫單','日期','分店','供應商','品項','差異結果','核准狀態','收貨人'],...receivingRecords.map(record=>[record.id,record.date,record.branch,record.supplier,record.items,record.result,record.approval,record.receiver])];const csv='\uFEFF'+rows.map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download='DrinkFlow_入庫紀錄.csv';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);if(typeof toast==='function')toast('入庫紀錄 CSV 已匯出')});
 
-renderReceivingQueue();renderReceivingForm();renderReceivingRecords();switchInventoryMode('stock');
+const arrivalBranchSelect=document.querySelector('#arrivalBranch'),arrivalSupplierSelect=document.querySelector('#arrivalSupplier');
+if(arrivalBranchSelect)arrivalBranches.forEach(branch=>arrivalBranchSelect.insertAdjacentHTML('beforeend',`<option value="${branch}">${branch}</option>`));
+if(arrivalSupplierSelect)arrivalSuppliers.forEach(supplier=>arrivalSupplierSelect.insertAdjacentHTML('beforeend',`<option value="${supplier.name}">${supplier.name}</option>`));
+['arrivalMonth','arrivalBranch','arrivalSupplier'].forEach(id=>document.querySelector(`#${id}`)?.addEventListener('change',renderArrivalAnalysis));
+document.querySelector('#supplierRiskList')?.addEventListener('click',event=>{const button=event.target.closest('[data-arrival-supplier]');if(!button)return;document.querySelector('#arrivalSupplier').value=button.dataset.arrivalSupplier;renderArrivalAnalysis();document.querySelector('#arrivalDetailRows')?.closest('.arrival-detail-panel')?.scrollIntoView({behavior:'smooth',block:'start'})});
+document.querySelector('#clearArrivalSupplier')?.addEventListener('click',()=>{document.querySelector('#arrivalSupplier').value='all';renderArrivalAnalysis()});
+document.querySelector('#exportArrivalAnalysis')?.addEventListener('click',()=>{const filters=getArrivalFilters(),rows=filteredArrivalAggregate(),csvRows=[['月份','分店','供應商','到貨批次','短缺批次','短缺數量','效期過短批次','品質異常批次','異常率'],...rows.map(row=>[row.month,row.branch,row.supplier,row.deliveries,row.shortBatches,row.shortageUnits,row.expiryBatches,row.qualityBatches,`${arrivalRate(row).toFixed(1)}%`])];const csv='\uFEFF'+csvRows.map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download=`DrinkFlow_到貨分析_${filters.month}.csv`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);if(typeof toast==='function')toast('到貨分析 CSV 已匯出')});
+
+const requestedInventoryMode=new URLSearchParams(location.search).get('inventory');
+renderReceivingQueue();renderReceivingForm();renderReceivingRecords();renderArrivalAnalysis();switchInventoryMode(['stock','pending','check','records','analysis'].includes(requestedInventoryMode)?requestedInventoryMode:'stock');
