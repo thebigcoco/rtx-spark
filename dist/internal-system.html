@@ -192,13 +192,13 @@
           </div>
         </section>
         <section class="combo-insights-panel panel" aria-labelledby="comboInsightsTitle">
-          <div class="combo-insights-head"><div><p class="section-kicker">TEA＋TOPPING COMBINATION</p><h3 id="comboInsightsTitle">茶底＋加料組合分析</h3><span>依實際訂單統計每杯茶底與加料，找出最受歡迎組合；未加料訂單不列入組合排行。</span></div><span class="combo-month-badge" id="comboMonthBadge">2026 年 10 月</span></div>
+          <div class="combo-insights-head"><div><p class="section-kicker">TEA＋TOPPING COMBINATION</p><h3 id="comboInsightsTitle">茶底＋加料組合分析</h3><span>依實際訂單統計每杯茶底與加料，找出最受歡迎組合；未加料訂單不列入組合排行。</span></div><div class="combo-filter-controls"><label><span>篩選分店</span><select id="comboBranchFilter" aria-label="篩選茶底與加料組合分店"><option value="all">全部分店</option><option value="station">站前店</option><option value="market">市場店</option><option value="campus">學府店</option><option value="office">商辦店</option><option value="community">社區店</option><option value="night">夜市店</option><option value="mall">百貨店</option><option value="hospital">醫院店</option><option value="tech">科技園區店</option><option value="riverside">河岸店</option></select></label><span class="combo-month-badge" id="comboMonthBadge">2026 年 10 月・全部分店</span></div></div>
           <div class="combo-overview">
-            <article class="combo-winner"><span>TOP 1</span><div><small>本月最受歡迎</small><h4 id="topComboName">四季春青茶＋珍珠</h4><p id="topComboReason">科技園區店與站前店最常見，下午快取時段表現最好。</p></div><div class="combo-winner-metrics"><p><small>售出</small><strong id="topComboCups">1,284 杯</strong></p><p><small>占全月杯數</small><strong id="topComboShare">8.8%</strong></p><p><small>最強分店</small><strong id="topComboBranch">科技園區店</strong></p></div></article>
+            <article class="combo-winner"><span>TOP 1</span><div><small>本月最受歡迎</small><h4 id="topComboName">四季春青茶＋珍珠</h4><p id="topComboReason">科技園區店與站前店最常見，下午快取時段表現最好。</p></div><div class="combo-winner-metrics"><p><small>售出</small><strong id="topComboCups">1,284 杯</strong></p><p><small>占篩選杯數</small><strong id="topComboShare">8.8%</strong></p><p><small id="topComboBranchLabel">最強分店</small><strong id="topComboBranch">科技園區店</strong></p></div></article>
             <aside class="topping-ranking"><div><small>加料人氣排行</small><strong id="toppingOrderRate">加料率 29.8%</strong></div><ol id="toppingRanking"></ol></aside>
           </div>
-          <div class="combo-table-wrap"><table class="combo-table"><thead><tr><th>排名</th><th>茶底／飲品</th><th>加料</th><th>售出杯數</th><th>占全月杯數</th><th>最強分店</th><th>月增減</th></tr></thead><tbody id="comboRows"></tbody></table></div>
-          <p class="combo-note">組合排行可用於備料、菜單快捷鍵與新品測試；系統不會只因人氣高就自動增加採購量。</p>
+          <div class="combo-table-wrap"><table class="combo-table"><thead><tr><th>排名</th><th>茶底／飲品</th><th>加料</th><th>售出杯數</th><th>占篩選杯數</th><th id="comboBranchHeading">最強分店</th><th>月增減</th></tr></thead><tbody id="comboRows"></tbody></table></div>
+          <p class="combo-note">可切換全部分店或單店比較組合排行，用於備料、菜單快捷鍵與新品測試；系統不會只因人氣高就自動增加採購量。</p>
         </section>
         <div class="insight-grid">
           <article class="panel insight-main">

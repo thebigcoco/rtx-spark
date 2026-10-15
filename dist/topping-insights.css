@@ -2,6 +2,9 @@
 .combo-insights-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:22px 24px;border-bottom:1px solid var(--line)}
 .combo-insights-head h3{margin:2px 0 6px;font:500 25px Georgia,"Noto Serif TC",serif}
 .combo-insights-head>div>span{color:var(--muted);font-size:17px}
+.combo-filter-controls{display:flex;align-items:flex-end;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.combo-filter-controls label{display:grid;gap:6px;color:var(--muted);font-size:16px;font-weight:750}
+.combo-filter-controls select{min-width:180px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);padding:10px 34px 10px 12px;font-size:16px;font-weight:800}
 .combo-month-badge{flex:0 0 auto;padding:9px 12px;border-radius:999px;background:#e6efe9;color:var(--green);font-size:16px;font-weight:850}
 .combo-overview{display:grid;grid-template-columns:1.55fr .75fr;gap:14px;padding:20px 22px}
 .combo-winner{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#173b30,#285d4c);color:#fff}
@@ -30,5 +33,5 @@
 .combo-trend.up{color:#2e8766;font-weight:850}
 .combo-trend.down{color:#bb5b4e;font-weight:850}
 .combo-note{margin:0;padding:14px 22px;background:#faf9f4;color:var(--muted);font-size:16px}
-@media(max-width:900px){.combo-overview{grid-template-columns:1fr}.combo-insights-head{align-items:flex-start;flex-direction:column}}
-@media(max-width:600px){.combo-overview{padding:14px}.combo-winner-metrics{grid-template-columns:1fr}.combo-insights-head{padding:18px}.combo-winner h4{font-size:23px}}
+@media(max-width:900px){.combo-overview{grid-template-columns:1fr}.combo-insights-head{align-items:flex-start;flex-direction:column}.combo-filter-controls{justify-content:flex-start;width:100%}}
+@media(max-width:600px){.combo-overview{padding:14px}.combo-winner-metrics{grid-template-columns:1fr}.combo-insights-head{padding:18px}.combo-winner h4{font-size:23px}.combo-filter-controls{display:grid;grid-template-columns:1fr}.combo-filter-controls label,.combo-filter-controls select{width:100%}.combo-month-badge{width:max-content}}

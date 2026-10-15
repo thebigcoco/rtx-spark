@@ -34,7 +34,48 @@ const monthlySalesReports={
   }
 };
 
+const comboBranchProfiles={
+  all:{name:'全部分店'},
+  station:{name:'站前店',row:0,rateDelta:1.6,order:[1,0,3,2,4],reason:'通勤與下午快取客最常選桂花烏龍加椰果，清爽口感表現最好。'},
+  market:{name:'市場店',row:1,rateDelta:2.1,order:[2,4,1,0,3],reason:'家庭客偏好白桃青茶加蘆薈，午後與週末訂單最集中。'},
+  campus:{name:'學府店',row:2,rateDelta:4.2,order:[3,0,4,1,2],reason:'放學時段的珍珠奶茶加布丁成長最快，加料率也是十店前段。'},
+  office:{name:'商辦店',row:3,rateDelta:-1.2,order:[0,1,3,2,4],reason:'午餐後以四季春青茶加珍珠為主，低糖與快速取餐占比較高。'},
+  community:{name:'社區店',row:4,rateDelta:0.8,order:[3,1,0,2,4],reason:'晚間家庭客較常選珍珠奶茶加布丁，兩杯以上訂單特別明顯。'},
+  night:{name:'夜市店',row:5,rateDelta:5.1,order:[4,2,0,1,3],reason:'夜間逛街客偏好百香雙響炮加寒天晶球，口感型加料需求最高。'},
+  mall:{name:'百貨店',row:6,rateDelta:2.7,order:[1,3,2,0,4],reason:'午後逛街客最常選桂花烏龍加椰果，季節檔期帶動加料嘗鮮。'},
+  hospital:{name:'醫院店',row:7,rateDelta:-3.4,order:[1,2,0,3,4],reason:'陪病與值班客偏好清爽組合，桂花烏龍加椰果居首但整體加料率較低。'},
+  tech:{name:'科技園區店',row:8,rateDelta:3.8,order:[0,3,1,2,4],reason:'下午團體快取最常選四季春青茶加珍珠，大杯低糖需求最明顯。'},
+  riverside:{name:'河岸店',row:9,rateDelta:1.9,order:[2,4,1,0,3],reason:'週末午後以白桃青茶加蘆薈最受歡迎，清爽果茶組合表現最佳。'}
+};
+const comboWeights=[.34,.25,.18,.14,.09];
 const money=value=>`$${Number(value).toLocaleString('zh-TW')}`;
+
+function buildComboView(report,branchKey='all'){
+  const profile=comboBranchProfiles[branchKey]||comboBranchProfiles.all;
+  if(branchKey==='all')return{branchKey:'all',branchName:profile.name,cups:report.cups,rate:report.comboRate,reason:report.comboReason,combos:report.combos,toppings:report.toppings};
+  const branchCups=report.rows[profile.row][2];
+  const rateNumber=Math.max(18,parseFloat(report.comboRate)+profile.rateDelta);
+  const combos=profile.order.map((sourceIndex,index)=>{const [drink,topping,,,trend]=report.combos[sourceIndex];return[drink,topping,Math.round(branchCups*(rateNumber/100)*comboWeights[index]),profile.name,trend]});
+  const toppings=combos.map(([,topping,count])=>[topping,count]);
+  return{branchKey,branchName:profile.name,cups:branchCups,rate:`${rateNumber.toFixed(1)}%`,reason:profile.reason,combos,toppings};
+}
+
+function renderComboInsights(report){
+  const branchKey=document.querySelector('#comboBranchFilter')?.value||'all';
+  const view=buildComboView(report,branchKey);
+  const [tea,topping,cups,branch]=view.combos[0];
+  document.querySelector('#comboMonthBadge').textContent=`${report.label}・${view.branchName}`;
+  document.querySelector('#topComboName').textContent=`${tea}＋${topping}`;
+  document.querySelector('#topComboReason').textContent=view.reason;
+  document.querySelector('#topComboCups').textContent=`${cups.toLocaleString('zh-TW')} 杯`;
+  document.querySelector('#topComboShare').textContent=`${(cups/view.cups*100).toFixed(1)}%`;
+  document.querySelector('#topComboBranchLabel').textContent=branchKey==='all'?'最強分店':'篩選分店';
+  document.querySelector('#topComboBranch').textContent=branch;
+  document.querySelector('#comboBranchHeading').textContent=branchKey==='all'?'最強分店':'篩選分店';
+  document.querySelector('#toppingOrderRate').textContent=`加料率 ${view.rate}`;
+  document.querySelector('#toppingRanking').innerHTML=view.toppings.map(([name,count])=>`<li><span>${name}</span><b>${count.toLocaleString('zh-TW')} 杯</b></li>`).join('');
+  document.querySelector('#comboRows').innerHTML=view.combos.map(([drink,addOn,count,strongest,trend],index)=>`<tr><td>${index+1}</td><td>${drink}</td><td>${addOn}</td><td>${count.toLocaleString('zh-TW')}</td><td>${(count/view.cups*100).toFixed(1)}%</td><td>${strongest}</td><td><span class="combo-trend ${trend.startsWith('−')||trend.startsWith('-')?'down':'up'}">${trend}</span></td></tr>`).join('');
+}
 
 function renderMonthlySales(month){
   const report=monthlySalesReports[month];
@@ -51,30 +92,22 @@ function renderMonthlySales(month){
   document.querySelector('#monthTableNet').textContent=money(report.net);
   document.querySelector('#monthTableAverage').textContent=money(Math.round(report.net/report.orders));
 
-  const [tea,topping,cups,branch]=report.combos[0];
-  document.querySelector('#comboMonthBadge').textContent=report.label;
-  document.querySelector('#topComboName').textContent=`${tea}＋${topping}`;
-  document.querySelector('#topComboReason').textContent=report.comboReason;
-  document.querySelector('#topComboCups').textContent=`${cups.toLocaleString('zh-TW')} 杯`;
-  document.querySelector('#topComboShare').textContent=`${(cups/report.cups*100).toFixed(1)}%`;
-  document.querySelector('#topComboBranch').textContent=branch;
-  document.querySelector('#toppingOrderRate').textContent=`加料率 ${report.comboRate}`;
-  document.querySelector('#toppingRanking').innerHTML=report.toppings.map(([name,count])=>`<li><span>${name}</span><b>${count.toLocaleString('zh-TW')} 杯</b></li>`).join('');
-  document.querySelector('#comboRows').innerHTML=report.combos.map(([drink,addOn,count,strongest,trend],index)=>`<tr><td>${index+1}</td><td>${drink}</td><td>${addOn}</td><td>${count.toLocaleString('zh-TW')}</td><td>${(count/report.cups*100).toFixed(1)}%</td><td>${strongest}</td><td><span class="combo-trend ${trend.startsWith('−')||trend.startsWith('-')?'down':'up'}">${trend}</span></td></tr>`).join('');
+  renderComboInsights(report);
 }
 
 function exportMonthlySales(){
   const month=document.querySelector('#salesMonth').value;
   const report=monthlySalesReports[month];
+  const comboView=buildComboView(report,document.querySelector('#comboBranchFilter')?.value||'all');
   const header=['月份','分店','完成訂單數','售出杯數','銷售原額','折扣','退款','實收營業額','網路訂單','現場平板訂單','櫃台訂單','當月熱銷'];
   const rows=report.rows.map(([branch,orders,cups,gross,discount,refund,net,best])=>{
     const online=Math.round(orders*.44),tablet=Math.round(orders*.37),counter=orders-online-tablet;
     return[report.label,branch,orders,cups,gross,discount,refund,net,online,tablet,counter,best];
   });
   rows.push([report.label,'十店合計',report.orders,report.cups,report.gross,report.discount,report.refund,report.net,'','','','']);
-  const comboRows=report.combos.map(([tea,topping,cups,branch,trend],index)=>[index+1,tea,topping,cups,`${(cups/report.cups*100).toFixed(1)}%`,branch,trend]);
-  const toppingRows=report.toppings.map(([topping,cups],index)=>[index+1,topping,cups]);
-  const output=[header,...rows,[],['茶底＋加料組合分析'],['排名','茶底／飲品','加料','售出杯數','占全月杯數','最強分店','月增減'],...comboRows,[],['加料人氣排行'],['排名','加料','售出杯數'],...toppingRows];
+  const comboRows=comboView.combos.map(([tea,topping,cups,branch,trend],index)=>[index+1,tea,topping,cups,`${(cups/comboView.cups*100).toFixed(1)}%`,branch,trend]);
+  const toppingRows=comboView.toppings.map(([topping,cups],index)=>[index+1,topping,cups]);
+  const output=[header,...rows,[],[`茶底＋加料組合分析（${comboView.branchName}）`],['排名','茶底／飲品','加料','售出杯數','占篩選杯數','分店','月增減'],...comboRows,[],['加料人氣排行'],['排名','加料','售出杯數'],...toppingRows];
   const csv='\uFEFF'+output.map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(',')).join('\r\n');
   const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
   const link=document.createElement('a');
@@ -88,5 +121,6 @@ function exportMonthlySales(){
 }
 
 document.querySelector('#salesMonth')?.addEventListener('change',event=>renderMonthlySales(event.target.value));
+document.querySelector('#comboBranchFilter')?.addEventListener('change',()=>renderComboInsights(monthlySalesReports[document.querySelector('#salesMonth').value]));
 document.querySelector('#exportMonthlySales')?.addEventListener('click',exportMonthlySales);
 renderMonthlySales(document.querySelector('#salesMonth')?.value||'2026-10');
