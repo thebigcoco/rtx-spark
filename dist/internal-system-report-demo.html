@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="DrinkFlow 報表匯入試作版，使用銷售、庫存與到貨驗收 CSV 更新營運資料與 AI 分析。">
+  <title>DrinkFlow｜報表匯入試作版</title>
+  <link rel="stylesheet" href="report-import-demo.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><span>D</span><strong>DrinkFlow</strong><small>報表匯入試作版</small></a>
+    <div><span class="trial-badge">獨立新檔・不影響原版</span><a class="original-link" href="internal-system.html?view=dashboard">開啟原版內部系統</a></div>
+  </header>
+
+  <main id="top">
+    <section class="intro-card">
+      <div>
+        <p class="eyebrow">REPORT IMPORT POC</p>
+        <h1>匯入報表後，重新計算營運資料與 AI 分析</h1>
+        <p>一次匯入銷售、庫存與到貨驗收 CSV。頁面上的數字、排行、警示及分析內容會重新產生。</p>
+      </div>
+      <div class="import-actions">
+        <button class="primary" id="openImport">匯入報表</button>
+        <input id="reportFiles" type="file" accept=".csv,text/csv" multiple hidden>
+        <button id="reloadSample">重載示範資料</button>
+      </div>
+    </section>
+
+    <section class="import-panel" aria-labelledby="importStatusTitle">
+      <div class="panel-head">
+        <div><p class="eyebrow">匯入狀態</p><h2 id="importStatusTitle">目前使用示範報表</h2></div>
+        <span id="lastUpdated">載入中</span>
+      </div>
+      <div class="report-status-grid">
+        <article data-report-status="sales"><span>銷售</span><strong>等待載入</strong><small>營收、訂單、商品、加料、通路</small></article>
+        <article data-report-status="inventory"><span>庫存</span><strong>等待載入</strong><small>存量、安全水位、批次、效期</small></article>
+        <article data-report-status="receiving"><span>到貨驗收</span><strong>等待載入</strong><small>短缺、效期與品質異常</small></article>
+      </div>
+      <div class="sample-downloads">
+        <span>可匯入的模擬報表</span>
+        <a href="demo-data/sales-report-2026-10.csv" download>銷售報表 CSV</a>
+        <a href="demo-data/inventory-report-2026-10-15.csv" download>庫存報表 CSV</a>
+        <a href="demo-data/receiving-report-2026-10.csv" download>到貨驗收 CSV</a>
+        <a href="demo-data/DrinkFlow-import-sample.xlsx" download>整合 Excel</a>
+      </div>
+      <div class="import-message" id="importMessage" role="status">正在載入三份示範報表。</div>
+    </section>
+
+    <nav class="view-tabs" aria-label="報表檢視">
+      <button class="active" data-view-button="overview">總覽</button>
+      <button data-view-button="sales">銷售</button>
+      <button data-view-button="inventory">庫存與到貨</button>
+      <button data-view-button="analysis">AI 分析</button>
+    </nav>
+
+    <section class="view active" data-view="overview">
+      <div class="view-title"><div><p class="eyebrow" id="reportPeriod">報表期間</p><h2>營運總覽</h2></div><span id="dataCompleteness">資料檢查中</span></div>
+      <div class="kpi-grid">
+        <article><small>營業額</small><strong id="kpiSales">—</strong><span>實收</span></article>
+        <article><small>訂單</small><strong id="kpiOrders">—</strong><span>筆</span></article>
+        <article><small>售出杯數</small><strong id="kpiCups">—</strong><span>杯</span></article>
+        <article><small>平均等待</small><strong id="kpiWait">—</strong><span>分鐘</span></article>
+        <article class="warn"><small>低於安全庫存</small><strong id="kpiLowStock">—</strong><span>批</span></article>
+        <article class="warn"><small>3 日內到期</small><strong id="kpiExpiry">—</strong><span>批</span></article>
+      </div>
+      <div class="overview-grid">
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">十店比較</p><h3>分店營業額與杯數</h3></div></div>
+          <div class="branch-bars" id="branchBars"></div>
+        </article>
+        <article class="panel attention-panel">
+          <div class="panel-head"><div><p class="eyebrow">注意事項</p><h3>目前需要處理</h3></div><b id="attentionCount">0 項</b></div>
+          <div id="attentionList"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" data-view="sales">
+      <div class="view-title"><div><p class="eyebrow">銷售報表</p><h2>商品、茶底與加料</h2></div><label>分店<select id="salesBranchFilter"><option value="all">全部分店</option></select></label></div>
+      <div class="sales-summary" id="salesSummary"></div>
+      <div class="two-column">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">商品</p><h3>銷售排行</h3></div></div><div class="rank-list" id="productRanking"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">茶底＋加料</p><h3>組合排行</h3></div></div><div class="rank-list" id="comboRanking"></div></article>
+      </div>
+      <article class="panel table-panel"><div class="panel-head"><div><p class="eyebrow">分店明細</p><h3>十店銷售彙總</h3></div></div><div class="table-wrap"><table><thead><tr><th>分店</th><th>訂單</th><th>杯數</th><th>實收營業額</th><th>平均等待</th><th>熱銷商品</th></tr></thead><tbody id="branchSalesRows"></tbody></table></div></article>
+    </section>
+
+    <section class="view" data-view="inventory">
+      <div class="view-title"><div><p class="eyebrow">庫存與到貨</p><h2>存量、效期與供應商異常</h2></div><label>分店<select id="inventoryBranchFilter"><option value="all">全部分店</option></select></label></div>
+      <div class="inventory-summary" id="inventorySummary"></div>
+      <div class="two-column">
+        <article class="panel table-panel"><div class="panel-head"><div><p class="eyebrow">庫存警示</p><h3>低庫存與即將到期</h3></div></div><div class="table-wrap"><table><thead><tr><th>分店</th><th>原料</th><th>批次</th><th>存量</th><th>安全水位</th><th>到期日</th><th>狀態</th></tr></thead><tbody id="inventoryRows"></tbody></table></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">到貨驗收</p><h3>供應商異常率</h3></div></div><div class="rank-list" id="supplierRanking"></div></article>
+      </div>
+    </section>
+
+    <section class="view" data-view="analysis">
+      <div class="view-title"><div><p class="eyebrow">RTX Spark+LLM 模擬</p><h2>依匯入報表重新產生分析</h2><p>試作版以報表計算結果組成分析內容，正式版可把相同摘要送入本地 LLM。</p></div><span id="analysisStamp">等待資料</span></div>
+      <div class="analysis-grid" id="analysisCards"></div>
+      <article class="panel source-panel"><div class="panel-head"><div><p class="eyebrow">分析依據</p><h3>本次使用的資料</h3></div></div><div id="analysisSources"></div></article>
+    </section>
+  </main>
+
+  <dialog id="importDialog">
+    <form method="dialog">
+      <button class="dialog-close" value="cancel" aria-label="關閉">×</button>
+      <p class="eyebrow">匯入報表</p>
+      <h2>選擇 CSV 檔案</h2>
+      <p>可一次匯入一至三份報表。未選擇的類型會保留目前資料。</p>
+      <label class="file-drop" for="dialogReportFiles"><strong>選擇報表</strong><span>支援銷售、庫存與到貨驗收 CSV，可多選</span></label>
+      <input id="dialogReportFiles" type="file" accept=".csv,text/csv" multiple>
+      <div class="selected-files" id="selectedFiles">尚未選擇檔案</div>
+      <button class="primary full" id="confirmImport" value="cancel" type="button">匯入並重新分析</button>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="report-import-demo.js?v=20261015-1"></script>
+</body>
+</html>
