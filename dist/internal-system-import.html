@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="十家分店飲料品牌的 AI 製作、庫存、顧客洞察與營運管理原型">
+  <title>DrinkFlow｜十店營運系統・報表匯入版</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="kitchen.css">
+  <link rel="stylesheet" href="sales-report.css">
+  <link rel="stylesheet" href="overrides.css">
+  <link rel="stylesheet" href="order-status.css">
+  <link rel="stylesheet" href="order-insights.css">
+  <link rel="stylesheet" href="pricing-monitor.css">
+  <link rel="stylesheet" href="season-menu.css">
+  <link rel="stylesheet" href="local-ai.css">
+  <link rel="stylesheet" href="store-agent.css">
+  <link rel="stylesheet" href="marketing-studio.css">
+  <link rel="stylesheet" href="projector.css">
+  <link rel="stylesheet" href="presentation-fonts.css">
+  <link rel="stylesheet" href="ten-store-expiry.css">
+  <link rel="stylesheet" href="receiving.css?v=20261015-3">
+  <link rel="stylesheet" href="topping-insights.css?v=20261015-1">
+  <link rel="stylesheet" href="dashboard-overview.css?v=20261015-1">
+  <link rel="stylesheet" href="report-import-integrated.css?v=20261015-1">
+  <style>.topbar h1{white-space:nowrap}</style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主要導覽">
+      <a class="brand" href="#" aria-label="DrinkFlow AI 首頁">
+        <span class="brand-mark">D</span>
+        <span><strong>DrinkFlow</strong><small>AI 營運中樞</small></span>
+      </a>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="dashboard"><span>◫</span>今日總覽</button>
+        <button class="nav-item" data-view="kitchen"><span>▣</span>飲料製作儀表板 <b class="nav-badge kitchen-badge" id="kitchenBadge">6</b></button>
+        <button class="nav-item" data-view="inventory"><span>▤</span>庫存管理 <b class="nav-badge">9</b></button>
+        <button class="nav-item" data-view="reportimport"><span>⇧</span>報表匯入 <b class="nav-badge ri-nav-badge">NEW</b></button>
+        <button class="nav-item" data-view="season"><span>◇</span>時令行動 <b class="nav-badge season-badge">3</b></button>
+        <button class="nav-item" data-view="survey"><span>◎</span>市場洞察</button>
+        <button class="nav-item" data-view="localai"><span>◆</span>AI 營運中心 (測試中)</button>
+        <a class="demo-kit-link" href="./"><span>▰</span>業務 Demo Kit</a>
+        <a class="demo-kit-link ri-original-link" href="internal-system.html"><span>↩</span>開啟原版系統</a>
+      </nav>
+      <div class="agent-card">
+        <span class="pulse"></span>
+        <p>3 個 AI Agent 運作中</p>
+        <small>最後分析：剛剛</small>
+        <div class="mini-bars"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="operator">
+        <span class="avatar">林</span>
+        <span><strong>林店長</strong><small>營運管理員</small></span>
+        <button aria-label="開啟帳號選單">•••</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">2026 年 10 月 15 日・週四</p>
+          <h1 id="viewTitle">早安，林店長 <span>👋</span></h1>
+        </div>
+        <div class="top-actions">
+          <button class="projection-toggle" id="projectorToggle" aria-label="切換投影模式">▣ 投影</button>
+          <label class="branch-picker">
+            <span>分店</span>
+            <select id="branchSelect" aria-label="選擇分店">
+              <option value="all">全部分店</option>
+              <option value="station">站前店</option>
+              <option value="market">市場店</option>
+              <option value="campus">學府店</option>
+              <option value="office">商辦店</option>
+              <option value="community">社區店</option>
+              <option value="night">夜市店</option>
+              <option value="mall">百貨店</option>
+              <option value="hospital">醫院店</option>
+              <option value="tech">科技園區店</option>
+              <option value="riverside">河岸店</option>
+            </select>
+          </label>
+          <button class="icon-btn" id="notifyBtn" aria-label="通知">♢<i></i></button>
+        </div>
+      </header>
+
+      <section class="view active" id="dashboard">
+        <article class="overview-hero">
+          <div class="overview-hero-copy">
+            <span class="overview-live"><i></i> 十店資料已同步・剛剛更新</span>
+            <h2>10 家分店順利營業中，<br>注意事項 3 項。</h2>
+            <p>製作等候 1 店、入庫待核准 2 批、今日到期 1 批。</p>
+            <div class="hero-actions">
+              <button class="primary-btn" data-go="kitchen">查看製作狀況 <span>→</span></button>
+              <button class="ghost-btn" data-go="inventory" data-inventory-target="analysis">查看到貨分析</button>
+            </div>
+          </div>
+          <div class="overview-hero-status" aria-label="今日注意事項摘要">
+            <div><span>製作等候</span><strong>1 店</strong><small>夜市店超過承諾時間</small></div>
+            <div><span>入庫待核准</span><strong>2 批</strong><small>含短缺與效期不足</small></div>
+            <div><span>今日到期</span><strong>1 批</strong><small>站前店鮮奶 18 瓶</small></div>
+          </div>
+        </article>
+
+        <div class="kpi-grid" id="kpiGrid">
+          <article class="kpi-card overview-kpi"><div class="kpi-icon mint">＄</div><p>今日營業額</p><h3 data-kpi="sales">$145,440</h3><small class="up">↗ 11.8% <em>較上週同期</em></small></article>
+          <article class="kpi-card overview-kpi"><div class="kpi-icon lilac">單</div><p>今日訂單</p><h3 data-kpi="orders">1,066</h3><small class="up">↗ 8.1% <em>平均 $136／單</em></small></article>
+          <article class="kpi-card overview-kpi"><div class="kpi-icon amber">時</div><p>平均等候時間</p><h3 data-kpi="wait">7分40秒</h3><small>目標 8 分鐘內 <em>十店平均</em></small></article>
+          <article class="kpi-card overview-kpi"><div class="kpi-icon coral">!</div><p>注意事項</p><h3 data-kpi="alerts">9 <span>項</span></h3><small class="danger">今日處理 3 項</small></article>
+        </div>
+
+        <section class="overview-action-grid">
+          <article class="panel overview-priority-panel">
+            <div class="overview-panel-head"><div><p class="section-kicker">今日待辦</p><h3>今日注意事項</h3></div><b>共 3 項</b></div>
+            <div class="overview-priority-list">
+              <button data-go="kitchen"><span class="overview-priority-no urgent">1</span><span><strong>夜市店等候時間超標</strong><small>待製作 7 杯・最久等待 12 分 40 秒</small></span><b>查看製作 →</b></button>
+              <button data-go="inventory" data-inventory-target="check" data-open-receiving="RC-1026"><span class="overview-priority-no warn">2</span><span><strong>站前店鮮奶到貨異常</strong><small>短少 2 瓶，且剩餘效期低於驗收標準</small></span><b>等待核准 →</b></button>
+              <button data-action="expiry"><span class="overview-priority-no warn">3</span><span><strong>鮮奶批次今日到期</strong><small>站前店剩餘 18 瓶，需安排優先使用或調撥</small></span><b>建立清單 →</b></button>
+            </div>
+          </article>
+
+          <article class="panel overview-flow-panel">
+            <div class="overview-panel-head"><div><p class="section-kicker">DAILY FLOW</p><h3>今日作業進度</h3></div><span>十店合計</span></div>
+            <div class="overview-flow-grid">
+              <button data-go="kitchen"><span>製作佇列</span><strong>36 杯</strong><small>1 店超過承諾時間</small></button>
+              <button data-go="inventory" data-inventory-target="pending"><span>今日收貨</span><strong>38 批</strong><small>3 批等待清點</small></button>
+              <button data-go="inventory" data-inventory-target="analysis"><span>到貨異常</span><strong>2 批</strong><small>等待店長核准</small></button>
+              <button data-go="inventory"><span>到期警示</span><strong>4 批</strong><small>1 批今日到期</small></button>
+            </div>
+          </article>
+        </section>
+
+        <div class="overview-insight-grid">
+          <article class="panel sales-panel overview-sales-panel">
+            <div class="overview-panel-head"><div><p class="section-kicker">即時銷售</p><h3>十店今日營收走勢</h3></div><div class="legend"><span><i class="green"></i>今日</span><span><i class="gray"></i>上週同期</span></div></div>
+            <div class="chart" aria-label="十店營收趨勢圖">
+              <div class="y-axis"><span>160K</span><span>120K</span><span>80K</span><span>40K</span><span>0</span></div>
+              <div class="plot">
+                <div class="grid-lines"></div>
+                <svg viewBox="0 0 680 210" preserveAspectRatio="none" role="img" aria-label="營收折線圖">
+                  <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2d7b62" stop-opacity=".25"/><stop offset="100%" stop-color="#2d7b62" stop-opacity="0"/></linearGradient></defs>
+                  <path class="area" d="M0,180 C60,170 80,135 130,145 S220,95 270,115 S355,70 410,90 S485,58 530,70 S625,40 680,28 L680,210 L0,210Z"/>
+                  <path class="previous" d="M0,188 C55,177 85,163 130,168 S220,135 270,142 S355,116 410,124 S485,102 530,106 S625,82 680,75"/>
+                  <path class="current" d="M0,180 C60,170 80,135 130,145 S220,95 270,115 S355,70 410,90 S485,58 530,70 S625,40 680,28"/>
+                  <circle cx="530" cy="70" r="6"/><circle cx="530" cy="70" r="12" class="halo"/>
+                </svg>
+                <div class="x-axis"><span>09:00</span><span>11:00</span><span>13:00</span><span>15:00</span><span>17:00</span><span>19:00</span><span>21:00</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel overview-supplier-panel">
+            <div class="overview-panel-head"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3>本月供應商異常</h3></div><button class="text-btn" data-go="inventory" data-inventory-target="analysis">完整分析</button></div>
+            <div class="overview-supplier-focus"><span>本月異常最多</span><strong>牧場直送</strong><p>異常率 12.7%，短缺 11 批、效期過短 7 批。</p></div>
+            <div class="overview-supplier-bars"><div><span><b>牧場直送</b><em>12.7%</em></span><i><b style="width:100%"></b></i></div><div><span><b>Q 彈配料</b><em>9.2%</em></span><i><b style="width:72%"></b></i></div><div><span><b>島嶼糖業</b><em>7.3%</em></span><i><b style="width:57%"></b></i></div></div>
+            <small class="overview-ai-note">建議先確認驗收與補送紀錄，不自動停用供應商。</small>
+          </article>
+        </div>
+
+        <section class="panel overview-stores-panel">
+          <div class="overview-panel-head"><div><p class="section-kicker">十店比較</p><h3>分店即時狀態</h3></div><span>點選分店查看當日數字</span></div>
+          <div class="overview-store-grid">
+            <button data-overview-branch="station"><span class="store-dot green"></span><strong>站前店</strong><small>$17,420・126 單</small><b>待製作 6 杯・1 預警</b></button>
+            <button data-overview-branch="market"><span class="store-dot yellow"></span><strong>市場店</strong><small>$13,860・104 單</small><b>待製作 3 杯・2 預警</b></button>
+            <button data-overview-branch="campus"><span class="store-dot red"></span><strong>學府店</strong><small>$11,400・88 單</small><b>待製作 8 杯・2 預警</b></button>
+            <button data-overview-branch="office"><span class="store-dot green"></span><strong>商辦店</strong><small>$15,880・112 單</small><b>待製作 2 杯・正常</b></button>
+            <button data-overview-branch="community"><span class="store-dot yellow"></span><strong>社區店</strong><small>$12,140・96 單</small><b>待製作 3 杯・1 預警</b></button>
+            <button data-overview-branch="night"><span class="store-dot red"></span><strong>夜市店</strong><small>$14,730・108 單</small><b>待製作 7 杯・等候超標</b></button>
+            <button data-overview-branch="mall"><span class="store-dot green"></span><strong>百貨店</strong><small>$18,650・132 單</small><b>待製作 4 杯・正常</b></button>
+            <button data-overview-branch="hospital"><span class="store-dot yellow"></span><strong>醫院店</strong><small>$12,480・91 單</small><b>待製作 1 杯・1 預警</b></button>
+            <button data-overview-branch="tech"><span class="store-dot yellow"></span><strong>科技園區店</strong><small>$17,960・127 單</small><b>待製作 2 杯・1 預警</b></button>
+            <button data-overview-branch="riverside"><span class="store-dot green"></span><strong>河岸店</strong><small>$10,920・82 單</small><b>待製作 0 杯・正常</b></button>
+          </div>
+        </section>
+      </section>
+
+      <section class="view kitchen-view" id="kitchen">
+        <div class="kitchen-top">
+          <div>
+            <p class="section-kicker">KITCHEN DISPLAY SYSTEM</p>
+            <h2>飲料製作儀表板</h2>
+            <p>新訂單會自動進入製作佇列；配方、客製需求與步驟同步顯示。</p>
+          </div>
+          <div class="kitchen-health"><i></i><span><strong>站前店・製作區平板</strong><small>即時連線・剛剛同步</small></span><time id="kitchenClock">--:--</time></div>
+        </div>
+        <div class="automation-flow" aria-label="自動化流程">
+          <span class="done"><i>1</i>顧客送出訂單</span><b>→</b><span class="done"><i>2</i>自動拆解配方</span><b>→</b><span class="active"><i>3</i>平板顯示製作單</span><b>→</b><span><i>4</i>完成並扣庫存</span>
+        </div>
+        <div class="kitchen-layout">
+          <section class="queue-column">
+            <div class="queue-heading"><div><span class="queue-dot new"></span><strong>待製作</strong><small id="waitingCount">6 杯</small></div><button id="focusMode">平板全螢幕</button></div>
+            <div class="recipe-queue" id="recipeQueue"></div>
+          </section>
+          <aside class="completed-column">
+            <div class="queue-heading"><div><span class="queue-dot ready"></span><strong>已完成</strong><small id="completedCount">6 杯</small></div></div>
+            <div id="completedOrders" class="completed-orders"></div>
+            <div class="auto-stock-card"><span>✓</span><div><strong>庫存自動同步</strong><small>完成出杯後，系統依標準配方扣除原料；差異留待每日盤點確認。</small></div><b id="deductCount">今日 46 次</b></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="survey">
+        <div class="page-intro"><div><p class="section-kicker">ORDER-BASED INSIGHTS</p><h2>各分店點單偏好</h2><p>依實際訂單統計品類、甜度、加料組合、時段、價格帶與回購。</p></div><span class="evidence-badge" id="monthlyEvidenceBadge">2026 年 10 月・14,565 杯</span></div>
+        <section class="monthly-sales-panel panel" aria-labelledby="monthlySalesTitle">
+          <div class="monthly-sales-head">
+            <div><p class="section-kicker">MONTHLY SALES REPORT</p><h3 id="monthlySalesTitle">單月完整銷售報表</h3><span>資料來源：POS、網路訂單與現場平板；退款與折扣分開列出。</span></div>
+            <div class="monthly-sales-controls"><label>報表月份<select id="salesMonth"><option value="2026-10">2026 年 10 月</option><option value="2026-09">2026 年 9 月</option><option value="2026-08">2026 年 8 月</option></select></label><button id="exportMonthlySales">匯出單月完整銷售 CSV</button></div>
+          </div>
+          <div class="monthly-sales-summary">
+            <article><small>完成訂單</small><strong id="monthOrders">11,994</strong><span>筆</span></article>
+            <article><small>售出杯數</small><strong id="monthCups">14,565</strong><span>杯</span></article>
+            <article><small>折扣與退款</small><strong id="monthAdjustments">$24,830</strong><span>已扣除</span></article>
+            <article><small>實收營業額</small><strong id="monthNetSales">$936,210</strong><span id="monthGrowth">較上月 +6.4%</span></article>
+          </div>
+          <div class="monthly-sales-table-wrap">
+            <table class="monthly-sales-table"><thead><tr><th>分店</th><th>訂單</th><th>杯數</th><th>實收營業額</th><th>平均每單</th><th>當月熱銷</th></tr></thead><tbody id="monthlySalesRows"></tbody><tfoot><tr><th>十店合計</th><th id="monthTableOrders">11,994</th><th id="monthTableCups">14,565</th><th id="monthTableNet">$936,210</th><th id="monthTableAverage">$78</th><th>完整明細可匯出</th></tr></tfoot></table>
+          </div>
+        </section>
+        <section class="combo-insights-panel panel" aria-labelledby="comboInsightsTitle">
+          <div class="combo-insights-head"><div><p class="section-kicker">TEA＋TOPPING COMBINATION</p><h3 id="comboInsightsTitle">茶底＋加料組合分析</h3><span>依實際訂單統計每杯茶底與加料，找出最受歡迎組合；未加料訂單不列入組合排行。</span></div><div class="combo-filter-controls"><label><span>篩選分店</span><select id="comboBranchFilter" aria-label="篩選茶底與加料組合分店"><option value="all">全部分店</option><option value="station">站前店</option><option value="market">市場店</option><option value="campus">學府店</option><option value="office">商辦店</option><option value="community">社區店</option><option value="night">夜市店</option><option value="mall">百貨店</option><option value="hospital">醫院店</option><option value="tech">科技園區店</option><option value="riverside">河岸店</option></select></label><span class="combo-month-badge" id="comboMonthBadge">2026 年 10 月・全部分店</span></div></div>
+          <div class="combo-overview">
+            <article class="combo-winner"><span>TOP 1</span><div><small>本月最受歡迎</small><h4 id="topComboName">四季春青茶＋珍珠</h4><p id="topComboReason">科技園區店與站前店最常見，下午快取時段表現最好。</p></div><div class="combo-winner-metrics"><p><small>售出</small><strong id="topComboCups">1,284 杯</strong></p><p><small>占篩選杯數</small><strong id="topComboShare">8.8%</strong></p><p><small id="topComboBranchLabel">最強分店</small><strong id="topComboBranch">科技園區店</strong></p></div></article>
+            <aside class="topping-ranking"><div><small>加料人氣排行</small><strong id="toppingOrderRate">加料率 29.8%</strong></div><ol id="toppingRanking"></ol></aside>
+          </div>
+          <div class="combo-table-wrap"><table class="combo-table"><thead><tr><th>排名</th><th>茶底／飲品</th><th>加料</th><th>售出杯數</th><th>占篩選杯數</th><th id="comboBranchHeading">最強分店</th><th>月增減</th></tr></thead><tbody id="comboRows"></tbody></table></div>
+          <p class="combo-note">可切換全部分店或單店比較組合排行，用於備料、菜單快捷鍵與新品測試；系統不會只因人氣高就自動增加採購量。</p>
+        </section>
+        <div class="insight-grid">
+          <article class="panel insight-main">
+            <div class="panel-head insight-preference-head">
+              <div><p class="section-kicker" id="insightOrderCount">近 30 天・1,682 杯</p><h3 id="insightBranchName">站前店點單偏好</h3></div>
+              <div class="insight-filter-controls">
+                <label><span>篩選分店</span><select id="insightBranchFilter" aria-label="篩選點單偏好分店"><option value="station">站前店</option><option value="market">市場店</option><option value="campus">學府店</option><option value="office">商辦店</option><option value="community">社區店</option><option value="night">夜市店</option><option value="mall">百貨店</option><option value="hospital">醫院店</option><option value="tech">科技園區店</option><option value="riverside">河岸店</option></select></label>
+                <label><span>分析期間</span><select aria-label="選擇分析期間"><option>近 30 天</option><option>近 7 天</option></select></label>
+              </div>
+            </div>
+            <div class="preference-chart">
+              <div class="donut" id="orderDonut" aria-label="主要偏好 42%"><span><strong id="primaryPreference">42%</strong><small id="primaryLabel">無糖茶感</small></span></div>
+              <div class="bar-list" id="orderPreferenceBars"></div>
+            </div>
+            <div class="insight-note"><span>↗</span><p><strong id="orderInsightTitle">07:00–09:00 無糖茶訂單集中</strong><small id="orderInsightDetail">通勤時段選擇快速取餐與低甜度的比例，比全店平均高 19%。</small></p></div>
+          </article>
+          <article class="panel product-test-panel">
+            <div class="panel-head"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3 id="testProductName">新品・桂花烏龍冷泡</h3></div><span class="status-pill">可測試</span></div>
+            <div class="test-product-visual"><span id="testProductEmoji">🍵</span><i>NEW</i></div>
+            <p id="testProductReason">站前店顧客偏好無糖、茶感與快速取餐；冷泡版本可沿用既有烏龍茶與桂花蜜。</p>
+            <div class="test-plan"><div><small>建議測試量</small><strong id="testQuantity">每日 40 杯</strong></div><div><small>測試期間</small><strong>連續 7 天</strong></div><div><small>成功門檻</small><strong id="testThreshold">售罄率 ≥ 70%</strong></div></div>
+            <button class="secondary-btn" id="createProductTest">建立 7 日測試計畫 →</button>
+          </article>
+        </div>
+        <div class="order-signal-grid">
+          <article><span>◷</span><div><small>最強時段訊號</small><strong id="signalTime">07:00–09:00</strong><p id="signalTimeText">快速取餐占 64%</p></div></article>
+          <article><span>糖</span><div><small>甜度訊號</small><strong id="signalSweet">無糖／微糖</strong><p id="signalSweetText">合計占 71%</p></div></article>
+          <article><span>$</span><div><small>價格帶訊號</small><strong id="signalPrice">$55–$70</strong><p id="signalPriceText">回購率最高</p></div></article>
+          <article><span>↺</span><div><small>新品判斷方式</small><strong>先小量測試</strong><p>以銷量、回購與耗損驗證</p></div></article>
+        </div>
+        <section class="market-monitor-section">
+          <div class="market-monitor-head"><div><p class="section-kicker">MARKET PRICE MONITOR</p><h3>市場價格監控</h3><span>比較公開菜單與人工維護的競品價格；本頁數值為 Demo 示範資料。</span></div><div class="market-sync"><i></i><span><strong>8 個競品品牌</strong><small>示範同步：今日 09:00</small></span></div></div>
+          <div class="price-monitor-grid">
+            <article class="panel price-table-panel">
+              <div class="panel-head"><div><p class="section-kicker">同區價格比較</p><h3>主力品類定價位置</h3></div><select aria-label="價格監控區域"><option>站前商圈・1.5 公里</option><option>市場商圈・1.5 公里</option><option>學府商圈・1.5 公里</option><option>商辦商圈・1.5 公里</option><option>社區商圈・1.5 公里</option><option>夜市商圈・1.5 公里</option><option>百貨商圈・1.5 公里</option><option>醫院商圈・1.5 公里</option><option>科技園區・1.5 公里</option><option>河岸商圈・1.5 公里</option></select></div>
+              <div class="price-table"><div class="price-row price-header"><span>品類</span><span>本店</span><span>競品中位數</span><span>30 日趨勢</span><span>判讀</span></div><div class="price-row"><strong>純茶類</strong><span>$40</span><span>$45</span><span class="trend up">↗ +2.3%</span><b class="price-tag low">低 $5</b></div><div class="price-row"><strong>果茶類</strong><span>$70</span><span>$68</span><span class="trend flat">→ 0.0%</span><b class="price-tag fair">合理</b></div><div class="price-row"><strong>奶茶類</strong><span>$65</span><span>$70</span><span class="trend up">↗ +1.8%</span><b class="price-tag low">低 $5</b></div><div class="price-row"><strong>季節特調</strong><span>$85</span><span>$82</span><span class="trend down">↘ −1.2%</span><b class="price-tag high">高 $3</b></div></div>
+            </article>
+            <article class="panel price-advice-panel">
+              <div class="panel-head"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3 id="priceAdviceBranch">站前店・純茶價格測試</h3></div><span class="approval-pill">需店長核准</span></div>
+              <div class="price-decision"><span id="priceDecisionIcon">＋5</span><div><small id="priceDecisionProduct">純茶類建議測試</small><strong id="priceDecisionText">尖峰時段部分品項 +$5</strong></div></div>
+              <p id="priceDecisionReason">站前商圈競品純茶中位數高 $5，且通勤客的快速取餐回購穩定；建議只在 2 款主力茶測試，不全面漲價。</p>
+              <div class="price-guardrails"><div><span>測試範圍</span><strong id="priceTestScope">2 款・7 天</strong></div><div><span>停止條件</span><strong id="priceStopRule">轉換率下降 8%</strong></div><div><span>預估毛利影響</span><strong id="priceMarginImpact">每月 +$6,300</strong></div></div>
+              <button class="secondary-btn" id="createPriceTest">建立調價測試草稿 →</button>
+              <small class="pricing-disclaimer">AI 不會直接修改售價；正式建議需納入成本、外送抽成、商圈及法規。</small>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="inventory">
+        <div class="page-intro"><div><p class="section-kicker">INVENTORY &amp; RECEIVING</p><h2>庫存、收貨與效期管理</h2><p>查看待收貨、實收數量、批號、有效期限、品質與差異核准。</p></div><button class="primary-btn" id="openTransfer">建立跨店調撥 <span>⇄</span></button></div>
+        <div class="inventory-mode-tabs" role="tablist" aria-label="庫存管理功能"><button class="active" data-inventory-mode="stock" role="tab">目前庫存</button><button data-inventory-mode="pending" role="tab">待收貨 <b id="receiptPendingCount">4</b></button><button data-inventory-mode="check" role="tab">入庫清點</button><button data-inventory-mode="records" role="tab">入庫紀錄</button><button data-inventory-mode="analysis" role="tab">到貨分析</button></div>
+
+        <div class="inventory-mode active" data-inventory-pane="stock">
+          <div class="inventory-summary">
+            <article><span class="summary-icon red">!</span><span><small>高風險</small><strong>2 項</strong></span><em>今日可能售罄</em></article>
+            <article><span class="summary-icon yellow">◷</span><span><small>需注意</small><strong>3 項</strong></span><em>低於安全水位</em></article>
+            <article><span class="summary-icon green">✓</span><span><small>庫存健康度</small><strong>91%</strong></span><em>較上週 +3%</em></article>
+            <article><span class="summary-icon expiry">◷</span><span><small>到期警示</small><strong>4 批</strong></span><em>今日 1 批、3 日內 3 批</em></article>
+          </div>
+          <article class="panel inventory-table-panel">
+            <div class="panel-head inventory-head"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3>原料庫存與到期預測</h3></div><div class="filter-tabs"><button class="active" data-filter="all">全部 10</button><button data-filter="critical">高風險 2</button><button data-filter="warning">低庫存 3</button><button data-filter="expiring">到期警示 4</button></div></div>
+            <div class="table-wrap"><table class="inventory-table"><thead><tr><th>原料／批次</th><th>分店</th><th>目前庫存</th><th>安全水位</th><th>預估售罄</th><th>有效期限</th><th>系統建議</th><th></th></tr></thead><tbody id="inventoryRows"></tbody></table></div>
+          </article>
+        </div>
+
+        <div class="inventory-mode" data-inventory-pane="pending">
+          <div class="receiving-summary"><article><small>今日預計</small><strong>4 批</strong><span>共 6 個品項</span></article><article><small>已到貨</small><strong id="receiptArrivedCount">3 批</strong><span>等待清點</span></article><article><small>需冷藏</small><strong>1 批</strong><span>優先驗溫</span></article><article><small>預估差異</small><strong id="receiptExceptionCount">1 批</strong><span>需店長確認</span></article></div>
+          <section class="panel receiving-queue-panel"><div class="receiving-section-head"><div><p class="section-kicker">TODAY'S RECEIVING</p><h3>今日待收貨</h3><span>到貨後先完成數量、批號、效期與品質檢查，再正式增加庫存。</span></div><b>站前店</b></div><div class="receiving-queue" id="receivingQueue"></div></section>
+        </div>
+
+        <div class="inventory-mode" data-inventory-pane="check">
+          <section class="panel receiving-check-panel">
+            <div class="receiving-section-head"><div><p class="section-kicker">RECEIVING CHECK</p><h3>入庫清點</h3><span id="receivingOrderMeta">選擇待收貨單開始清點</span></div><button class="secondary-btn" id="backToPending">返回待收貨</button></div>
+            <div class="receiving-check-notice"><span>1</span><p><strong>逐項確認</strong><small>實收數量、批號、有效期限與品質缺一不可。</small></p><i>→</i><span>2</span><p><strong>處理差異</strong><small>短缺、多送、品項錯誤或效期過短需填寫原因。</small></p><i>→</i><span>3</span><p><strong>核准入庫</strong><small>無異常直接入庫；有異常則交由店長核准。</small></p></div>
+            <div class="table-wrap"><table class="receiving-check-table"><thead><tr><th>品項</th><th>訂購量</th><th>實收量</th><th>差異</th><th>批號</th><th>有效期限</th><th>品質</th></tr></thead><tbody id="receivingItemRows"></tbody></table></div>
+            <div class="receiving-resolution"><label><span>差異或品質說明</span><textarea id="receivingReason" rows="3" placeholder="例如：短少 2 瓶，已請供應商補送；無差異可留白。"></textarea></label><div class="receiving-approval" id="receivingApproval"><span>✓</span><p><strong>目前沒有異常</strong><small>確認後可直接完成入庫並建立批次。</small></p></div><button class="primary-btn" id="confirmReceiving">確認清點並入庫</button></div>
+          </section>
+        </div>
+
+        <div class="inventory-mode" data-inventory-pane="records">
+          <section class="panel receiving-record-panel"><div class="receiving-section-head"><div><p class="section-kicker">RECEIVING HISTORY</p><h3>入庫紀錄</h3><span>保留到貨單、供應商、批號、差異、核准狀態及收貨人，方便追溯。</span></div><button class="secondary-btn" id="exportReceivingRecords">匯出入庫紀錄</button></div><div class="table-wrap"><table class="receiving-record-table"><thead><tr><th>入庫單</th><th>日期／分店</th><th>供應商</th><th>品項</th><th>差異結果</th><th>核准狀態</th><th>收貨人</th></tr></thead><tbody id="receivingRecordRows"></tbody></table></div></section>
+        </div>
+
+        <div class="inventory-mode" data-inventory-pane="analysis">
+          <section class="arrival-analysis-head">
+            <div><p class="section-kicker">ARRIVAL ANALYSIS</p><h3>十店到貨分析</h3><span>比較各店到貨差異，找出經常短缺、效期不足或品質異常的供應商。</span></div>
+            <div class="arrival-analysis-filters">
+              <label><span>月份</span><select id="arrivalMonth"><option value="2026-10">2026 年 10 月</option><option value="2026-09">2026 年 9 月</option><option value="2026-08">2026 年 8 月</option></select></label>
+              <label><span>分店</span><select id="arrivalBranch"><option value="all">全部十店</option></select></label>
+              <label><span>供應商</span><select id="arrivalSupplier"><option value="all">全部供應商</option></select></label>
+              <button class="secondary-btn" id="exportArrivalAnalysis">匯出分析 CSV</button>
+            </div>
+          </section>
+
+          <div class="arrival-kpis">
+            <article><small>到貨批次</small><strong id="arrivalDeliveries">0</strong><span id="arrivalDeliveryScope">十店合計</span></article>
+            <article><small>異常批次</small><strong id="arrivalExceptions">0</strong><span id="arrivalExceptionRate">異常率 0%</span></article>
+            <article><small>短缺數量</small><strong id="arrivalShortageUnits">0</strong><span id="arrivalShortageBatches">0 批發生短缺</span></article>
+            <article><small>效期過短</small><strong id="arrivalExpiryBatches">0 批</strong><span id="arrivalExpiryRate">占到貨 0%</span></article>
+          </div>
+
+          <div class="arrival-analysis-grid">
+            <section class="panel arrival-panel">
+              <div class="arrival-panel-head"><div><p class="section-kicker">BRANCH COMPARISON</p><h3>十店到貨差異</h3><span>異常率越高，越需要檢查供應商或門市驗收流程。</span></div><b id="arrivalBranchPeriod">2026 年 10 月</b></div>
+              <div class="table-wrap"><table class="arrival-branch-table"><thead><tr><th>分店</th><th>到貨批次</th><th>異常批次</th><th>短缺</th><th>效期過短</th><th>品質異常</th><th>異常率</th></tr></thead><tbody id="arrivalBranchRows"></tbody></table></div>
+            </section>
+
+            <section class="panel arrival-panel supplier-risk-panel">
+              <div class="arrival-panel-head"><div><p class="section-kicker">SUPPLIER RISK</p><h3>供應商異常排行</h3><span>點選供應商，可查看相關異常入庫單。</span></div><b>近三個月可切換</b></div>
+              <div class="supplier-risk-list" id="supplierRiskList"></div>
+            </section>
+          </div>
+
+          <section class="panel arrival-ai-summary">
+            <div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3 id="arrivalAiTitle">本月到貨異常</h3><p id="arrivalAiSummary">依目前篩選條件顯示異常來源與處理方向。</p></div>
+            <ul id="arrivalAiActions"></ul>
+          </section>
+
+          <section class="panel arrival-detail-panel">
+            <div class="arrival-panel-head"><div><p class="section-kicker">EXCEPTION RECORDS</p><h3>異常入庫單</h3><span id="arrivalDetailScope">顯示全部供應商與十家分店</span></div><button class="secondary-btn" id="clearArrivalSupplier">清除供應商篩選</button></div>
+            <div class="table-wrap"><table class="arrival-detail-table"><thead><tr><th>日期／入庫單</th><th>分店</th><th>供應商</th><th>品項</th><th>異常類型</th><th>差異內容</th><th>處理結果</th></tr></thead><tbody id="arrivalDetailRows"></tbody></table></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view ri-view" id="reportimport">
+        <div class="page-intro ri-page-intro">
+          <div><p class="section-kicker">REPORT IMPORT</p><h2>報表匯入與重新計算</h2><p>匯入銷售、庫存與到貨驗收 CSV，重新整理今日總覽、排行、警示及分析內容。</p></div>
+          <span class="ri-version-badge">獨立合併版・原版未變更</span>
+        </div>
+
+        <section class="ri-import-hero">
+          <div><span class="ri-live"><i></i> 可實際匯入 CSV</span><h3>先匯入資料，再查看更新後的營運結果</h3><p>可一次選擇一至三份報表；未匯入的類型會保留目前資料。</p></div>
+          <div class="ri-hero-actions"><button class="primary-btn" id="riOpenImport">匯入報表</button><button class="ghost-btn" id="riReloadSample">重載示範資料</button></div>
+        </section>
+
+        <section class="panel ri-status-panel" aria-labelledby="riStatusTitle">
+          <div class="ri-panel-head"><div><p class="section-kicker">匯入狀態</p><h3 id="riStatusTitle">正在載入示範資料</h3></div><span id="riLastUpdated">等待資料</span></div>
+          <div class="ri-report-status-grid">
+            <article data-ri-report="sales"><span>銷售</span><strong>尚未匯入</strong><small>營收、訂單、商品、加料、通路</small></article>
+            <article data-ri-report="inventory"><span>庫存</span><strong>尚未匯入</strong><small>存量、安全水位、批次、效期</small></article>
+            <article data-ri-report="receiving"><span>到貨驗收</span><strong>尚未匯入</strong><small>短缺、效期與品質異常</small></article>
+          </div>
+          <div class="ri-downloads"><span>下載模擬報表</span><a href="demo-data/sales-report-2026-10.csv" download>銷售 CSV</a><a href="demo-data/inventory-report-2026-10-15.csv" download>庫存 CSV</a><a href="demo-data/receiving-report-2026-10.csv" download>到貨驗收 CSV</a><a href="demo-data/DrinkFlow-import-sample.xlsx" download>整合 Excel</a></div>
+          <p class="ri-message" id="riMessage">正在載入三份示範報表。</p>
+        </section>
+
+        <nav class="ri-tabs" aria-label="匯入報表檢視">
+          <button class="active" data-ri-tab="overview">匯入總覽</button><button data-ri-tab="sales">銷售結果</button><button data-ri-tab="inventory">庫存與到貨</button><button data-ri-tab="analysis">分析摘要</button>
+        </nav>
+
+        <div class="ri-panel active" data-ri-panel="overview">
+          <div class="ri-view-head"><div><p class="section-kicker" id="riReportPeriod">等待資料</p><h3>匯入資料總覽</h3></div><span id="riCompleteness">資料載入中</span></div>
+          <div class="ri-kpi-grid"><article><small>實收營業額</small><strong id="riKpiSales">—</strong></article><article><small>訂單</small><strong id="riKpiOrders">—</strong></article><article><small>售出杯數</small><strong id="riKpiCups">—</strong></article><article><small>平均等待</small><strong id="riKpiWait">—</strong></article><article><small>低於安全庫存</small><strong id="riKpiLow">—</strong></article><article><small>3 日內到期</small><strong id="riKpiExpiry">—</strong></article></div>
+          <div class="ri-two-column"><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">十店比較</p><h3>分店營業額與杯數</h3></div></div><div class="ri-branch-bars" id="riBranchBars"></div></article><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">注意事項</p><h3>依報表計算的結果</h3></div><b id="riAttentionCount">0 項</b></div><div class="ri-attention-list" id="riAttentionList"></div></article></div>
+        </div>
+
+        <div class="ri-panel" data-ri-panel="sales">
+          <div class="ri-view-head"><div><p class="section-kicker">SALES REPORT</p><h3>商品、茶底與加料</h3></div><label>分店<select id="riSalesBranch"><option value="all">全部分店</option></select></label></div>
+          <div class="ri-summary-grid" id="riSalesSummary"></div>
+          <div class="ri-two-column"><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">商品</p><h3>銷售排行</h3></div></div><div class="ri-rank-list" id="riProductRanking"></div></article><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">茶底＋加料</p><h3>組合排行</h3></div></div><div class="ri-rank-list" id="riComboRanking"></div></article></div>
+          <article class="panel ri-table-panel"><div class="ri-panel-head"><div><p class="section-kicker">分店明細</p><h3>十店銷售彙總</h3></div></div><div class="table-wrap"><table><thead><tr><th>分店</th><th>訂單</th><th>杯數</th><th>實收營業額</th><th>平均等待</th><th>熱銷商品</th></tr></thead><tbody id="riBranchSalesRows"></tbody></table></div></article>
+        </div>
+
+        <div class="ri-panel" data-ri-panel="inventory">
+          <div class="ri-view-head"><div><p class="section-kicker">INVENTORY &amp; RECEIVING</p><h3>存量、效期與供應商異常</h3></div><label>分店<select id="riInventoryBranch"><option value="all">全部分店</option></select></label></div>
+          <div class="ri-summary-grid" id="riInventorySummary"></div>
+          <div class="ri-two-column ri-inventory-layout"><article class="panel ri-table-panel"><div class="ri-panel-head"><div><p class="section-kicker">庫存警示</p><h3>低庫存與即期批次</h3></div></div><div class="table-wrap"><table><thead><tr><th>分店</th><th>原料</th><th>批次</th><th>目前存量</th><th>安全水位</th><th>效期</th><th>狀態</th></tr></thead><tbody id="riInventoryRows"></tbody></table></div></article><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">供應商</p><h3>到貨異常排行</h3></div></div><div class="ri-rank-list" id="riSupplierRanking"></div></article></div>
+        </div>
+
+        <div class="ri-panel" data-ri-panel="analysis">
+          <div class="ri-analysis-notice"><div><span>規則分析試作</span><h3>目前不是 LLM 產生的分析</h3><p>數字由報表計算，建議文字依預設條件產生；未來串接 LM Studio 後，可改由本地模型解讀相同摘要。</p></div><b id="riAnalysisStamp">等待資料</b></div>
+          <div class="ri-analysis-grid" id="riAnalysisCards"></div>
+          <article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">分析依據</p><h3>本次使用的資料</h3></div></div><div class="ri-source-list" id="riAnalysisSources"></div></article>
+        </div>
+
+        <dialog class="ri-dialog" id="riImportDialog">
+          <form method="dialog"><button class="dialog-close" value="cancel" aria-label="關閉">×</button><p class="section-kicker">匯入報表</p><h3>選擇 CSV 檔案</h3><p>可一次匯入一至三份報表。系統會依欄位辨識報表類型。</p><label class="ri-file-picker"><strong>選擇報表</strong><small>支援銷售、庫存與到貨驗收 CSV，可多選</small><input id="riReportFiles" type="file" accept=".csv,text/csv" multiple></label><p id="riSelectedFiles">尚未選擇檔案</p><button type="button" class="primary-btn" id="riConfirmImport">匯入並重新計算</button></form>
+        </dialog>
+      </section>
+
+      <section class="view" id="season">
+        <div class="page-intro"><div><p class="section-kicker">RTX Spark+LLM・SEASON AGENT</p><h2>時令與活動提醒</h2><p>依日期、氣溫、分店訂單與庫存，提供換季、備料及新品測試提醒。</p></div><span class="season-alert-count">未處理 3 項</span></div>
+        <div class="season-scenario-tabs"><button class="active" data-season-scenario="autumn"><span>🍂</span><strong>秋季轉涼</strong><small>目前建議</small></button><button data-season-scenario="school"><span>🎒</span><strong>開學季</strong><small>特殊時段</small></button><button data-season-scenario="halloween"><span>🎃</span><strong>萬聖節</strong><small>活動檔期</small></button></div>
+        <div class="season-layout">
+          <article class="season-main-card">
+            <div class="season-card-top"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><p class="section-kicker" id="seasonPeriod">10/13–11/15</p><h3 id="seasonTitle">氣溫下降，主推熱飲</h3></div><span id="seasonUrgency">3 日內處理</span></div>
+            <p id="seasonReason">近 3 日平均氣溫低於 22°C，14:00 後熱飲搜尋與點單比上週增加 23%。</p>
+            <div class="season-signal-row"><div><small>觸發訊號</small><strong id="seasonSignal">平均氣溫 21.4°C</strong></div><div><small>影響分店</small><strong id="seasonStores">十家分店</strong></div><div><small>預估機會</small><strong id="seasonOpportunity">熱飲需求 +23%</strong></div></div>
+            <h4>產品更換與備料建議</h4>
+            <div class="season-actions" id="seasonActions"></div>
+            <div class="season-approval"><span>!</span><p><strong>不會自動更換菜單</strong><small>商品上下架、價格及大量備料仍需店長核准。</small></p><button id="approveSeasonPlan">核准行動草稿</button></div>
+          </article>
+          <aside class="season-calendar-card">
+            <div class="panel-head"><div><p class="section-kicker">接下來 45 天</p><h3>時令提醒日曆</h3></div><button id="addSeasonReminder">＋ 新增</button></div>
+            <div class="reminder-timeline"><article class="active"><time>10/13</time><span><strong>秋季熱飲切換</strong><small>依溫度提前觸發</small></span><b>今天</b></article><article><time>10/20</time><span><strong>萬聖節限定預熱</strong><small>上架素材與試做</small></span><b>7 天後</b></article><article><time>11/02</time><span><strong>期中考週</strong><small>學府店晚間提神組合</small></span><b>20 天後</b></article><article><time>11/15</time><span><strong>冬季菜單切換</strong><small>熱飲、薑茶與可可</small></span><b>33 天後</b></article></div>
+            <div class="reminder-rule"><span>自動提醒規則</span><label><p><strong>氣溫連續 3 日低於 22°C</strong><small>提醒上架熱飲並檢查原料</small></p><input type="checkbox" checked><i></i></label><label><p><strong>活動前 14 天</strong><small>建立產品與素材待辦</small></p><input type="checkbox" checked><i></i></label><label><p><strong>分店時段銷量變化 ±15%</strong><small>重新計算主推與備料</small></p><input type="checkbox" checked><i></i></label></div>
+            <button class="roadmap-link" data-go="roadmap">查看完整導入路線 →</button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="roadmap">
+        <div class="page-intro"><div><p class="section-kicker">90-DAY ROADMAP</p><h2>90 天執行時程</h2><p>依序完成資料串接、單店試用、十店測試與低風險自動化。</p></div></div>
+        <div class="roadmap-grid">
+          <article class="phase-card active"><span>01</span><small>第 1–30 天</small><h3>整理資料與單店試用</h3><ul><li>統一十店品項、原料、批次與配方編碼</li><li>串接 POS 銷售與每日盤點</li><li>站前店先試 AI 推薦，不自動下單</li></ul><b>目標：資料正確率 ≥ 98%</b></article>
+          <article class="phase-card"><span>02</span><small>第 31–60 天</small><h3>十店測試</h3><ul><li>從實際點單建立分店口味輪廓</li><li>導入售罄、到期與跨店調撥建議</li><li>小量測試新品、推薦與價格</li></ul><b>目標：推薦轉換率 ≥ 15%</b></article>
+          <article class="phase-card"><span>03</span><small>第 61–90 天</small><h3>低風險自動化</h3><ul><li>低風險原料自動產生叫貨草稿</li><li>異常耗損與銷量偏差即時通知</li><li>每週檢查模型偏差與店員回饋</li></ul><b>目標：缺料率降低 30%</b></article>
+        </div>
+        <div class="guardrails">
+          <div><p class="section-kicker">治理原則</p><h3>需由店長核准的項目</h3></div>
+          <article><span>01</span><strong>促銷價格</strong><small>毛利低於門檻時，必須由店長核准。</small></article>
+          <article><span>02</span><strong>大量採購</strong><small>超過每日平均用量 1.5 倍，改為人工確認。</small></article>
+          <article><span>03</span><strong>個資用途</strong><small>只收必要偏好，會員資料需取得明確同意。</small></article>
+        </div>
+      </section>
+
+      <section class="view local-ai-view" id="localai">
+        <div class="page-intro local-ai-intro">
+          <div><p class="section-kicker">AI OPERATIONS CENTER・RTX SPARK</p><h2>AI 營運中心 (測試中)</h2><p>包含門市監控、知識問答、營運分析、週報與海報製作；資料留在店內處理。</p></div>
+          <span class="local-only-badge"><i></i>Local AI POC・驗證中</span>
+        </div>
+
+        <div class="compute-scope"><strong>RTX Spark+LLM 算力範圍</strong><span>門市監控 Agent</span><span>知識問答</span><span>營運分析 Agent</span><span>報表內容 Agent</span><span>新品與調價建議</span><span>本地海報生成</span><small>下單、排隊、庫存扣除與設備同步屬一般作業系統，不列入此分類。</small></div>
+
+        <div class="poc-architecture" aria-label="AI 營運中心 (測試中) POC 架構">
+          <article><span>01</span><div><small>單一運算節點</small><strong>1 台 RTX Spark</strong><p>執行大型語言模型、向量檢索與三個 Agent。</p></div><b class="health-ok">運作中</b></article>
+          <i>→</i>
+          <article><span>02</span><div><small>內部知識庫</small><strong>配方、SOP、盤點與報表</strong><p>共 186 份文件，保留來源與權限標籤。</p></div><b>本機儲存</b></article>
+          <i>→</i>
+          <article><span>03</span><div><small>可控輸出</small><strong>門市監控＋問答＋週報</strong><p>低風險動作才可自動執行；其他操作需人工核准。</p></div><b>權限分級</b></article>
+        </div>
+
+        <section class="store-agent-section" id="storeAgentSection">
+          <div class="store-agent-head"><div><p class="section-kicker">RTX Spark+LLM・STORE MONITORING AGENT</p><h3>門市監控 Agent</h3><p>每 10 秒檢查製作佇列、原料狀態與平板連線，標示需處理的門市異常。</p></div><div class="agent-live"><i></i><span><strong id="storeAgentState">即時監看中</strong><small>最近檢查：剛剛</small></span><button id="pauseStoreAgent">暫停</button></div></div>
+          <div class="store-agent-tabs" id="storeAgentTabs"><button class="active" data-store-agent="station">站前店 <b>2</b></button><button data-store-agent="market">市場店 <b>1</b></button><button data-store-agent="campus">學府店 <b>2</b></button><button data-store-agent="office">商辦店 <b>0</b></button><button data-store-agent="community">社區店 <b>1</b></button><button data-store-agent="night">夜市店 <b>1</b></button><button data-store-agent="mall">百貨店 <b>0</b></button><button data-store-agent="hospital">醫院店 <b>1</b></button><button data-store-agent="tech">科技園區店 <b>1</b></button><button data-store-agent="riverside">河岸店 <b>0</b></button></div>
+          <div class="store-agent-layout">
+            <div class="store-agent-main">
+              <div class="store-live-kpis"><article><small>待製作</small><strong id="agentQueue">3 杯</strong><b id="agentQueueNote">正常範圍</b></article><article><small>最久等待</small><strong id="agentLongest">8:24</strong><b class="warn" id="agentLongestNote">超過承諾 3:24</b></article><article><small>吧台負載</small><strong id="agentLoad">78%</strong><b id="agentLoadNote">接近尖峰</b></article><article><small>製作平板</small><strong id="agentTablet">已連線</strong><b>延遲 0.4 秒</b></article></div>
+              <article class="agent-incident" id="primaryIncident">
+                <div class="incident-level"><span>高</span><small>等待超時</small></div><div class="incident-copy"><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><small id="incidentTime">14:07・訂單 A109</small><h4 id="incidentTitle">黑糖薑奶已等待 8 分 24 秒</h4><p id="incidentDetail">原預估 5 分鐘；前方有 2 杯熱飲，建議更新顧客等待時間並通知吧台。</p><div class="incident-actions"><button class="agent-auto-action" id="applyStoreAction">套用低風險處理</button><button data-go="kitchen">開啟飲料製作儀表板</button></div></div><b class="incident-status" id="incidentStatus">待處理</b>
+              </article>
+              <div class="agent-events" id="agentEvents"><div><span class="green">✓</span><p><strong>製作平板重新連線</strong><small>13:58・自動重試成功，未漏單</small></p><b>已處理</b></div><div><span class="amber">!</span><p><strong>燕麥奶低於安全水位</strong><small>13:51・建立調撥草稿，等待店長核准</small></p><b>需核准</b></div></div>
+            </div>
+            <aside class="store-agent-control">
+              <div class="control-title"><span>門市</span><div><small>獨立權限</small><strong>門市即時監控</strong></div></div>
+              <h4>可自動執行</h4><ul><li>更新顧客預估等待時間</li><li>通知吧台超時與連線異常</li><li>依既定規則標示優先訂單</li></ul>
+              <h4>必須人工核准</h4><ul class="approval-list"><li>停售商品或取消訂單</li><li>跨店調撥與追加採購</li><li>退款、折扣及售價異動</li></ul>
+              <button id="simulateStorePeak">模擬尖峰異常</button><small class="control-note">Demo 不會真的修改訂單、庫存或門市設備。</small>
+            </aside>
+          </div>
+        </section>
+
+        <div class="local-ai-grid">
+          <article class="panel knowledge-panel">
+            <div class="panel-head"><div><p class="section-kicker">RTX Spark+LLM・KNOWLEDGE Q&A</p><h3>內部知識問答</h3></div><span class="privacy-chip">資料不上雲</span></div>
+            <div class="knowledge-scope"><span>已索引</span><button data-kb-question="黑糖薑奶的熱飲標準配方是什麼？">配方 10 份</button><button data-kb-question="燕麥奶不足時，跨店調撥的核准規則是什麼？">SOP 24 份</button><button data-kb-question="上週哪一家分店的庫存差異最高？">報表 152 份</button></div>
+            <label class="qa-input"><span>詢問內部資料</span><div><input id="knowledgeQuestion" value="燕麥奶不足時，跨店調撥的核准規則是什麼？" aria-label="內部知識問題"><button id="askKnowledge">詢問</button></div></label>
+            <div class="qa-answer" id="knowledgeAnswer">
+              <span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><div class="answer-state"><span>AI</span><strong>根據內部 SOP，建議先跨店調撥，且需店長核准。</strong></div>
+              <p>當單店庫存低於安全水位、且預估 6 小時內售罄時，系統可建立調撥草稿。若調撥量超過來源店安全庫存的 20%，須由區域主管再核准。</p>
+              <div class="source-list"><small>引用來源</small><button>《跨店調撥 SOP》§ 3.2</button><button>《原料安全水位表》2026-10</button></div>
+            </div>
+            <p class="poc-note">POC 規則：找不到來源就回答「資料不足」，不可自行編造。</p>
+          </article>
+
+          <article class="panel agents-panel">
+            <div class="panel-head"><div><p class="section-kicker">RTX Spark+LLM・ANALYSIS＋REPORT WORKFLOW</p><h3>營運分析與週報 Agent</h3></div><button class="run-agents" id="runAgents">▶ 執行週報流程</button></div>
+            <div class="agent-pipeline">
+              <div class="poc-agent" id="analystAgent"><span>分析</span><div><small>營運分析 Agent</small><strong>讀取十店銷售、庫存與效期</strong><p>找出異常、趨勢及需店長注意的事。</p></div><b>待命</b></div>
+              <i>↓</i>
+              <div class="poc-agent" id="reportAgent"><span>報表</span><div><small>報表內容 Agent</small><strong>整理成店長週報</strong><p>套用固定格式，附上數據來源與待核准事項。</p></div><b>待命</b></div>
+            </div>
+            <div class="agent-guardrail"><span>!</span><p><strong>權限護欄</strong><small>營運分析 Agent 只能讀取資料；報表內容 Agent 只能建立草稿。兩者都不能改價、叫貨或發布。</small></p></div>
+          </article>
+        </div>
+
+        <article class="panel report-panel" id="weeklyReport">
+          <div class="report-head"><div><p class="section-kicker">WEEKLY MANAGEMENT REPORT</p><h3>十店營運週報・10/06–10/12</h3><span id="reportStatus">上次產生：今日 09:10・等待店長檢視</span></div><div><button id="copyReport">複製摘要</button><button class="report-primary" id="approveReport">核准並匯出 PDF</button></div></div>
+          <div class="report-kpis"><div><small>十店營收</small><strong>NT$ 927,600</strong><b>↗ 8.0%</b></div><div><small>平均客單</small><strong>NT$ 136</strong><b>↗ 3.3%</b></div><div><small>庫存差異</small><strong>4.2%</strong><b class="warn">學府店最高</b></div><div><small>本週待決策</small><strong>7 項</strong><b class="warn">含 4 批到期警示</b></div></div>
+          <div class="report-body"><section><h4>本週營運重點</h4><ol><li><strong>學府店燕麥奶可能提前售罄：</strong>週四至週五 16:00 後用量高於基準 27%。</li><li><strong>站前店熱飲成長：</strong>氣溫下降後，桂花烏龍熱飲占比增加 18%。</li><li><strong>市場店耗損下降：</strong>水果備料調整後，報廢金額較前週少 NT$ 1,240。</li></ol></section><aside><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h4>店長待確認事項</h4><p>□ 核准燕麥奶跨店調撥 6 瓶</p><p>□ 桂花烏龍熱飲測試 7 天</p><p>□ 確認學府店盤點差異原因</p><small>每項建議皆可追溯到 POS、盤點或 SOP 來源。</small></aside></div>
+        </article>
+
+        <section class="marketing-studio">
+          <div class="marketing-studio-head"><div><p class="section-kicker">RTX Spark+LLM・MARKETING STUDIO</p><h3>行銷海報製作（本地 AI）</h3><p>營運分析 Agent 分析分店客群與活動，報表內容 Agent 產生文案及提示詞，再由 RTX Spark 的本地影像模型產生主視覺。</p></div><span>不增加 Agent・共用同一工作流</span></div>
+          <div class="marketing-grid">
+            <article class="panel campaign-form">
+              <label><span>主推商品</span><select id="posterProduct"><option>桂花烏龍</option><option>黑糖薑奶</option><option>燕麥焙茶拿鐵</option></select></label>
+              <label><span>活動情境</span><select id="posterCampaign"><option>秋季轉涼</option><option>開學季</option><option>萬聖節限定</option></select></label>
+              <label><span>目標分店</span><select id="posterBranch"><option>十店共用</option><option>站前店</option><option>市場店</option><option>學府店</option><option>商辦店</option><option>社區店</option><option>夜市店</option><option>百貨店</option><option>醫院店</option><option>科技園區店</option><option>河岸店</option></select></label>
+              <label><span>海報標題</span><input id="posterHeadline" value="桂香入秋，暖一杯剛好。"></label>
+              <div class="prompt-preview"><small>LLM 產生的本地模型提示摘要</small><p id="posterPrompt">秋日暖色調、桂花烏龍商品攝影、乾淨留白、在地茶飲品牌質感、無人物、無品牌文字。</p></div>
+              <button class="generate-poster" id="generatePoster">✦ 產生新版海報</button>
+              <p class="poc-note">Demo 使用預先生成主視覺模擬流程；正式 POC 會串接 RTX Spark 上的本地影像模型。</p>
+            </article>
+            <article class="poster-workbench">
+              <div class="poster-canvas" id="posterCanvas">
+                <img src="assets/autumn-osmanthus-poster-v1.png" alt="桂花烏龍秋季海報主視覺">
+                <div class="poster-shade"></div><div class="poster-copy"><span id="posterBadge">秋日限定</span><h4 id="posterTitle">桂香入秋，<br>暖一杯剛好。</h4><p id="posterSubtitle">桂花清香 × 烏龍回甘</p><strong>新品上市・NT$ 65</strong></div><small class="poster-brand">DRINKFLOW TEA</small>
+              </div>
+              <div class="poster-actions"><button id="regenerateCopy">換一版文案</button><button id="downloadPoster">下載 PNG</button><button class="poster-approve" id="approvePoster">送交店長核准</button></div>
+            </article>
+            <aside class="poster-flow">
+              <h4>海報產生與核准紀錄</h4>
+              <div><span>分析</span><p><strong>分析活動與客群</strong><small>秋季轉涼・十店共用</small></p><b class="done">完成</b></div>
+              <div><span>文案</span><p><strong>文案與提示詞</strong><small>已套用品牌禁用詞</small></p><b class="done">完成</b></div>
+              <div><span>GPU</span><p><strong>本地影像模型</strong><small>1024 × 1280・未上雲</small></p><b class="done">完成</b></div>
+              <div><span>人</span><p><strong>店長核准</strong><small>通過後才可下載發布版</small></p><b id="posterApprovalState">待核准</b></div>
+            </aside>
+          </div>
+        </section>
+
+        <div class="poc-scope"><strong>本階段驗收標準</strong><span>門市異常發現 ≤ 30 秒</span><span>問答引用命中率 ≥ 90%</span><span>週報產生時間 ≤ 3 分鐘</span><span>高風險行動 100% 人工核准</span></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="actionDialog">
+    <form method="dialog">
+      <button class="dialog-close" aria-label="關閉">×</button>
+      <span class="dialog-icon">⇄</span><p class="section-kicker">跨店調撥建議</p><h3>站前店 → 學府店</h3><p>站前店的珍珠與燕麥奶存量充足，可補足學府店晚間尖峰需求。</p>
+      <div class="transfer-list"><div><span>珍珠</span><strong>18 份</strong></div><div><span>燕麥奶</span><strong>6 瓶</strong></div><div><span>建議完成時間</span><strong>15:30 前</strong></div></div>
+      <button class="generate-btn" value="confirm" id="confirmTransfer">建立調撥單</button><button class="ghost-btn full" value="cancel">取消</button>
+    </form>
+  </dialog>
+  <dialog id="expiryDialog">
+    <form method="dialog">
+      <button class="dialog-close" aria-label="關閉">×</button>
+      <span class="dialog-icon expiry-dialog-icon">◷</span><p class="section-kicker">批次到期處理</p><h3>4 批原料待處理</h3><p>依「先到期先使用」排序；跨店調撥、促銷或報廢仍由店長確認。</p>
+      <div class="transfer-list"><div><span>鮮奶・站前店</span><strong>今日到期</strong></div><div><span>檸檬・社區店</span><strong>1 天後</strong></div><div><span>白桃果露・市場店</span><strong>2 天後</strong></div><div><span>燕麥奶・學府店</span><strong>3 天後</strong></div></div>
+      <button class="generate-btn" value="confirm" id="confirmExpiryPlan">建立到期處理清單</button><button class="ghost-btn full" value="cancel">取消</button>
+    </form>
+  </dialog>
+  <div class="toast" id="toast"><span>✓</span><p id="toastText">已完成</p></div>
+  <script src="app.js?v=20261015-4"></script>
+  <script src="receiving.js?v=20261015-6"></script>
+  <script src="sales-report.js?v=20261015-1"></script>
+  <script src="local-ai.js"></script>
+  <script src="store-agent.js"></script>
+  <script src="marketing-studio.js"></script>
+  <script src="report-import-integrated.js?v=20261015-1"></script>
+</body>
+</html>
