@@ -150,7 +150,7 @@ function renderArrivalAnalysis(){
   document.querySelector('#clearArrivalSupplier').disabled=filters.supplier==='all';
 
   const topSupplier=supplierRows[0],topBranch=branchRows[0];
-  document.querySelector('#arrivalAiTitle').textContent=topSupplier?`${topSupplier.name}需要優先追蹤`:'目前沒有明顯異常';
+  document.querySelector('#arrivalAiTitle').textContent=topSupplier?`${topSupplier.name}本月異常較多`:'目前沒有需要特別處理的異常';
   document.querySelector('#arrivalAiSummary').textContent=topSupplier?`${topSupplier.name}異常率 ${topSupplier.rate.toFixed(1)}%，共 ${topSupplier.issues} 批；其中短缺 ${topSupplier.short} 批、效期過短 ${topSupplier.expiry} 批。`:'所選條件沒有異常紀錄。';
   document.querySelector('#arrivalAiActions').innerHTML=topSupplier?`<li>與 ${topSupplier.name} 核對未足量與效期驗收標準。</li><li>${topBranch?`${topBranch.branch}異常率 ${topBranch.rate.toFixed(1)}%，抽查收貨紀錄與現場驗收流程。`:'持續觀察門市驗收紀錄。'}</li><li>先保留人工核准，不自動停用供應商或取消訂單。</li>`:'<li>維持目前驗收規則，持續累積資料。</li>';
 }

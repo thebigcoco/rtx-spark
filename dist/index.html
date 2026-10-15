@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="DrinkFlow AI 手搖飲門市整體營運方案 Demo Kit">
-  <title>DrinkFlow AI｜門市整體營運方案</title>
+  <title>DrinkFlow｜十店營運方案</title>
   <link rel="stylesheet" href="demo-kit-ai-focus.css">
   <link rel="stylesheet" href="demo-kit-solution.css">
   <link rel="stylesheet" href="demo-kit-architecture.css">
@@ -37,7 +37,7 @@
     </section>
 
     <section class="section-shell benefits" id="benefits">
-      <div class="section-heading"><p>01 / 店家能得到什麼</p><h2>先看看店裡每天哪些事情最花時間。</h2><span>看看能不能少問幾次、少做錯幾杯，也少一點臨時缺料。</span></div>
+      <div class="section-heading"><p>01 / 店家能得到什麼</p><h2>店裡每天最花時間的工作</h2><span>看看能不能少問幾次、少做錯幾杯，也少一點臨時缺料。</span></div>
       <div class="benefit-grid">
         <article><span>01</span><h3>顧客等待更透明</h3><p>網路與現場平板皆可下單，完成後立即收到待製作杯數與預估等待時間。</p><b>降低重複詢問與取餐不確定感</b></article>
         <article><span>02</span><h3>製作交接更標準</h3><p>飲料製作儀表板依序顯示容量、配方、甜度冰量與操作步驟。</p><b>新人也能依標準流程製作</b></article>
@@ -48,18 +48,18 @@
     </section>
 
     <section class="section-shell plan" id="plan">
-      <div class="section-heading"><p>02 / 系統怎麼串起來</p><h2>把點單、製作和庫存接起來，資料就不用一直重抄。</h2><span>先從每天一定會發生的工作開始，不需要一開始就把所有 AI 功能都開啟。</span></div>
+      <div class="section-heading"><p>02 / 系統怎麼串起來</p><h2>點單、製作和庫存共用同一套資料</h2><span>從每天一定會發生的工作開始，不需要一次開啟所有 AI 功能。</span></div>
       <div class="plan-stack">
         <article><span class="layer-no">1</span><div><small>顧客接觸層</small><h3>網路點單＋現場平板</h3><p>商品、甜度冰量、每杯加料、付款方式、取餐進度與等待通知。</p></div><div class="module-tags"><a href="customer-order.html?channel=online">網路點單</a><a href="customer-order.html?channel=tablet">現場平板</a></div><b>帶來：更順暢的下單體驗</b></article>
         <article><span class="layer-no">2</span><div><small>門市作業層</small><h3>飲料製作儀表板＋庫存同步</h3><p>標準配方、製作佇列、入庫清點、批次效期、十店到貨分析與理論扣料。</p></div><div class="module-tags"><a href="internal-system.html?view=kitchen">製作</a><a href="internal-system.html?view=inventory">庫存</a></div><b>帶來：更少交接錯誤與缺料</b></article>
         <article><span class="layer-no">3</span><div><small>營運資料層</small><h3>分店偏好＋市場價格＋時令行動</h3><p>使用實際訂單、競品資訊、季節與活動建立測試依據。</p></div><div class="module-tags"><a href="internal-system.html?view=survey">市場洞察</a><a href="internal-system.html?view=season">時令行動</a></div><b>帶來：更有依據的商品決策</b></article>
-        <article class="plan-ai"><span class="layer-no">4</span><div><small>AI 輔助層</small><h3>知識問答＋三個 Agent＋行銷素材</h3><p>只有需要理解、推理、歸納或生成的工作，才使用本地 AI 算力。</p></div><div class="module-tags"><a href="internal-system.html?view=localai">AI 營運中心</a></div><b>帶來：更快完成分析與內容草稿</b></article>
+        <article class="plan-ai"><span class="layer-no">4</span><div><small>AI 輔助層</small><h3>知識查詢、營運分析與海報製作</h3><p>只有需要理解、推理、歸納或生成的工作，才使用本地 AI 算力。</p></div><div class="module-tags"><a href="internal-system.html?view=localai">AI 營運中心</a></div><b>帶來：更快完成分析與內容草稿</b></article>
         <article class="plan-governance"><span class="layer-no">5</span><div><small>治理與安全層</small><h3>權限、來源、核准與操作紀錄</h3><p>資料依角色分級；售價、退款、採購與發布都保留人工核准。</p></div><div class="module-tags"><span>資料不上雲</span><span>可追溯</span></div><b>帶來：可控且可驗收的導入</b></article>
       </div>
     </section>
 
     <section class="section-shell architecture-overview-section" id="architecture">
-      <div class="section-heading"><p>03 / 十店總體架構</p><h2>十家店的資料，要怎麼集中起來一起用？</h2><span>這張圖先看資料從哪裡來、送到哪裡，再看各系統怎麼分工。</span></div>
+      <div class="section-heading"><p>03 / 十店總體架構</p><h2>十家店共用的系統架構</h2><span>這張圖說明資料從哪裡來、送到哪裡，以及各系統怎麼分工。</span></div>
 
       <figure class="architecture-overview" aria-labelledby="architecture-overview-title">
         <figcaption id="architecture-overview-title"><span>總架構示意圖</span><strong>十店共用一套營運資料，由總公司系統與本地 AI 分工處理</strong></figcaption>
@@ -83,7 +83,7 @@
           <div class="overview-connector output"><b>建議回傳</b><span>主管核准後<br>交由系統執行</span><i>→</i></div>
           <section class="overview-node overview-results">
             <small>店長與總公司</small>
-            <h3>管理成果</h3>
+            <h3>店長與門市使用畫面</h3>
             <div class="result-list"><span>即時異常提醒</span><span>十店營運儀表板</span><span>庫存調撥與到期警示</span><span>新品／價格測試</span><span>報表與行銷素材</span></div>
           </section>
         </div>
@@ -113,12 +113,12 @@
             </section>
             <section class="local-ai-core">
               <div class="architecture-label ai">RTX Spark＋LLM</div>
-              <h4>需要理解、推理與生成</h4>
+              <h4>適合交給本地 AI 的工作</h4>
               <ul><li>內部知識庫 RAG</li><li>語音辨識與語音合成（店員免手持查詢與語音回覆）</li><li>門市監控、營運分析與報表內容 Agent 協作</li><li>營運分析與報表草稿</li><li>新品、價格與季節建議</li><li>行銷文案與海報生成</li><li>影像辨識（第二階段選配：庫存攝影機輔助盤點與缺料辨識）</li></ul>
             </section>
             <section>
               <div class="architecture-label governance">治理與安全</div>
-              <h4>所有高風險行動可追溯</h4>
+              <h4>售價、採購與發布需人工核准</h4>
               <ul><li>角色與資料存取權限</li><li>來源引用與稽核紀錄</li><li>Agent 可執行範圍</li><li>售價、採購、退款及發布人工核准</li></ul>
             </section>
           </div>
@@ -127,7 +127,7 @@
         <div class="flow-down">↓</div>
 
         <article class="architecture-band output-band">
-          <header><span>03</span><div><small>管理與執行成果</small><h3>回到店長與各門市使用</h3></div></header>
+          <header><span>03</span><div><small>管理與執行成果</small><h3>店長與門市看到的內容</h3></div></header>
           <div class="output-grid"><span>即時異常提醒</span><span>十店營運儀表板</span><span>庫存調撥與到期警示</span><span>每日／每週報表</span><span>新品與價格測試</span><span>核准後行銷素材</span></div>
         </article>
       </div>
@@ -136,10 +136,10 @@
     </section>
 
     <section class="section-shell ai-fit" id="ai-fit">
-      <div class="section-heading"><p>04 / RTX Spark 做什麼</p><h2>哪些工作真的需要 RTX Spark？</h2><span>點單和扣庫存照原本規則跑；只有需要判斷或產生內容時，才交給本地 AI。</span></div>
+      <div class="section-heading"><p>04 / RTX Spark 做什麼</p><h2>RTX Spark 在這套系統裡負責的工作</h2><span>點單和扣庫存照原本規則跑；只有需要判斷或產生內容時，才交給本地 AI。</span></div>
       <div class="fit-boundary">
         <article class="not-needed"><div class="fit-label">一般系統即可</div><h3>固定規則與交易流程</h3><ul><li>建立訂單與付款狀態</li><li>計算排隊杯數與等待時間</li><li>顯示標準配方與製作步驟</li><li>完成出杯後扣除理論庫存</li><li>設備連線與資料同步</li></ul></article>
-        <article class="best-fit"><div class="fit-label">適合 RTX Spark+LLM</div><h3>需要理解、推理與生成</h3><ul><li>從內部文件回答問題並引用來源</li><li>分析多店異常、趨勢與可能原因</li><li>將資料整理成週報與決策草稿</li><li>提出新品、季節與調價測試方案</li><li>在本地產生行銷文案與海報</li></ul></article>
+        <article class="best-fit"><div class="fit-label">適合 RTX Spark+LLM</div><h3>適合交給本地 AI 的工作</h3><ul><li>從內部文件回答問題並引用來源</li><li>分析多店異常、趨勢與可能原因</li><li>將資料整理成週報與決策草稿</li><li>提出新品、季節與調價測試方案</li><li>在本地產生行銷文案與海報</li></ul></article>
       </div>
       <div class="ai-work-grid">
         <article><span>門市</span><h3>門市異常判讀</h3><p>規則先偵測超時、缺料或斷線；需要判讀原因與整理建議時，再呼叫本地模型。</p><b>避免 LLM 持續空轉</b></article>
@@ -151,7 +151,7 @@
     </section>
 
     <section class="section-shell scenario" id="scenario">
-      <div class="section-heading"><p>05 / 實際發生時怎麼處理</p><h2>有一杯飲料做太久，系統會怎麼處理？</h2><span>一般系統先處理眼前問題，AI 再幫店長整理原因與後續建議。</span></div>
+      <div class="section-heading"><p>05 / 實際發生時怎麼處理</p><h2>飲料製作超時的處理方式</h2><span>一般系統處理眼前問題，AI 則整理原因與後續建議。</span></div>
       <div class="scenario-grid">
         <div class="timeline">
           <article><time>下單後</time><span>系統</span><div><strong>訂單進入飲料製作儀表板</strong><p>同步配方、排隊杯數與顧客預估等待時間。</p></div></article>
@@ -162,7 +162,7 @@
         </div>
         <aside class="decision-panel">
           <span class="ai-badge">AI 輔助建議・需人工核准</span>
-          <h3>建議店長決策</h3>
+          <h3>店長要確認的事項</h3>
           <label><input type="checkbox"> 核准燕麥奶跨店調撥 6 瓶</label>
           <label><input type="checkbox"> 桂花烏龍熱飲測試 7 天</label>
           <label><input type="checkbox"> 檢查學府店尖峰備料差異</label>
@@ -172,7 +172,7 @@
     </section>
 
     <section class="section-shell pilot" id="pilot">
-      <div class="section-heading"><p>06 / 先用 30 天看看</p><h2>先試跑 30 天，有幫助再繼續擴大。</h2><span>從一家店、兩個問題開始，用實際紀錄決定哪些功能值得留下。</span></div>
+      <div class="section-heading"><p>06 / 30 天試行</p><h2>30 天試用安排</h2><span>從一家店、兩個問題開始，用實際紀錄決定哪些功能值得留下。</span></div>
       <div class="metric-grid business-metrics">
         <article><small>製作交接</small><strong>錯單／漏單</strong><p>比較導入前後的事件紀錄</p></article>
         <article><small>顧客體驗</small><strong>估時偏差</strong><p>比較預估與實際完成時間</p></article>
@@ -183,7 +183,7 @@
       <div class="pilot-phases"><article><span>Day 1–7</span><h3>流程與資料盤點</h3><p>確認 POS、配方、SOP、訂單、庫存與權限範圍。</p></article><article><span>Day 8–21</span><h3>系統＋AI 試行</h3><p>實測點單、製作、庫存及選定的 AI 工作，不一次開放全部自動化。</p></article><article><span>Day 22–30</span><h3>效益與風險驗收</h3><p>依實際紀錄決定保留功能、算力配置與下一階段整合。</p></article></div>
     </section>
 
-    <section class="focus-cta"><p>建議下一步</p><h2>先挑兩個最常卡住的地方開始試。</h2><span>先確認流程真的變順，再決定要不要增加 AI 功能與 RTX Spark 算力。</span><div><a href="customer-order.html?channel=online">體驗顧客點單</a><a class="primary" href="internal-system.html">開啟完整系統</a></div><small>本頁使用示範資料，不代表正式導入成效、硬體規格或報價。</small></section>
+    <section class="focus-cta"><p>建議下一步</p><h2>從兩個常見問題開始試用</h2><span>確認流程確實變順，再決定是否增加 AI 功能與 RTX Spark 算力。</span><div><a href="customer-order.html?channel=online">體驗顧客點單</a><a class="primary" href="internal-system.html">開啟完整系統</a></div><small>本頁使用示範資料，不代表正式導入成效、硬體規格或報價。</small></section>
 
   </main>
 </body>
