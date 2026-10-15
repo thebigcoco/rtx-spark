@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="projector.css">
   <link rel="stylesheet" href="presentation-fonts.css">
   <link rel="stylesheet" href="ten-store-expiry.css">
+  <link rel="stylesheet" href="receiving.css?v=20261015-2">
   <link rel="stylesheet" href="topping-insights.css?v=20261015-1">
   <style>.topbar h1{white-space:nowrap}</style>
 </head>
@@ -249,17 +250,39 @@
       </section>
 
       <section class="view" id="inventory">
-        <div class="page-intro"><div><p class="section-kicker">INVENTORY AGENT</p><h2>庫存不是數字，是下一杯的承諾。</h2><p>同時監看售罄時間、批次有效期限、跨店餘量與叫貨量，異常決策由店長確認。</p></div><button class="primary-btn" id="openTransfer">建立跨店調撥 <span>⇄</span></button></div>
-        <div class="inventory-summary">
-          <article><span class="summary-icon red">!</span><span><small>高風險</small><strong>2 項</strong></span><em>今日可能售罄</em></article>
-          <article><span class="summary-icon yellow">◷</span><span><small>需注意</small><strong>3 項</strong></span><em>低於安全水位</em></article>
-          <article><span class="summary-icon green">✓</span><span><small>庫存健康度</small><strong>91%</strong></span><em>較上週 +3%</em></article>
-          <article><span class="summary-icon expiry">◷</span><span><small>到期警示</small><strong>4 批</strong></span><em>今日 1 批、3 日內 3 批</em></article>
+        <div class="page-intro"><div><p class="section-kicker">INVENTORY &amp; RECEIVING</p><h2>從收貨開始，把每批原料管清楚。</h2><p>管理待收貨、實收清點、批號、有效期限、品質與差異核准，再接到庫存及到期警示。</p></div><button class="primary-btn" id="openTransfer">建立跨店調撥 <span>⇄</span></button></div>
+        <div class="inventory-mode-tabs" role="tablist" aria-label="庫存管理功能"><button class="active" data-inventory-mode="stock" role="tab">目前庫存</button><button data-inventory-mode="pending" role="tab">待收貨 <b id="receiptPendingCount">4</b></button><button data-inventory-mode="check" role="tab">入庫清點</button><button data-inventory-mode="records" role="tab">入庫紀錄</button></div>
+
+        <div class="inventory-mode active" data-inventory-pane="stock">
+          <div class="inventory-summary">
+            <article><span class="summary-icon red">!</span><span><small>高風險</small><strong>2 項</strong></span><em>今日可能售罄</em></article>
+            <article><span class="summary-icon yellow">◷</span><span><small>需注意</small><strong>3 項</strong></span><em>低於安全水位</em></article>
+            <article><span class="summary-icon green">✓</span><span><small>庫存健康度</small><strong>91%</strong></span><em>較上週 +3%</em></article>
+            <article><span class="summary-icon expiry">◷</span><span><small>到期警示</small><strong>4 批</strong></span><em>今日 1 批、3 日內 3 批</em></article>
+          </div>
+          <article class="panel inventory-table-panel">
+            <div class="panel-head inventory-head"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3>原料庫存、批次與預測</h3></div><div class="filter-tabs"><button class="active" data-filter="all">全部 10</button><button data-filter="critical">高風險 2</button><button data-filter="warning">低庫存 3</button><button data-filter="expiring">到期警示 4</button></div></div>
+            <div class="table-wrap"><table class="inventory-table"><thead><tr><th>原料／批次</th><th>分店</th><th>目前庫存</th><th>安全水位</th><th>預估售罄</th><th>有效期限</th><th>系統建議</th><th></th></tr></thead><tbody id="inventoryRows"></tbody></table></div>
+          </article>
         </div>
-        <article class="panel inventory-table-panel">
-          <div class="panel-head inventory-head"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3>原料庫存、批次與預測</h3></div><div class="filter-tabs"><button class="active" data-filter="all">全部 10</button><button data-filter="critical">高風險 2</button><button data-filter="warning">低庫存 3</button><button data-filter="expiring">到期警示 4</button></div></div>
-          <div class="table-wrap"><table class="inventory-table"><thead><tr><th>原料／批次</th><th>分店</th><th>目前庫存</th><th>安全水位</th><th>預估售罄</th><th>有效期限</th><th>系統建議</th><th></th></tr></thead><tbody id="inventoryRows"></tbody></table></div>
-        </article>
+
+        <div class="inventory-mode" data-inventory-pane="pending">
+          <div class="receiving-summary"><article><small>今日預計</small><strong>4 批</strong><span>共 6 個品項</span></article><article><small>已到貨</small><strong id="receiptArrivedCount">3 批</strong><span>等待清點</span></article><article><small>需冷藏</small><strong>1 批</strong><span>優先驗溫</span></article><article><small>預估差異</small><strong id="receiptExceptionCount">1 批</strong><span>需店長確認</span></article></div>
+          <section class="panel receiving-queue-panel"><div class="receiving-section-head"><div><p class="section-kicker">TODAY'S RECEIVING</p><h3>今日待收貨</h3><span>到貨後先完成數量、批號、效期與品質檢查，再正式增加庫存。</span></div><b>站前店</b></div><div class="receiving-queue" id="receivingQueue"></div></section>
+        </div>
+
+        <div class="inventory-mode" data-inventory-pane="check">
+          <section class="panel receiving-check-panel">
+            <div class="receiving-section-head"><div><p class="section-kicker">RECEIVING CHECK</p><h3>入庫清點</h3><span id="receivingOrderMeta">選擇待收貨單開始清點</span></div><button class="secondary-btn" id="backToPending">返回待收貨</button></div>
+            <div class="receiving-check-notice"><span>1</span><p><strong>逐項確認</strong><small>實收數量、批號、有效期限與品質缺一不可。</small></p><i>→</i><span>2</span><p><strong>處理差異</strong><small>短缺、多送、品項錯誤或效期過短需填寫原因。</small></p><i>→</i><span>3</span><p><strong>核准入庫</strong><small>無異常直接入庫；有異常則交由店長核准。</small></p></div>
+            <div class="table-wrap"><table class="receiving-check-table"><thead><tr><th>品項</th><th>訂購量</th><th>實收量</th><th>差異</th><th>批號</th><th>有效期限</th><th>品質</th></tr></thead><tbody id="receivingItemRows"></tbody></table></div>
+            <div class="receiving-resolution"><label><span>差異或品質說明</span><textarea id="receivingReason" rows="3" placeholder="例如：短少 2 瓶，已請供應商補送；無差異可留白。"></textarea></label><div class="receiving-approval" id="receivingApproval"><span>✓</span><p><strong>目前沒有異常</strong><small>確認後可直接完成入庫並建立批次。</small></p></div><button class="primary-btn" id="confirmReceiving">確認清點並入庫</button></div>
+          </section>
+        </div>
+
+        <div class="inventory-mode" data-inventory-pane="records">
+          <section class="panel receiving-record-panel"><div class="receiving-section-head"><div><p class="section-kicker">RECEIVING HISTORY</p><h3>入庫紀錄</h3><span>保留到貨單、供應商、批號、差異、核准狀態及收貨人，方便追溯。</span></div><button class="secondary-btn" id="exportReceivingRecords">匯出入庫紀錄</button></div><div class="table-wrap"><table class="receiving-record-table"><thead><tr><th>入庫單</th><th>日期／分店</th><th>供應商</th><th>品項</th><th>差異結果</th><th>核准狀態</th><th>收貨人</th></tr></thead><tbody id="receivingRecordRows"></tbody></table></div></section>
+        </div>
       </section>
 
       <section class="view" id="season">
@@ -416,6 +439,7 @@
   </dialog>
   <div class="toast" id="toast"><span>✓</span><p id="toastText">已完成</p></div>
   <script src="app.js"></script>
+  <script src="receiving.js?v=20261015-2"></script>
   <script src="sales-report.js?v=20261015-1"></script>
   <script src="local-ai.js"></script>
   <script src="store-agent.js"></script>
