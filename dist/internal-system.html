@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="ten-store-expiry.css">
   <link rel="stylesheet" href="receiving.css?v=20261015-3">
   <link rel="stylesheet" href="topping-insights.css?v=20261015-1">
+  <link rel="stylesheet" href="dashboard-overview.css?v=20261015-1">
   <style>.topbar h1{white-space:nowrap}</style>
 </head>
 <body>
@@ -55,7 +56,7 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <p class="eyebrow">2026 年 10 月 13 日・週二</p>
+          <p class="eyebrow">2026 年 10 月 15 日・週四</p>
           <h1 id="viewTitle">早安，林店長 <span>👋</span></h1>
         </div>
         <div class="top-actions">
@@ -81,35 +82,56 @@
       </header>
 
       <section class="view active" id="dashboard">
-        <article class="hero-card">
-          <div>
-            <span class="live-pill"><i></i> LIVE INSIGHT</span>
-            <h2>午後轉涼，<br>熱飲需求正在上升。</h2>
-            <p>AI 綜合天氣、歷史銷量與目前庫存，建議主推桂花烏龍與黑糖薑奶。</p>
+        <article class="overview-hero">
+          <div class="overview-hero-copy">
+            <span class="overview-live"><i></i> 十店資料已同步・剛剛更新</span>
+            <h2>十家分店正常營運，<br>3 件事需要優先處理。</h2>
+            <p>先處理等候過久、到貨差異與今日到期批次；其他銷售、製作及庫存狀態都在正常範圍。</p>
             <div class="hero-actions">
-              <button class="primary-btn" data-go="survey">查看銷售與偏好 <span>→</span></button>
-              <button class="ghost-btn" data-go="season">查看時令建議</button>
+              <button class="primary-btn" data-go="kitchen">查看製作狀況 <span>→</span></button>
+              <button class="ghost-btn" data-go="inventory" data-inventory-target="analysis">查看到貨分析</button>
             </div>
           </div>
-          <div class="forecast-orb" aria-label="18度，多雲">
-            <div class="orb-inner"><span>☁</span><strong>18°</strong><small>體感偏涼</small></div>
-            <span class="orbit-label one">熱飲 +23%</span>
-            <span class="orbit-label two">14:00–17:00</span>
+          <div class="overview-hero-status" aria-label="今日優先事項摘要">
+            <div><span>製作等候</span><strong>1 店</strong><small>夜市店超過承諾時間</small></div>
+            <div><span>入庫待核准</span><strong>2 批</strong><small>含短缺與效期不足</small></div>
+            <div><span>今日到期</span><strong>1 批</strong><small>站前店鮮奶 18 瓶</small></div>
           </div>
         </article>
 
         <div class="kpi-grid" id="kpiGrid">
-          <article class="kpi-card"><div class="kpi-icon mint">＄</div><p>今日營業額</p><h3 data-kpi="sales">$145,440</h3><small class="up">↗ 11.8% <em>較上週同期</em></small></article>
-          <article class="kpi-card"><div class="kpi-icon lilac">杯</div><p>今日訂單</p><h3 data-kpi="orders">1,066</h3><small class="up">↗ 8.1% <em>平均 $136／單</em></small></article>
-          <article class="kpi-card"><div class="kpi-icon amber">AI</div><p>AI 推薦轉換率</p><h3 data-kpi="conversion">33.1%</h3><small class="up">↗ 4.5% <em>本月最佳</em></small></article>
-          <article class="kpi-card"><div class="kpi-icon coral">!</div><p>庫存預警</p><h3 data-kpi="alerts">9 <span>項</span></h3><small class="danger">含 4 批即將到期</small></article>
+          <article class="kpi-card overview-kpi"><div class="kpi-icon mint">＄</div><p>今日營業額</p><h3 data-kpi="sales">$145,440</h3><small class="up">↗ 11.8% <em>較上週同期</em></small></article>
+          <article class="kpi-card overview-kpi"><div class="kpi-icon lilac">單</div><p>今日訂單</p><h3 data-kpi="orders">1,066</h3><small class="up">↗ 8.1% <em>平均 $136／單</em></small></article>
+          <article class="kpi-card overview-kpi"><div class="kpi-icon amber">時</div><p>平均等候時間</p><h3 data-kpi="wait">7分40秒</h3><small>目標 8 分鐘內 <em>十店平均</em></small></article>
+          <article class="kpi-card overview-kpi"><div class="kpi-icon coral">!</div><p>待處理警示</p><h3 data-kpi="alerts">9 <span>項</span></h3><small class="danger">3 項需今日完成</small></article>
         </div>
 
-        <div class="dashboard-grid">
-          <article class="panel sales-panel">
-            <div class="panel-head"><div><p class="section-kicker">即時銷售</p><h3>各分店營收趨勢</h3></div><div class="legend"><span><i class="green"></i>今日</span><span><i class="gray"></i>上週同期</span></div></div>
-            <div class="chart" aria-label="營收趨勢圖">
-              <div class="y-axis"><span>16K</span><span>12K</span><span>8K</span><span>4K</span><span>0</span></div>
+        <section class="overview-action-grid">
+          <article class="panel overview-priority-panel">
+            <div class="overview-panel-head"><div><p class="section-kicker">TODAY'S PRIORITY</p><h3>今天先處理這三件事</h3></div><b>3 項高優先</b></div>
+            <div class="overview-priority-list">
+              <button data-go="kitchen"><span class="overview-priority-no urgent">1</span><span><strong>夜市店等候時間超標</strong><small>待製作 7 杯・最久等待 12 分 40 秒</small></span><b>查看製作 →</b></button>
+              <button data-go="inventory" data-inventory-target="check" data-open-receiving="RC-1026"><span class="overview-priority-no warn">2</span><span><strong>站前店鮮奶到貨異常</strong><small>短少 2 瓶，且剩餘效期低於驗收標準</small></span><b>等待核准 →</b></button>
+              <button data-action="expiry"><span class="overview-priority-no warn">3</span><span><strong>鮮奶批次今日到期</strong><small>站前店剩餘 18 瓶，需安排優先使用或調撥</small></span><b>建立清單 →</b></button>
+            </div>
+          </article>
+
+          <article class="panel overview-flow-panel">
+            <div class="overview-panel-head"><div><p class="section-kicker">DAILY FLOW</p><h3>今日作業進度</h3></div><span>十店合計</span></div>
+            <div class="overview-flow-grid">
+              <button data-go="kitchen"><span>製作佇列</span><strong>36 杯</strong><small>1 店超過承諾時間</small></button>
+              <button data-go="inventory" data-inventory-target="pending"><span>今日收貨</span><strong>38 批</strong><small>3 批等待清點</small></button>
+              <button data-go="inventory" data-inventory-target="analysis"><span>到貨異常</span><strong>2 批</strong><small>等待店長核准</small></button>
+              <button data-go="inventory"><span>到期警示</span><strong>4 批</strong><small>1 批今日到期</small></button>
+            </div>
+          </article>
+        </section>
+
+        <div class="overview-insight-grid">
+          <article class="panel sales-panel overview-sales-panel">
+            <div class="overview-panel-head"><div><p class="section-kicker">即時銷售</p><h3>十店今日營收走勢</h3></div><div class="legend"><span><i class="green"></i>今日</span><span><i class="gray"></i>上週同期</span></div></div>
+            <div class="chart" aria-label="十店營收趨勢圖">
+              <div class="y-axis"><span>160K</span><span>120K</span><span>80K</span><span>40K</span><span>0</span></div>
               <div class="plot">
                 <div class="grid-lines"></div>
                 <svg viewBox="0 0 680 210" preserveAspectRatio="none" role="img" aria-label="營收折線圖">
@@ -124,30 +146,29 @@
             </div>
           </article>
 
-          <article class="panel tasks-panel">
-            <div class="panel-head"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3>今天值得注意</h3></div><button class="text-btn" data-go="inventory">全部查看</button></div>
-            <div class="task-list">
-              <button class="task" data-action="stock"><span class="task-icon red">!</span><span><strong>燕麥奶即將不足</strong><small>學府店・預估 16:30 售罄</small></span><b>處理 →</b></button>
-              <button class="task" data-action="expiry"><span class="task-icon orange">◷</span><span><strong>鮮奶批次今日到期</strong><small>站前店・剩餘 18 瓶，建議優先使用</small></span><b>處理 →</b></button>
-              <button class="task" data-action="transfer"><span class="task-icon orange">⇄</span><span><strong>建議跨店調撥</strong><small>站前店珍珠多 18 份</small></span><b>查看 →</b></button>
-              <button class="task" data-action="season"><span class="task-icon purple">✦</span><span><strong>秋季熱飲切換提醒</strong><small>氣溫連續 3 日低於 22°C</small></span><b>預覽 →</b></button>
-            </div>
+          <article class="panel overview-supplier-panel">
+            <div class="overview-panel-head"><div><span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><h3>供應商需要注意什麼</h3></div><button class="text-btn" data-go="inventory" data-inventory-target="analysis">完整分析</button></div>
+            <div class="overview-supplier-focus"><span>本月優先追蹤</span><strong>牧場直送</strong><p>異常率 12.7%，短缺 11 批、效期過短 7 批。</p></div>
+            <div class="overview-supplier-bars"><div><span><b>牧場直送</b><em>12.7%</em></span><i><b style="width:100%"></b></i></div><div><span><b>Q 彈配料</b><em>9.2%</em></span><i><b style="width:72%"></b></i></div><div><span><b>島嶼糖業</b><em>7.3%</em></span><i><b style="width:57%"></b></i></div></div>
+            <small class="overview-ai-note">建議先確認驗收與補送紀錄，不自動停用供應商。</small>
           </article>
         </div>
 
-        <div class="store-strip">
-          <div><p class="section-kicker">十店比較</p><h3>分店即時狀態</h3></div>
-          <div class="store-stat"><span class="store-dot green"></span><span><strong>站前店</strong><small>$17,420・126 單</small></span><b>運作順暢</b></div>
-          <div class="store-stat"><span class="store-dot yellow"></span><span><strong>市場店</strong><small>$13,860・104 單</small></span><b>1 項預警</b></div>
-          <div class="store-stat"><span class="store-dot red"></span><span><strong>學府店</strong><small>$11,400・88 單</small></span><b>3 項預警</b></div>
-          <div class="store-stat"><span class="store-dot green"></span><span><strong>商辦店</strong><small>$15,880・112 單</small></span><b>運作順暢</b></div>
-          <div class="store-stat"><span class="store-dot yellow"></span><span><strong>社區店</strong><small>$12,140・96 單</small></span><b>1 項預警</b></div>
-          <div class="store-stat"><span class="store-dot yellow"></span><span><strong>夜市店</strong><small>$14,730・108 單</small></span><b>1 項預警</b></div>
-          <div class="store-stat"><span class="store-dot green"></span><span><strong>百貨店</strong><small>$18,650・132 單</small></span><b>運作順暢</b></div>
-          <div class="store-stat"><span class="store-dot yellow"></span><span><strong>醫院店</strong><small>$12,480・91 單</small></span><b>1 項預警</b></div>
-          <div class="store-stat"><span class="store-dot yellow"></span><span><strong>科技園區店</strong><small>$17,960・127 單</small></span><b>1 項預警</b></div>
-          <div class="store-stat"><span class="store-dot green"></span><span><strong>河岸店</strong><small>$10,920・82 單</small></span><b>運作順暢</b></div>
-        </div>
+        <section class="panel overview-stores-panel">
+          <div class="overview-panel-head"><div><p class="section-kicker">十店比較</p><h3>分店即時狀態</h3></div><span>點選分店查看當日數字</span></div>
+          <div class="overview-store-grid">
+            <button data-overview-branch="station"><span class="store-dot green"></span><strong>站前店</strong><small>$17,420・126 單</small><b>待製作 6 杯・1 預警</b></button>
+            <button data-overview-branch="market"><span class="store-dot yellow"></span><strong>市場店</strong><small>$13,860・104 單</small><b>待製作 3 杯・2 預警</b></button>
+            <button data-overview-branch="campus"><span class="store-dot red"></span><strong>學府店</strong><small>$11,400・88 單</small><b>待製作 8 杯・2 預警</b></button>
+            <button data-overview-branch="office"><span class="store-dot green"></span><strong>商辦店</strong><small>$15,880・112 單</small><b>待製作 2 杯・正常</b></button>
+            <button data-overview-branch="community"><span class="store-dot yellow"></span><strong>社區店</strong><small>$12,140・96 單</small><b>待製作 3 杯・1 預警</b></button>
+            <button data-overview-branch="night"><span class="store-dot red"></span><strong>夜市店</strong><small>$14,730・108 單</small><b>待製作 7 杯・等候超標</b></button>
+            <button data-overview-branch="mall"><span class="store-dot green"></span><strong>百貨店</strong><small>$18,650・132 單</small><b>待製作 4 杯・正常</b></button>
+            <button data-overview-branch="hospital"><span class="store-dot yellow"></span><strong>醫院店</strong><small>$12,480・91 單</small><b>待製作 1 杯・1 預警</b></button>
+            <button data-overview-branch="tech"><span class="store-dot yellow"></span><strong>科技園區店</strong><small>$17,960・127 單</small><b>待製作 2 杯・1 預警</b></button>
+            <button data-overview-branch="riverside"><span class="store-dot green"></span><strong>河岸店</strong><small>$10,920・82 單</small><b>待製作 0 杯・正常</b></button>
+          </div>
+        </section>
       </section>
 
       <section class="view kitchen-view" id="kitchen">
@@ -479,8 +500,8 @@
     </form>
   </dialog>
   <div class="toast" id="toast"><span>✓</span><p id="toastText">已完成</p></div>
-  <script src="app.js"></script>
-  <script src="receiving.js?v=20261015-3"></script>
+  <script src="app.js?v=20261015-2"></script>
+  <script src="receiving.js?v=20261015-4"></script>
   <script src="sales-report.js?v=20261015-1"></script>
   <script src="local-ai.js"></script>
   <script src="store-agent.js"></script>
