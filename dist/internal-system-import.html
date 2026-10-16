@@ -23,7 +23,13 @@
   <link rel="stylesheet" href="topping-insights.css?v=20261015-1">
   <link rel="stylesheet" href="dashboard-overview.css?v=20261015-1">
   <link rel="stylesheet" href="report-import-integrated.css?v=20261015-1">
-  <style>.topbar h1{white-space:nowrap}</style>
+  <style>
+    .topbar h1{white-space:nowrap}
+    .ri-attention-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .ri-attention-head-actions>b{color:#657970;font-size:13px}
+    .ri-evidence-link{display:inline-flex;align-items:center;padding:8px 11px;border-radius:11px;background:#e8efe9;color:#286b55;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap}
+    .ri-evidence-link:hover{background:#dbe9df}
+  </style>
 </head>
 <body>
   <div class="app-shell">
@@ -379,7 +385,7 @@
         <div class="ri-panel active" data-ri-panel="overview">
           <div class="ri-view-head"><div><p class="section-kicker" id="riReportPeriod">等待資料</p><h3>匯入資料總覽</h3></div><span id="riCompleteness">資料載入中</span></div>
           <div class="ri-kpi-grid"><article><small>實收營業額</small><strong id="riKpiSales">—</strong></article><article><small>訂單</small><strong id="riKpiOrders">—</strong></article><article><small>售出杯數</small><strong id="riKpiCups">—</strong></article><article><small>平均等待</small><strong id="riKpiWait">—</strong></article><article><small>低於安全庫存</small><strong id="riKpiLow">—</strong></article><article><small>3 日內到期</small><strong id="riKpiExpiry">—</strong></article></div>
-          <div class="ri-two-column"><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">十店比較</p><h3>分店營業額與杯數</h3></div></div><div class="ri-branch-bars" id="riBranchBars"></div></article><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">注意事項</p><h3>依報表計算的結果</h3></div><b id="riAttentionCount">0 項</b></div><div class="ri-attention-list" id="riAttentionList"></div></article></div>
+          <div class="ri-two-column"><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">十店比較</p><h3>分店營業額與杯數</h3></div></div><div class="ri-branch-bars" id="riBranchBars"></div></article><article class="panel"><div class="ri-panel-head"><div><p class="section-kicker">注意事項</p><h3>依報表計算的結果</h3></div><div class="ri-attention-head-actions"><b id="riAttentionCount">0 項</b><a class="ri-evidence-link" href="assets/lm-studio-bionic-qwen3-8-test.png" target="_blank" rel="noopener">查看 LM Studio Bionic＋Qwen3.8 實測截圖 ↗</a></div></div><div class="ri-attention-list" id="riAttentionList"></div></article></div>
         </div>
 
         <div class="ri-panel" data-ri-panel="sales">
