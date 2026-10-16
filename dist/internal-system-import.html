@@ -36,7 +36,7 @@
         <button class="nav-item active" data-view="dashboard"><span>◫</span>今日總覽</button>
         <button class="nav-item" data-view="kitchen"><span>▣</span>飲料製作儀表板 <b class="nav-badge kitchen-badge" id="kitchenBadge">6</b></button>
         <button class="nav-item" data-view="inventory"><span>▤</span>庫存管理 <b class="nav-badge">9</b></button>
-        <button class="nav-item" data-view="reportimport"><span>⇧</span>報表匯入 <b class="nav-badge ri-nav-badge">NEW</b></button>
+        <button class="nav-item" data-view="reportimport"><span>⇧</span>報表匯入（地端 LLM 測試） <b class="nav-badge ri-nav-badge">NEW</b></button>
         <button class="nav-item" data-view="season"><span>◇</span>時令行動 <b class="nav-badge season-badge">3</b></button>
         <button class="nav-item" data-view="survey"><span>◎</span>市場洞察</button>
         <button class="nav-item" data-view="localai"><span>◆</span>AI 營運中心 (測試中)</button>
@@ -352,7 +352,7 @@
 
       <section class="view ri-view" id="reportimport">
         <div class="page-intro ri-page-intro">
-          <div><p class="section-kicker">REPORT IMPORT</p><h2>報表匯入與重新計算</h2><p>匯入銷售、庫存與到貨驗收 CSV，重新整理今日總覽、排行、警示及分析內容。</p></div>
+          <div><p class="section-kicker">REPORT IMPORT</p><h2>報表匯入（地端 LLM 測試）</h2><p>匯入銷售、庫存與到貨驗收 CSV，重新整理今日總覽、排行、警示及分析內容。</p></div>
           <span class="ri-version-badge">獨立合併版・原版未變更</span>
         </div>
 
@@ -566,5 +566,11 @@
   <script src="store-agent.js"></script>
   <script src="marketing-studio.js"></script>
   <script src="report-import-integrated.js?v=20261015-1"></script>
+  <script>
+    const reportImportNav=document.querySelector('[data-view="reportimport"]');
+    const setReportImportTitle=()=>{document.querySelector('#viewTitle').textContent='報表匯入（地端 LLM 測試）'};
+    reportImportNav?.addEventListener('click',setReportImportTitle);
+    if(document.querySelector('#reportimport')?.classList.contains('active'))setReportImportTitle();
+  </script>
 </body>
 </html>
