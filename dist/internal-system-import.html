@@ -65,7 +65,7 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <p class="eyebrow">2026 年 10 月 15 日・週四</p>
+          <p class="eyebrow">2026 年 11 月 17 日・週二</p>
           <h1 id="viewTitle">早安，林店長 <span>👋</span></h1>
         </div>
         <div class="top-actions">
@@ -210,7 +210,7 @@
         <section class="monthly-sales-panel panel" aria-labelledby="monthlySalesTitle">
           <div class="monthly-sales-head">
             <div><p class="section-kicker">MONTHLY SALES REPORT</p><h3 id="monthlySalesTitle">單月完整銷售報表</h3><span>資料來源：POS、網路訂單與現場平板；退款與折扣分開列出。</span></div>
-            <div class="monthly-sales-controls"><label>報表月份<select id="salesMonth"><option value="2026-10">2026 年 10 月</option><option value="2026-09">2026 年 9 月</option><option value="2026-08">2026 年 8 月</option></select></label><button id="exportMonthlySales">匯出單月完整銷售 CSV</button></div>
+            <div class="monthly-sales-controls"><label>報表月份<select id="salesMonth"><option value="2026-11">2026 年 11 月</option><option value="2026-10">2026 年 10 月</option><option value="2026-09">2026 年 9 月</option></select></label><button id="exportMonthlySales">匯出單月完整銷售 CSV</button></div>
           </div>
           <div class="monthly-sales-summary">
             <article><small>完成訂單</small><strong id="monthOrders">11,994</strong><span>筆</span></article>
@@ -318,7 +318,7 @@
           <section class="arrival-analysis-head">
             <div><p class="section-kicker">ARRIVAL ANALYSIS</p><h3>十店到貨分析</h3><span>比較各店到貨差異，找出經常短缺、效期不足或品質異常的供應商。</span></div>
             <div class="arrival-analysis-filters">
-              <label><span>月份</span><select id="arrivalMonth"><option value="2026-10">2026 年 10 月</option><option value="2026-09">2026 年 9 月</option><option value="2026-08">2026 年 8 月</option></select></label>
+              <label><span>月份</span><select id="arrivalMonth"><option value="2026-11">2026 年 11 月</option><option value="2026-10">2026 年 10 月</option><option value="2026-09">2026 年 9 月</option></select></label>
               <label><span>分店</span><select id="arrivalBranch"><option value="all">全部十店</option></select></label>
               <label><span>供應商</span><select id="arrivalSupplier"><option value="all">全部供應商</option></select></label>
               <button class="secondary-btn" id="exportArrivalAnalysis">匯出分析 CSV</button>
@@ -374,7 +374,7 @@
             <article data-ri-report="inventory"><span>庫存</span><strong>尚未匯入</strong><small>存量、安全水位、批次、效期</small></article>
             <article data-ri-report="receiving"><span>到貨驗收</span><strong>尚未匯入</strong><small>短缺、效期與品質異常</small></article>
           </div>
-          <div class="ri-downloads"><span>下載模擬報表</span><a href="demo-data/sales-report-2026-10.csv" download>銷售 CSV</a><a href="demo-data/inventory-report-2026-10-15.csv" download>庫存 CSV</a><a href="demo-data/receiving-report-2026-10.csv" download>到貨驗收 CSV</a><a href="demo-data/DrinkFlow-import-sample.xlsx" download>整合 Excel</a></div>
+          <div class="ri-downloads"><span>下載模擬報表</span><a href="demo-data/sales-report-2026-11.csv" download>銷售 CSV</a><a href="demo-data/inventory-report-2026-11-17.csv" download>庫存 CSV</a><a href="demo-data/receiving-report-2026-11.csv" download>到貨驗收 CSV</a><a href="demo-data/DrinkFlow-import-sample.xlsx" download>整合 Excel</a></div>
           <p class="ri-message" id="riMessage">正在載入三份示範報表。</p>
         </section>
 
@@ -492,7 +492,7 @@
             <div class="qa-answer" id="knowledgeAnswer">
               <span class="rtx-advice-badge">✦ RTX Spark+LLM 建議</span><div class="answer-state"><span>AI</span><strong>根據內部 SOP，建議先跨店調撥，且需店長核准。</strong></div>
               <p>當單店庫存低於安全水位、且預估 6 小時內售罄時，系統可建立調撥草稿。若調撥量超過來源店安全庫存的 20%，須由區域主管再核准。</p>
-              <div class="source-list"><small>引用來源</small><button>《跨店調撥 SOP》§ 3.2</button><button>《原料安全水位表》2026-10</button></div>
+              <div class="source-list"><small>引用來源</small><button>《跨店調撥 SOP》§ 3.2</button><button>《原料安全水位表》2026-11</button></div>
             </div>
             <p class="poc-note">POC 規則：找不到來源就回答「資料不足」，不可自行編造。</p>
           </article>
@@ -571,7 +571,7 @@
   <script src="local-ai.js"></script>
   <script src="store-agent.js"></script>
   <script src="marketing-studio.js"></script>
-  <script src="report-import-integrated.js?v=20261015-1"></script>
+  <script src="report-import-integrated.js?v=20261102-1"></script>
   <script>
     const reportImportNav=document.querySelector('[data-view="reportimport"]');
     const setReportImportTitle=()=>{document.querySelector('#viewTitle').textContent='報表匯入（地端 LLM 測試）'};

@@ -1,6 +1,6 @@
 (()=>{
   const reportState={sales:[],inventory:[],receiving:[],meta:{}};
-  const reportUrls={sales:'demo-data/sales-report-2026-10.csv',inventory:'demo-data/inventory-report-2026-10-15.csv',receiving:'demo-data/receiving-report-2026-10.csv'};
+  const reportUrls={sales:'demo-data/sales-report-2026-11.csv',inventory:'demo-data/inventory-report-2026-11-17.csv',receiving:'demo-data/receiving-report-2026-11.csv'};
   const requiredHeaders={
     sales:['report_date','branch','product','order_count','cups','net_sales','avg_wait_minutes'],
     inventory:['as_of_date','branch','ingredient','batch','quantity','safety_stock','expiry_date','supplier'],
@@ -75,7 +75,7 @@
   async function loadSamples(){
     q('#riMessage').classList.remove('error');q('#riMessage').textContent='正在載入三份示範報表。';
     try{
-      const entries=await Promise.all(Object.entries(reportUrls).map(async([type,url])=>{const response=await fetch(`${url}?v=20261015-1`,{cache:'no-store'});if(!response.ok)throw new Error(`${url} 載入失敗`);const parsed=parseCsv(await response.text());return[type,parsed.records,url.split('/').pop()]}));
+      const entries=await Promise.all(Object.entries(reportUrls).map(async([type,url])=>{const response=await fetch(`${url}?v=20261102-1`,{cache:'no-store'});if(!response.ok)throw new Error(`${url} 載入失敗`);const parsed=parseCsv(await response.text());return[type,parsed.records,url.split('/').pop()]}));
       entries.forEach(([type,records,fileName])=>updateReport(type,records,fileName));
       recomputeAndRender('示範報表已載入，合併版頁面已同步更新。');
     }catch(error){q('#riMessage').classList.add('error');q('#riMessage').textContent=`示範報表載入失敗：${error.message}`}

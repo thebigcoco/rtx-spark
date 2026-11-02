@@ -51,15 +51,21 @@ const ingredients = [
 
 const isoDate = (year, month, day) => `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 const round1 = value => Math.round(value * 10) / 10;
+const reportYear = 2026;
+const reportMonth = 11;
+const reportEndDay = 17;
+const inventoryAsOf = "2026-11-17";
+const weekendDays = new Set([1, 7, 8, 14, 15]);
 
 const salesRows = [];
-for (let day = 1; day <= 15; day += 1) {
+for (let day = 1; day <= reportEndDay; day += 1) {
   branches.forEach((branch, branchIndex) => {
     products.forEach((product, productIndex) => {
-      const weekendFactor = [4, 5, 11, 12].includes(day) ? 1.14 : 1;
+      const weekendFactor = weekendDays.has(day) ? 1.14 : 1;
       const branchFactor = 0.86 + branchIndex * 0.035;
       const productFactor = 0.82 + ((productIndex * 7 + branchIndex * 3) % 9) * 0.055;
-      const cups = Math.max(4, Math.round((8 + ((day * 5 + branchIndex * 7 + productIndex * 11) % 18)) * weekendFactor * branchFactor * productFactor));
+      const seasonalFactor = product.temperature === "熱飲" ? 1.22 : product.temperature === "溫飲" ? 1.12 : 0.96;
+      const cups = Math.max(4, Math.round((8 + ((day * 5 + branchIndex * 7 + productIndex * 11) % 18)) * weekendFactor * branchFactor * productFactor * seasonalFactor));
       const orderCount = Math.max(3, Math.round(cups / (1.05 + ((branchIndex + productIndex) % 4) * 0.08)));
       const grossSales = cups * product.price;
       const discount = ((day + branchIndex + productIndex) % 5 === 0) ? Math.round(grossSales * 0.05) : 0;
@@ -67,7 +73,7 @@ for (let day = 1; day <= 15; day += 1) {
       const channel = ["現場平板", "網路點單", "POS 櫃台"][(day + branchIndex + productIndex) % 3];
       const wait = round1(4.2 + ((day + branchIndex * 2 + productIndex) % 9) * 0.45 + (branch === "夜市店" ? 1.5 : 0));
       salesRows.push([
-        isoDate(2026, 10, day), branch, channel, product.name, product.category,
+        isoDate(reportYear, reportMonth, day), branch, channel, product.name, product.category,
         product.teaBase, product.topping, product.temperature, orderCount, cups,
         product.price, grossSales, discount, refund, grossSales - discount - refund, wait,
       ]);
@@ -79,15 +85,16 @@ const inventoryRows = [];
 branches.forEach((branch, branchIndex) => {
   ingredients.forEach((ingredient, ingredientIndex) => {
     const quantityBase = ingredient.safety * (0.55 + ((branchIndex * 5 + ingredientIndex * 3) % 15) / 10);
-    const quantity = round1(quantityBase);
+    const seasonalUseFactor = ["鮮奶", "燕麥奶", "黑糖薑汁"].includes(ingredient.name) ? 0.82 : 1;
+    const quantity = round1(quantityBase * seasonalUseFactor);
     let daysToExpiry = ingredient.days - ((branchIndex * 2 + ingredientIndex * 3) % Math.max(3, Math.floor(ingredient.days / 2)));
     if (branch === "站前店" && ingredient.name === "鮮奶") daysToExpiry = 0;
     if (branch === "學府店" && ingredient.name === "燕麥奶") daysToExpiry = 3;
     if (branch === "市場店" && ingredient.name === "白桃果露") daysToExpiry = 2;
-    const expiry = new Date(Date.UTC(2026, 9, 15 + daysToExpiry));
+    const expiry = new Date(Date.UTC(reportYear, reportMonth - 1, reportEndDay + daysToExpiry));
     const expiryIso = expiry.toISOString().slice(0, 10);
     inventoryRows.push([
-      "2026-10-15", branch, ingredient.name, ingredient.category,
+      inventoryAsOf, branch, ingredient.name, ingredient.category,
       `${ingredient.name.slice(0, 2).toUpperCase()}-${String(branchIndex + 1).padStart(2, "0")}${String(ingredientIndex + 1).padStart(2, "0")}`,
       quantity, ingredient.unit, ingredient.safety, ingredient.cost, expiryIso, suppliers[ingredient.name] || "其他供應商",
     ]);
@@ -95,8 +102,8 @@ branches.forEach((branch, branchIndex) => {
 });
 
 const receivingRows = [];
-let receiptNumber = 1001;
-for (let day = 1; day <= 15; day += 1) {
+let receiptNumber = 1101;
+for (let day = 1; day <= reportEndDay; day += 1) {
   branches.forEach((branch, branchIndex) => {
     const ingredient = ingredients[(day * 3 + branchIndex * 2) % ingredients.length];
     const ordered = Math.max(6, Math.round(ingredient.safety * 1.6));
@@ -108,7 +115,7 @@ for (let day = 1; day <= 15; day += 1) {
     const minDays = ingredient.category === "乳品" ? 5 : ingredient.category === "水果" ? 4 : 7;
     const status = shortFlag || expiryDays < minDays || qualityFlag ? "異常" : "完成";
     receivingRows.push([
-      isoDate(2026, 10, day), `RC-${receiptNumber++}`, branch, suppliers[ingredient.name] || "其他供應商", ingredient.name,
+      isoDate(reportYear, reportMonth, day), `RC-${receiptNumber++}`, branch, suppliers[ingredient.name] || "其他供應商", ingredient.name,
       ordered, received, ingredient.unit, expiryDays, minDays, qualityFlag ? "包裝破損" : "正常", status,
     ]);
   });
@@ -159,9 +166,9 @@ await fs.mkdir(outputDir, { recursive: true });
 await fs.mkdir(previewDir, { recursive: true });
 
 await Promise.all([
-  fs.writeFile(path.join(outputDir, "sales-report-2026-10.csv"), toCsv(headers.sales, salesRows), "utf8"),
-  fs.writeFile(path.join(outputDir, "inventory-report-2026-10-15.csv"), toCsv(headers.inventory, inventoryRows), "utf8"),
-  fs.writeFile(path.join(outputDir, "receiving-report-2026-10.csv"), toCsv(headers.receiving, receivingRows), "utf8"),
+  fs.writeFile(path.join(outputDir, "sales-report-2026-11.csv"), toCsv(headers.sales, salesRows), "utf8"),
+  fs.writeFile(path.join(outputDir, "inventory-report-2026-11-17.csv"), toCsv(headers.inventory, inventoryRows), "utf8"),
+  fs.writeFile(path.join(outputDir, "receiving-report-2026-11.csv"), toCsv(headers.receiving, receivingRows), "utf8"),
 ]);
 
 const workbook = Workbook.create();
@@ -175,7 +182,7 @@ guide.getRange("A4:B9").values = [
   ["庫存報表", "目前存量、安全水位、批次、效期、成本與供應商"],
   ["到貨驗收", "短缺、效期不足、品質異常與供應商異常率"],
   ["系統匯入格式", "請使用同資料夾內的三個 CSV 檔，可一次多選匯入"],
-  ["資料性質", "2026 年 10 月示範資料，僅供流程測試"],
+  ["資料性質", "2026 年 11 月 1 日至 11 月 17 日示範資料，僅供流程測試"],
 ];
 guide.getRange("A4:B4").format = { fill: "#173F35", font: { name: fontFamily, size: 10, bold: true, color: "#FFFFFF" } };
 guide.getRange("A5:B9").format.font = { name: fontFamily, size: 10, color: "#23322E" };
@@ -187,7 +194,7 @@ guide.getRange("A4:B9").format.autofitRows();
 guide.tabColor = "#173F35";
 
 const salesSheet = writeTableSheet(
-  workbook, "銷售報表", "銷售報表", "2026-10-01 至 2026-10-15，十家分店彙總明細", headers.sales, salesRows, "SalesReportTable",
+  workbook, "銷售報表", "銷售報表", "2026-11-01 至 2026-11-17，十家分店彙總明細", headers.sales, salesRows, "SalesReportTable",
   [14, 14, 14, 22, 12, 14, 14, 12, 12, 10, 12, 14, 12, 10, 14, 16],
 );
 salesSheet.getRange(`I5:O${salesRows.length + 4}`).format.numberFormat = "#,##0";
@@ -195,14 +202,14 @@ salesSheet.getRange(`P5:P${salesRows.length + 4}`).format.numberFormat = "0.0";
 salesSheet.tabColor = "#2D7B68";
 
 const inventorySheet = writeTableSheet(
-  workbook, "庫存報表", "庫存報表", "資料時間：2026-10-15 09:00，包含批次與有效期限", headers.inventory, inventoryRows, "InventoryReportTable",
-  [14, 14, 18, 12, 18, 12, 10, 14, 12, 16, 18],
+  workbook, "庫存報表", "庫存報表", "資料時間：2026-11-17 09:00，包含批次與有效期限", headers.inventory, inventoryRows, "InventoryReportTable",
+  [14, 14, 18, 12, 18, 12, 10, 14, 14, 18, 18],
 );
 inventorySheet.getRange(`F5:I${inventoryRows.length + 4}`).format.numberFormat = "#,##0.0";
 inventorySheet.tabColor = "#D99536";
 
 const receivingSheet = writeTableSheet(
-  workbook, "到貨驗收", "到貨驗收報表", "2026-10-01 至 2026-10-15，包含短缺、效期與品質結果", headers.receiving, receivingRows, "ReceivingReportTable",
+  workbook, "到貨驗收", "到貨驗收報表", "2026-11-01 至 2026-11-17，包含短缺、效期與品質結果", headers.receiving, receivingRows, "ReceivingReportTable",
   [14, 16, 14, 18, 18, 14, 14, 10, 20, 20, 16, 12],
 );
 receivingSheet.getRange(`F5:J${receivingRows.length + 4}`).format.numberFormat = "#,##0";
